@@ -135,10 +135,10 @@
   <!--[if lt IE 9]> <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script> <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script> <![endif]-->
 
   <!-- ga & ba script hoook -->
-  <link rel="canonical" href="https://yanest.github.io/archive/">
+  <link rel="canonical" href="https://yanest.github.io/cn/">
   <title>
     
-      Archives - 岩哥的数据中心系统技术内幕
+      岩哥的数据中心系统技术内幕
     
   </title>
 <meta name="generator" content="Hexo 5.4.2"></head>
@@ -334,19 +334,19 @@
     .body--light {
       /* intro-header */
       --intro-header-background-image-url-home: url('/img/header_img/newhome_bg.jpg');
-      --intro-header-background-image-url-post: url('img/header_img/archive_bg.jpg');
-      --intro-header-background-image-url-page: url('/img/header_img/archive_bg.jpg');
+      --intro-header-background-image-url-post: url('');
+      --intro-header-background-image-url-page: url('/img/header_img/archive_bg2.jpg');
     }
     .body--dark {
       --intro-header-background-image-url-home: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)), url('/img/header_img/newhome_bg.jpg');
-      --intro-header-background-image-url-post: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)), url('img/header_img/archive_bg.jpg');
-      --intro-header-background-image-url-page: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)), url('/img/header_img/archive_bg.jpg');
+      --intro-header-background-image-url-post: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)), url('');
+      --intro-header-background-image-url-page: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)), url('/img/header_img/archive_bg2.jpg');
     }
 
     header.intro-header {
-       /*page*/
-        background-image: var(--intro-header-background-image-url-page);
-        /* background-image: url('/img/header_img/archive_bg.jpg'); */
+       /*config*/
+        background-image: var(--intro-header-background-image-url-home);
+        /* background-image: url('/img/header_img/newhome_bg.jpg'); */
       
     }
 
@@ -369,9 +369,9 @@
         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
           
           <div class="site-heading">
-            <h1>Archives</h1>
+            <h1>岩哥的数据中心系统技术内幕</h1>
             <!--<hr class="small">-->
-            <span class="subheading">Don&#39;t rush and never settle...... If it&#39;s meant to be, it will be......</span>
+            <span class="subheading"></span>
           </div>
           
         </div>
@@ -428,62 +428,97 @@
             ">
 
       <!-- Main Content -->
-<div class="container">
-  <div class="row">
-    <div class="col-lg-8 col-lg-offset-0 col-md-10 col-md-offset-1">
-      <!-- 归档列表 -->
 
-      
 
-      <!-- 归档列表 -->
+
+<div class="post-preview">
+  
+  <!-- top start (article top hot config) -->
+  
+  <!-- top end -->
+  
+
+  <a href="/cn/docker的安装/">
+    <h2 class="post-title">
+      docker的安装
+    </h2>
+    <h3 class="post-subtitle">
       
-      <div class="one-tag-list">
-        <span class="fa fa-calendar-times-o listing-seperator" id="2022">
-          <span class="tag-text">2022</span>
-        </span>
-        <ul>
-          
-          <li>
-            10-02
-            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/cn/docker的安装/" style="color: #0085a1">
-              <span>
-                docker的安装
-                
-                -- cn
-                
-              </span>
-            </a>
-          </li>
-          
-          <li>
-            10-02
-            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/cn/搭建NFS服务器/" style="color: #0085a1">
-              <span>
-                搭建NFS服务器
-                
-                -- cn
-                
-              </span>
-            </a>
-          </li>
-          
-        </ul>
-      </div>
-      
+    </h3>
+    <div class="post-content-preview">
+      docker官方的安装脚本
+1curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
+rancher维护的安装脚本
+1curl https://releases.rancher.com/install-docker/20.10.sh | sh
+...
     </div>
+  </a>
+  
+  <p class="post-meta" style="margin: 10px 0;">
+    Posted by Yan on
+    2022-10-02
+  </p>
+  <div class="tags">
+    
+    <a href="/tags/#docker" title="docker">docker</a>
+    
   </div>
+  
+
 </div>
+<hr>
+
+<div class="post-preview">
+  
+  <!-- top start (article top hot config) -->
+  
+  <!-- top end -->
+  
+
+  <a href="/cn/搭建NFS服务器/">
+    <h2 class="post-title">
+      搭建NFS服务器
+    </h2>
+    <h3 class="post-subtitle">
+      
+    </h3>
+    <div class="post-content-preview">
+      NFS服务器实现目前有两种方式：内核态(NFS kernel server)和用户态(nfs-ganesha)，两种方式各有优缺点。
+
+内核态适合自用，优点是效率高节省资源，配置简单。
+用户态性能比内核态稍微差一点，但是扩展性比较好，方便移植。
+
+由于我这都是小规模的环境，所以就用内核态的方式了。
+步骤 1：安装 NFS 服务器 (NFS kernel server)
+1sudo apt i......
+    </div>
+  </a>
+  
+  <p class="post-meta" style="margin: 10px 0;">
+    Posted by Yan on
+    2022-10-02
+  </p>
+  <div class="tags">
+    
+    <a href="/tags/#linux" title="linux">linux</a>
+    
+    <a href="/tags/#nfs" title="nfs">nfs</a>
+    
+  </div>
+  
+
+</div>
+<hr>
+
+
+  <!-- Pager -->
+  <ul class="pager">
+    
+    
+  </ul>
 
 
       <!-- 如果开启评论功能 -->
-      
-      <hr>
-
-      
-
-      
       
     </div>
 
@@ -581,11 +616,11 @@
 <div class="widget">
   <ul>
     
-    <a href="../cn/docker%E7%9A%84%E5%AE%89%E8%A3%85/">
+    <a href="docker%E7%9A%84%E5%AE%89%E8%A3%85/">
       <li>docker的安装</li>
     </a>
     
-    <a href="../cn/%E6%90%AD%E5%BB%BANFS%E6%9C%8D%E5%8A%A1%E5%99%A8/">
+    <a href="%E6%90%AD%E5%BB%BANFS%E6%9C%8D%E5%8A%A1%E5%99%A8/">
       <li>搭建NFS服务器</li>
     </a>
     

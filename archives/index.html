@@ -58,7 +58,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="description" content="It&#39;s an IT blog..."/>
-  <meta name="keyword" content="v-vincen,v-vincen,livemylife,IT  blog,Blog"/>
+  <meta name="keyword" content=""/>
   <link rel="shortcut icon" href="/img/avatar/roguerabbit.jpg"/>
 
   <!-- Place this tag in your head or just before your close body tag. -->
@@ -138,7 +138,7 @@
   <link rel="canonical" href="https://yanest.github.io/archives/">
   <title>
     
-      either thin | or die
+      岩哥的数据中心系统技术内幕
     
   </title>
 <meta name="generator" content="Hexo 5.4.2"></head>
@@ -146,7 +146,7 @@
 
 <!-- hack iOS CSS :active style -->
 
-	<body ontouchstart="" class="body--light body--dark">
+	<body ontouchstart="" class="body--light body--light">
 
 
 		<!-- ThemeColor -->
@@ -180,7 +180,7 @@
       ? b.pop()
       : '';
   }
-  let themeMode = 'dark';
+  let themeMode = 'light';
   if (getCookieValue('sb-color-mode') && (getCookieValue('sb-color-mode') !== themeMode)) {
     let dbody = document.body.classList;
     themeMode === 'dark' ? dbody.remove('body--dark') : dbody.add('body--dark');
@@ -225,7 +225,7 @@
       <div class="navbar-collapse">
         <ul class="nav navbar-nav navbar-right">
           <li>
-            <a href="/">HOME</a>
+            <a href="/">首页</a>
           </li>
 
           
@@ -233,7 +233,7 @@
           <li>
             <a href="/about/">
               
-              ABOUT
+              关于
               
               
             </a>
@@ -246,7 +246,7 @@
           <li>
             <a href="/archive/">
               
-              ARCHIVES
+              归档
               
               
             </a>
@@ -257,7 +257,7 @@
           <li>
             <a href="/categories/">
               
-              CATEGORIES
+              分类
               
               
             </a>
@@ -268,7 +268,7 @@
           <li>
             <a href="/tags/">
               
-              TAGS
+              标签
               
               
             </a>
@@ -279,7 +279,7 @@
           
           <li>
             <a class="popup-trigger">
-              <span class="search-icon"></span>SEARCH</a>
+              <span class="search-icon"></span>搜索</a>
           </li>
           
 
@@ -446,11 +446,24 @@
           <li>
             10-02
             <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/undefined/test/" style="color: #0085a1">
+            <a href="/cn/docker的安装/" style="color: #0085a1">
               <span>
-                test
+                docker的安装
                 
-                -- undefined
+                -- cn
+                
+              </span>
+            </a>
+          </li>
+          
+          <li>
+            10-02
+            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+            <a href="/cn/搭建NFS服务器/" style="color: #0085a1">
+              <span>
+                搭建NFS服务器
+                
+                -- cn
                 
               </span>
             </a>
@@ -478,7 +491,7 @@
 ">
     
         <!-- Visitors -->
-<h5><a href="/">VISITORS</a></h5>
+<h5><a href="/">来访者</a></h5>
 
 <div class="widget">
   <span>
@@ -496,8 +509,20 @@
         <!-- Featured Tags -->
 
 <section>
-  <h5><a href="/tags/">FEATURED TAGS</a></h5>
+  <h5><a href="/tags/">特色标签</a></h5>
   <div class="tags">
+    
+    
+    <a href="/tags/#linux" title="linux" rel="1">linux</a>
+    
+    
+    
+    <a href="/tags/#nfs" title="nfs" rel="1">nfs</a>
+    
+    
+    
+    <a href="/tags/#docker" title="docker" rel="1">docker</a>
+    
     
   </div>
 </section>
@@ -507,7 +532,7 @@
     
         <!-- Short About -->
 <section class="visible-md visible-lg">
-  <h5><a href="/about/">ABOUT ME</a></h5>
+  <h5><a href="/about/">关于自己</a></h5>
   <div class="short-about">
 
     
@@ -546,12 +571,16 @@
     
         <!-- RECENT POSTS -->
 
-<h5><a href="/">RECENT POSTS</a></h5>
+<h5><a href="/">最近博文</a></h5>
 <div class="widget">
   <ul>
     
-    <a href="../undefined/test/">
-      <li>test</li>
+    <a href="../cn/docker%E7%9A%84%E5%AE%89%E8%A3%85/">
+      <li>docker的安装</li>
+    </a>
+    
+    <a href="../cn/%E6%90%AD%E5%BB%BANFS%E6%9C%8D%E5%8A%A1%E5%99%A8/">
+      <li>搭建NFS服务器</li>
     </a>
     
   </ul>
@@ -564,13 +593,32 @@
 
 <h5><a href="/archives/">archives</a></h5>
 <div class="widget">
-  <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="2022/10/">October 2022</a><span class="archive-list-count">1</span></li></ul>
+  <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="2022/10/">October 2022</a><span class="archive-list-count">2</span></li></ul>
 </div>
 
 
         <hr>
     
         <!-- Categories -->
+
+<h5><a href="/categories/">categories</a></h5>
+<div class="widget">
+  <ul>
+    
+    <a href="/categories/#linux">
+      <li>linux</li>
+    </a>
+    
+    <a href="/categories/#nfs">
+      <li>nfs</li>
+    </a>
+    
+    <a href="/categories/#docker">
+      <li>docker</li>
+    </a>
+    
+  </ul>
+</div>
 
 
         <hr>
@@ -655,9 +703,6 @@
   
 
   
-    <!-- Mouseclick -->
-    <script type="text/javascript" src="/js/mouseclick.js" content='The first step is as good as half over...,Laugh and grow fat...,Man proposes God disposes...,When all else is lost the future still remains...,Wasting time is robbing oneself...,Sharp tools make good work...,Cease to struggle and you cease to live...,A friend in need is a friend indeed...,Faith can move mountains...' color='#9933CC,#339933,#66CCCC,#FF99CC,#CCCCFF,#6666CC,#663399,#66CC99,#FF0033'></script>
-  
 
   
 
@@ -720,7 +765,7 @@ start: '#bbbbee', end: '#0085a1' } }; $('#tag_cloud a').tagcloud(); }) } </scrip
             <span class="search-icon">
               <i class="fa fa-search fa-lg" style="margin: 25px 10px 25px 20px;"></i>
             </span>
-            <input autocomplete="off" placeholder="SEARCH..." type="text" id="local-search-input">
+            <input autocomplete="off" placeholder="搜索..." type="text" id="local-search-input">
           </div>
         </div>
         <div id="local-search-result"></div>
