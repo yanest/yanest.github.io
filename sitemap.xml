@@ -60,7 +60,7 @@
 
   <url>
     <loc>https://yanest.github.io/</loc>
-    <lastmod>2022-10-02</lastmod>
+    <lastmod>2022-10-03</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -68,35 +68,35 @@
   
   <url>
     <loc>https://yanest.github.io/tags/linux/</loc>
-    <lastmod>2022-10-02</lastmod>
+    <lastmod>2022-10-03</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://yanest.github.io/tags/nfs/</loc>
-    <lastmod>2022-10-02</lastmod>
+    <lastmod>2022-10-03</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://yanest.github.io/tags/docker/</loc>
-    <lastmod>2022-10-02</lastmod>
+    <lastmod>2022-10-03</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://yanest.github.io/tags/%E7%BD%91%E7%BB%9C/</loc>
-    <lastmod>2022-10-02</lastmod>
+    <lastmod>2022-10-03</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://yanest.github.io/tags/%E4%BA%A4%E6%8D%A2%E6%9C%BA/</loc>
-    <lastmod>2022-10-02</lastmod>
+    <lastmod>2022-10-03</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
@@ -105,35 +105,35 @@
   
   <url>
     <loc>https://yanest.github.io/categories/linux/</loc>
-    <lastmod>2022-10-02</lastmod>
+    <lastmod>2022-10-03</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://yanest.github.io/categories/linux/nfs/</loc>
-    <lastmod>2022-10-02</lastmod>
+    <lastmod>2022-10-03</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://yanest.github.io/categories/docker/</loc>
-    <lastmod>2022-10-02</lastmod>
+    <lastmod>2022-10-03</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://yanest.github.io/categories/%E7%BD%91%E7%BB%9C/</loc>
-    <lastmod>2022-10-02</lastmod>
+    <lastmod>2022-10-03</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://yanest.github.io/categories/%E7%BD%91%E7%BB%9C/%E4%BA%A4%E6%8D%A2%E6%9C%BA/</loc>
-    <lastmod>2022-10-02</lastmod>
+    <lastmod>2022-10-03</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
