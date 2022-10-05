@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://yanest.github.io/cn/citrix-vpx/</loc>
+    
+    <lastmod>2022-10-04</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://yanest.github.io/cn/%E5%8D%8E%E4%B8%BA%E4%BA%A4%E6%8D%A2%E6%9C%BA%E9%99%90%E9%80%9F%E4%B8%8E%E7%AB%AF%E5%8F%A3%E9%9A%94%E7%A6%BB/</loc>
     
     <lastmod>2022-10-02</lastmod>
@@ -60,7 +67,7 @@
 
   <url>
     <loc>https://yanest.github.io/</loc>
-    <lastmod>2022-10-03</lastmod>
+    <lastmod>2022-10-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -68,35 +75,49 @@
   
   <url>
     <loc>https://yanest.github.io/tags/linux/</loc>
-    <lastmod>2022-10-03</lastmod>
+    <lastmod>2022-10-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://yanest.github.io/tags/nfs/</loc>
-    <lastmod>2022-10-03</lastmod>
+    <lastmod>2022-10-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://yanest.github.io/tags/docker/</loc>
-    <lastmod>2022-10-03</lastmod>
+    <lastmod>2022-10-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://yanest.github.io/tags/%E7%BD%91%E7%BB%9C/</loc>
-    <lastmod>2022-10-03</lastmod>
+    <lastmod>2022-10-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://yanest.github.io/tags/%E4%BA%A4%E6%8D%A2%E6%9C%BA/</loc>
-    <lastmod>2022-10-03</lastmod>
+    <lastmod>2022-10-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://yanest.github.io/tags/Citrix/</loc>
+    <lastmod>2022-10-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://yanest.github.io/tags/%E8%99%9A%E6%8B%9F%E5%8C%96/</loc>
+    <lastmod>2022-10-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
@@ -105,35 +126,49 @@
   
   <url>
     <loc>https://yanest.github.io/categories/linux/</loc>
-    <lastmod>2022-10-03</lastmod>
+    <lastmod>2022-10-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://yanest.github.io/categories/linux/nfs/</loc>
-    <lastmod>2022-10-03</lastmod>
+    <lastmod>2022-10-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://yanest.github.io/categories/docker/</loc>
-    <lastmod>2022-10-03</lastmod>
+    <lastmod>2022-10-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://yanest.github.io/categories/%E7%BD%91%E7%BB%9C/</loc>
-    <lastmod>2022-10-03</lastmod>
+    <lastmod>2022-10-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://yanest.github.io/categories/%E7%BD%91%E7%BB%9C/%E4%BA%A4%E6%8D%A2%E6%9C%BA/</loc>
-    <lastmod>2022-10-03</lastmod>
+    <lastmod>2022-10-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://yanest.github.io/categories/Citrix/</loc>
+    <lastmod>2022-10-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://yanest.github.io/categories/Citrix/%E8%99%9A%E6%8B%9F%E5%8C%96/</loc>
+    <lastmod>2022-10-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
