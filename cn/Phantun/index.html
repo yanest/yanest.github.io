@@ -135,10 +135,10 @@
   <!--[if lt IE 9]> <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script> <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script> <![endif]-->
 
   <!-- ga & ba script hoook -->
-  <link rel="canonical" href="https://yanest.github.io/cn/citrix-vpx/">
+  <link rel="canonical" href="https://yanest.github.io/cn/Phantun/">
   <title>
     
-      Citrix ADC的安装配置 - 岩哥的数据中心系统技术内幕
+      使用 Phantun 将 WireGuard 的 UDP 流量伪装成 TCP - 岩哥的数据中心系统技术内幕
     
   </title>
 <meta name="generator" content="Hexo 5.4.2"></head>
@@ -371,16 +371,16 @@
           <div class="post-heading">
             <div class="tags">
               
-              <a class="tag" href="/tags/#Citrix" title="Citrix">Citrix</a>
+              <a class="tag" href="/tags/#linux" title="linux">linux</a>
               
-              <a class="tag" href="/tags/#虚拟化" title="虚拟化">虚拟化</a>
+              <a class="tag" href="/tags/#vpn" title="vpn">vpn</a>
               
             </div>
-            <h1>Citrix ADC的安装配置</h1>
-            <h2 class="subheading">Citrix ADC的安装配置</h2>
+            <h1>使用 Phantun 将 WireGuard 的 UDP 流量伪装成 TCP</h1>
+            <h2 class="subheading"></h2>
             <span class="meta">
               Posted by Yan on
-              2022-10-04
+              2022-10-15
             </span>
 
 
@@ -388,11 +388,11 @@
             <!-- WordCount start -->
             <div class="blank_box"></div>
             <span class="meta">
-              Estimated Reading Time <span class="post-count">1</span> Minutes
+              Estimated Reading Time <span class="post-count">11</span> Minutes
             </span>
             <div class="blank_box"></div>
             <span class="meta">
-              Words <span class="post-count">539</span> In Total
+              Words <span class="post-count">2.6k</span> In Total
             </span>
             <div class="blank_box"></div>
             <!-- WordCount end -->
@@ -454,34 +454,142 @@
       <!-- Post Container -->
       <div class="col-lg-8 col-lg-offset-1 col-md-10 col-md-offset-1 post-container">
 
-        <p>思杰的这个Citrix ADC改了好几次名字，目前叫ADC，有多种形态，虚拟化版本叫VPX。是个功能很强大的东西，核心功能是负载均衡和WAF、还支持VPN。同时还支持xendesktop的外网发布功能，实际这个功能在Citrix Gateway（以前叫netscaler gateway)也有。思杰家的东西，很多产品功能互相重叠，产品又互相联动，搞得晕乎的。不过经过这几年断断续续的摸索，基本上都捋清了。</p>
-<p>说回ADC这个东西，底层是FreeBSD系统，正常两核就够了（一个核管理、一个核专门处理数据）性能肯定是很好，产品据说是跟F5是一个级别的，应该是适用于一些比较严肃的应用场景，但是产品功能设计的比较复杂难懂，排错不友好，在没有官方支持的情况下自己很难搞清楚。我最近搞这个东西实际是为了发布xenDesktop到外网，这个云桌面必须得需要思杰自家的网关才行。</p>
-<h2 id="产品安装">产品安装</h2>
-<p>从思杰的官方网站就能下载，需要注册一个账号。然后就可以挑选一个虚拟化版本下载，esxi和kvm我都试过。</p>
-<p>导入后分配cpu和内存就行了。2C4G够了。</p>
-<p>第一次启动需要等几分钟。</p>
-<p>ADC的默认IP是192.168.100.1，用户名密码都是nsroot，需要在同一个交换机下的其他电脑上配置同网段电脑访问。</p>
-<h2 id="配置">配置</h2>
-<p>第一次登入会有配置向导。首先讲解一下ADC的工作原理。</p>
-<p><img src="citrix-vpx/vpx.png" alt=""></p>
-<p>对外监听请求的IP也就是外网IP叫VIP，对内与服务器通讯的IP叫SNIP。就是这两个IP一前一后。</p>
-<p>还有一点非常重要，ADC并不是在网卡上配置IP，也就是你配IP是不需要指定是哪个网卡的，它自己会自动识别，这点很难理解，因为跟我们以往接触的都不一样。</p>
-<p>第一次进入ADC需要先配置SNIP用来跟服务器通讯。</p>
-<hr>
-<p>to be continued</p>
+        <p><a target="_blank" rel="noopener" href="https://icloudnative.io/tags/wireguard/">WireGuard</a> 作为一个更先进、更现代的 VPN 协议，比起传统的 IPSec、OpenVPN 等实现，效率更高，配置更简单，并且已经合并入 Linux 内核，使用起来更加方便，简直就是 VPN 中的战斗机。越来越多的高人利用 WireGuard 实现很多奇奇怪怪的需求。例如国内与国外机器通过 WireGuard 打通隧道，变成伪 IPLC 专线；或者打通本地与 Kubernetes 集群的网络。</p>
+<p>但是 WireGuard 在国内网络环境下会遇到一个致命的问题：<strong>UDP 封锁/限速</strong>。虽然通过 WireGuard 可以在隧道内传输任何基于 IP 的协议（TCP、UDP、ICMP、SCTP、IPIP、GRE 等），但 WireGuard 隧道本身是通过 UDP 协议进行通信的，而国内运营商根本没有能力和精力根据 TCP 和 UDP 的不同去深度定制不同的 QoS 策略，几乎全部采取一刀切的手段：<strong>对 UDP 进行限速甚至封锁</strong>。</p>
+<p>鲁迅先生说过：羊毛出在羊身上！突破口还是在运营商身上：虽然对 UDP 不友好，但却<strong>无力深度检测 TCP 连接的真实性</strong>。</p>
+<p>这就好办了，既然你对 TCP 连接睁一只眼闭一只眼，那我将 UDP 连接伪装成 TCP 连接不就蒙混过关了。目前支持将 UDP 流量伪装成 TCP 流量的主流工具是 <a target="_blank" rel="noopener" href="https://github.com/wangyu-/udp2raw-tunnel">udp2raw</a>，相信很多小伙伴对这个工具都轻车熟路了，但是很遗憾，今天的主角不是它，而是另一款比它更强大的新工具： <a target="_blank" rel="noopener" href="https://github.com/dndx/phantun">Phantun</a>。</p>
+<p><img src="https://jsdelivr.icloudnative.io/gh/yangchuansheng/imghosting4@main/uPic/2022-10-07-15-59-iz55Hr.jpg" alt="img"></p>
+<h2 id="Phantun-介绍">Phantun 介绍</h2>
+<p>Phantun 整个项目<strong>完全使用 Rust 实现</strong>，性能吊打 udp2raw。它的初衷和 udp2raw 类似，都是为了实现一种简单的用户态 TCP 状态机来对 UDP 流量做伪装。主要的目的是希望能让 UDP 流量看起来像是 TCP，又不希望受到 TCP retransmission 或者 congestion control 的影响。</p>
+<p>需要申明的是，<strong>Phantun 的目标不是为了替代 udp2raw</strong>，从一开始 Phantun 就希望设计足够的简单高效，所以 udp2raw 支持的 <strong>ICMP 隧道，加密，防止重放</strong>等等功能 Phantun 都选择不实现。</p>
+<p>Phantun 假设 UDP 协议本身已经解决了这些问题，所以整个转发过程就是简单的明文换头加上一些必要的 TCP 状态控制信息。对于我日常使用的 WireGuard 来说，Phantun 这种设计是足够安全的，因为 WireGuard 的协议已经更好的实现了这些安全功能。</p>
+<p>Phantun 使用 TUN 接口来收发 3 层数据包，udp2raw 使用 Raw Socket + BFP 过滤器。个人感觉基于 TUN 的实现要稍微的优雅一点，而且跨平台移植也要更容易。</p>
+<p>Phantun 的 TCP 连接是按需创建的，只启动 Client 不会主动去连接服务器，需要第一个数据包到达了后才会按需创建。每个 UDP 流都有自己独立的 TCP 连接。这一点跟 udp2raw 很不一样，udp2raw 所有的 UDP 连接共用一个 TCP 连接。这样做的坏处就是 udp2raw 需要额外的头部信息来区分连接，更加增加了头部的开销。跟纯 UDP 比较，Phantun 每个数据包的额外头部开销是 12 byte，udp2raw 根据我的测试达到了 44 bytes 。</p>
+<p>下面是 Phantun 与 udp2raw 的详细对比：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"></th>
+<th style="text-align:left">Phantun</th>
+<th style="text-align:left">udp2raw</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">UDP over FakeTCP 混淆</td>
+<td style="text-align:left">✅</td>
+<td style="text-align:left">✅</td>
+</tr>
+<tr>
+<td style="text-align:left">UDP over ICMP 混淆</td>
+<td style="text-align:left">❌</td>
+<td style="text-align:left">✅</td>
+</tr>
+<tr>
+<td style="text-align:left">UDP over UDP 混淆</td>
+<td style="text-align:left">❌</td>
+<td style="text-align:left">✅</td>
+</tr>
+<tr>
+<td style="text-align:left">多线程</td>
+<td style="text-align:left">✅</td>
+<td style="text-align:left">❌</td>
+</tr>
+<tr>
+<td style="text-align:left">吞吐量</td>
+<td style="text-align:left">Better</td>
+<td style="text-align:left">Good</td>
+</tr>
+<tr>
+<td style="text-align:left">三层转发模式</td>
+<td style="text-align:left">TUN interface</td>
+<td style="text-align:left">Raw sockets + BPF</td>
+</tr>
+<tr>
+<td style="text-align:left">隧道 MTU 开销</td>
+<td style="text-align:left">12 bytes</td>
+<td style="text-align:left">44 bytes</td>
+</tr>
+<tr>
+<td style="text-align:left">每个 UDP 流都有自己独立的 TCP 连接</td>
+<td style="text-align:left">Client/Server</td>
+<td style="text-align:left">Server only</td>
+</tr>
+<tr>
+<td style="text-align:left">防止重放，加密</td>
+<td style="text-align:left">❌</td>
+<td style="text-align:left">✅</td>
+</tr>
+<tr>
+<td style="text-align:left">IPv6</td>
+<td style="text-align:left">✅</td>
+<td style="text-align:left">✅</td>
+</tr>
+</tbody>
+</table>
+<h2 id="Phantun-工作原理">Phantun 工作原理</h2>
+<p><img src="https://jsdelivr.icloudnative.io/gh/yangchuansheng/imghosting4@main/uPic/2022-10-07-16-00-r6RqnU.jpg" alt="img"></p>
+<p>Phantun 分为服务端和客户端，服务端会监听一个端口，比如 4567（通过 <code>--local</code> 参数指定），并将 UDP 数据包转发到 UDP 服务（这里指的就是服务端 WireGuard 的监听端口和地址，通过 <code>--remote</code> 参数指定）。</p>
+<p>客户端也会监听一个端口，比如 <code>127.0.0.1:4567</code>（通过 <code>--local</code> 参数指定），并且通过 <code>--remote</code> 参数与服务端（比如 <code>10.0.0.1:4567</code>）建立连接。</p>
+<p>客户端与服务端都会创建一个 TUN 网卡，客户端 TUN 网卡默认分配的 IPv4/IPv6 地址分别是 <code>192.168.200.2</code> 和 <code>fcc8::2</code>，服务端 TUN 网卡默认分配的 IPv4/IPv6 地址分别是 <code>192.168.201.2</code> 和 <code>fcc9::2</code>。</p>
+<p>客户端与服务端都需要开启 IP forwarding，并且需要创建相应的 NAT 规则。客户端在流量离开物理网卡之前，需要对 IP <code>192.168.200.2</code> 进行 SNAT；服务端在流量进入网卡之前，需要将 IP DNAT 为 <code>192.168.201.2</code>。</p>
+<h2 id="Phantun-配置步骤">Phantun 配置步骤</h2>
+<p>接下来我会通过一个示例来演示如何使用 Phantun 将 WireGuard 的 UDP 流量伪装成 TCP。我们需要在服务端和客户端分别安装 phantun，可以到 <a target="_blank" rel="noopener" href="https://github.com/dndx/phantun/releases">release 页面</a>下载，推荐下载静态编译版本 <code>phantun_x86_64-unknown-linux-musl.zip</code>。</p>
+<h3 id="服务端">服务端</h3>
+<p>假设服务端的公网 IP 地址是 <code>121.36.134.95</code>，WireGuard 监听端口是 <code>51822</code>。首先修改配置文件 <code>/etc/wireguard/wg0.conf</code>，在 <code>[Interface]</code> 中添加以下配置：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">MTU</span> = <span class="number">1300</span></span><br><span class="line"><span class="attr">PreUp</span> = iptables -t nat -A PREROUTING -p tcp -i eth0 --dport <span class="number">4567</span> -j DNAT --to-destination <span class="number">192.168</span>.<span class="number">201.2</span></span><br><span class="line"><span class="attr">PreUp</span> = RUST_LOG=info phantun_server --local <span class="number">4567</span> --remote <span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">51822</span> &amp;&gt; /var/log/phantun_server.log &amp;</span><br><span class="line"><span class="attr">PostDown</span> = iptables -t nat -D PREROUTING -p tcp -i eth0 --dport <span class="number">4567</span> -j DNAT --to-destination <span class="number">192.168</span>.<span class="number">201.2</span></span><br><span class="line"><span class="attr">PostDown</span> = killall phantun_server || <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<p>你需要将 eth0 替换为你服务端的物理网卡名。MTU 值先不管，后面再告诉大家调试方法。</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">PreUp</span> = iptables -t nat -A PREROUTING -p tcp -i eth0 --dport <span class="number">4567</span> -j DNAT --to-destination <span class="number">192.168</span>.<span class="number">201.2</span></span><br></pre></td></tr></table></figure>
+<p>这条 iptables 规则表示将 <code>4567</code> 端口的入站流量 DNAT 为 TUN 网卡的 IP 地址。</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">PreUp</span> = RUST_LOG=info phantun_server --local <span class="number">4567</span> --remote <span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">51822</span> &amp;&gt; /var/log/phantun_server.log &amp;</span><br></pre></td></tr></table></figure>
+<p>这里会启动 phantun_server，监听在 <code>4567</code> 端口，并将 UDP 数据包转发到 WireGuard。</p>
+<p>服务端完整的 WireGuard 配置：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># local settings for Endpoint B</span></span><br><span class="line"><span class="section">[Interface]</span></span><br><span class="line"><span class="attr">PrivateKey</span> = QH1BJzIZcGo89ZTykxls4i2DKgvByUkHIBy3BES2gX8= </span><br><span class="line"><span class="attr">Address</span> = <span class="number">10.0</span>.<span class="number">0.2</span>/<span class="number">32</span></span><br><span class="line"><span class="attr">ListenPort</span> = <span class="number">51822</span></span><br><span class="line"><span class="attr">MTU</span> = <span class="number">1300</span></span><br><span class="line"><span class="attr">PreUp</span> = iptables -t nat -A PREROUTING -p tcp -i eth0 --dport <span class="number">4567</span> -j DNAT --to-destination <span class="number">192.168</span>.<span class="number">201.2</span></span><br><span class="line"><span class="attr">PreUp</span> = RUST_LOG=info phantun_server --local <span class="number">4567</span> --remote <span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">51822</span> &amp;&gt; /var/log/phantun_server.log &amp;</span><br><span class="line"><span class="attr">PostDown</span> = iptables -t nat -D PREROUTING -p tcp -i eth0 --dport <span class="number">4567</span> -j DNAT --to-destination <span class="number">192.168</span>.<span class="number">201.2</span></span><br><span class="line"><span class="attr">PostDown</span> = killall phantun_server || <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># remote settings for Endpoint A</span></span><br><span class="line"><span class="section">[Peer]</span></span><br><span class="line"><span class="attr">PublicKey</span> = wXtD/VrRo92JHc66q4Ypmnd4JpMk7b1Sb0AcT+pJfwY= </span><br><span class="line"><span class="attr">AllowedIPs</span> = <span class="number">10.0</span>.<span class="number">0.1</span>/<span class="number">32</span></span><br></pre></td></tr></table></figure>
+<p>最后重启 WireGuard 即可：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ systemctl restart wg-quick@wg0</span><br></pre></td></tr></table></figure>
+<h3 id="客户端">客户端</h3>
+<p>假设客户端的 WireGuard 监听端口是 <code>51821</code>。首先修改配置文件 <code>/etc/wireguard/wg0.conf</code>，在 <code>[Interface]</code> 中添加以下配置：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">MTU</span> = <span class="number">1300</span></span><br><span class="line"><span class="attr">PreUp</span> = iptables -t nat -A POSTROUTING -o eth0 -s <span class="number">192.168</span>.<span class="number">200.2</span> -j MASQUERADE</span><br><span class="line"><span class="attr">PreUp</span> = RUST_LOG=info phantun_client --local <span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">4567</span> --remote <span class="number">121.36</span>.<span class="number">134.95</span>:<span class="number">4567</span> &amp;&gt; /var/log/phantun_client.log &amp;</span><br><span class="line"><span class="attr">PostDown</span> = iptables -t nat -D POSTROUTING -o eth0 -s <span class="number">192.168</span>.<span class="number">200.2</span> -j MASQUERADE</span><br><span class="line"><span class="attr">PostDown</span> = killall phantun_client || <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<p>你需要将 eth0 替换为你服务端的物理网卡名。</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">PreUp</span> = iptables -t nat -A POSTROUTING -o eth0 -s <span class="number">192.168</span>.<span class="number">200.2</span> -j MASQUERADE</span><br></pre></td></tr></table></figure>
+<p>这条 iptables 规则表示对来自 <code>192.168.200.2</code>（TUN 网卡） 的出站流量进行 MASQUERADE。</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">PreUp</span> = RUST_LOG=info phantun_client --local <span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">4567</span> --remote <span class="number">121.36</span>.<span class="number">134.95</span>:<span class="number">4567</span> &amp;&gt; /var/log/phantun_client.log &amp;</span><br></pre></td></tr></table></figure>
+<p>这里会启动 phantun_client，监听在 <code>4567</code> 端口，并与服务端建立连接，将伪装的 TCP 数据包传送给服务端。</p>
+<p>除此之外还需要修改 WireGuard peer 的 Endpoint，将其修改为 127.0.0.1:4567。</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">Endpoint</span> = <span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">4567</span></span><br></pre></td></tr></table></figure>
+<p>客户端完整的 WireGuard 配置：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># local settings for Endpoint A</span></span><br><span class="line"><span class="section">[Interface]</span></span><br><span class="line"><span class="attr">PrivateKey</span> = <span class="number">0</span>Pyz3cIg2gRt+KxZ0Vm1PvSIU+<span class="number">0</span>FGufPIzv92jTyGWk=</span><br><span class="line"><span class="attr">Address</span> = <span class="number">10.0</span>.<span class="number">0.1</span>/<span class="number">32</span></span><br><span class="line"><span class="attr">ListenPort</span> = <span class="number">51821</span></span><br><span class="line"><span class="attr">MTU</span> = <span class="number">1300</span></span><br><span class="line"><span class="attr">PreUp</span> = iptables -t nat -A POSTROUTING -o eth0 -s <span class="number">192.168</span>.<span class="number">200.2</span> -j MASQUERADE</span><br><span class="line"><span class="attr">PreUp</span> = RUST_LOG=info phantun_client --local <span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">4567</span> --remote <span class="number">121.36</span>.<span class="number">134.95</span>:<span class="number">4567</span> &amp;&gt; /var/log/phantun_client.log &amp;</span><br><span class="line"><span class="attr">PostDown</span> = iptables -t nat -D POSTROUTING -o eth0 -s <span class="number">192.168</span>.<span class="number">200.2</span> -j MASQUERADE</span><br><span class="line"><span class="attr">PostDown</span> = killall phantun_client || <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># remote settings for Endpoint B</span></span><br><span class="line"><span class="section">[Peer]</span></span><br><span class="line"><span class="attr">PublicKey</span> = m40NDb5Cqtb78b1DVwY1+kxbG2yEcRhxlrLm/DlPpz8=</span><br><span class="line"><span class="attr">Endpoint</span> = <span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">4567</span></span><br><span class="line"><span class="attr">AllowedIPs</span> = <span class="number">10.0</span>.<span class="number">0.2</span>/<span class="number">32</span></span><br><span class="line"><span class="attr">PersistentKeepalive</span> = <span class="number">25</span></span><br></pre></td></tr></table></figure>
+<p>最后重启 WireGuard 即可：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ systemctl restart wg-quick@wg0</span><br></pre></td></tr></table></figure>
+<p>查看 phantun_client 的日志：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ tail -f /var/<span class="built_in">log</span>/phantun_client.log</span><br><span class="line"> INFO  client &gt; Remote address is: 121.36.134.95:4567</span><br><span class="line"> INFO  client &gt; 1 cores available</span><br><span class="line"> INFO  client &gt; Created TUN device tun0</span><br><span class="line"> INFO  client &gt; New UDP client from 127.0.0.1:51821</span><br><span class="line"> INFO  fake_tcp &gt; Sent SYN to server</span><br><span class="line"> INFO  fake_tcp &gt; Connection to 121.36.134.95:4567 established</span><br></pre></td></tr></table></figure>
+<p>查看 wg0 接口：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ wg show wg0</span><br><span class="line">interface: wg0</span><br><span class="line">  public key: wXtD/VrRo92JHc66q4Ypmnd4JpMk7b1Sb0AcT+pJfwY=</span><br><span class="line">  private key: (hidden)</span><br><span class="line">  listening port: 51821</span><br><span class="line"></span><br><span class="line">peer: m40NDb5Cqtb78b1DVwY1+kxbG2yEcRhxlrLm/DlPpz8=</span><br><span class="line">  endpoint: 127.0.0.1:4567</span><br><span class="line">  allowed ips: 10.0.0.2/32</span><br><span class="line">  latest handshake: 1 minute, 57 seconds ago</span><br><span class="line">  transfer: 184 B received, 648 B sent</span><br><span class="line">  persistent keepalive: every 25 seconds</span><br></pre></td></tr></table></figure>
+<p>测试连通性：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ ping 10.0.0.2 -c 3</span><br><span class="line">PING 10.0.0.2 (10.0.0.2) 56(84) bytes of data.</span><br><span class="line">64 bytes from 10.0.0.2: icmp_seq=1 ttl=64 time=13.7 ms</span><br><span class="line">64 bytes from 10.0.0.2: icmp_seq=2 ttl=64 time=14.4 ms</span><br><span class="line">64 bytes from 10.0.0.2: icmp_seq=3 ttl=64 time=15.0 ms</span><br><span class="line"></span><br><span class="line">--- 10.0.0.2 ping statistics ---</span><br><span class="line">3 packets transmitted, 3 received, 0% packet loss, time 2005ms</span><br><span class="line">rtt min/avg/max/mdev = 13.718/14.373/15.047/0.542 ms</span><br></pre></td></tr></table></figure>
+<h3 id="客户端（多服务端）">客户端（多服务端）</h3>
+<p>如果客户端想和多个服务端建立连接，则新增的服务端配置如下：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">PreUp</span> = RUST_LOG=info phantun_client --local <span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">4568</span> --remote xxxx:<span class="number">4567</span> --tun-local=<span class="number">192.168</span>.<span class="number">202.1</span> --tun-peer=<span class="number">192.168</span>.<span class="number">202.2</span> &amp;&gt; /var/log/phantun_client.log &amp;</span><br><span class="line"><span class="attr">PostDown</span> = iptables -t nat -D POSTROUTING -o eth0 -s <span class="number">192.168</span>.<span class="number">202.2</span> -j MASQUERADE</span><br></pre></td></tr></table></figure>
+<p>本地监听端口需要选择一个与之前不同的端口，同理，TUN 网卡的地址也需要修改。最终的配置如下：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># local settings for Endpoint A</span></span><br><span class="line"><span class="section">[Interface]</span></span><br><span class="line"><span class="attr">PrivateKey</span> = <span class="number">0</span>Pyz3cIg2gRt+KxZ0Vm1PvSIU+<span class="number">0</span>FGufPIzv92jTyGWk=</span><br><span class="line"><span class="attr">Address</span> = <span class="number">10.0</span>.<span class="number">0.1</span>/<span class="number">32</span></span><br><span class="line"><span class="attr">ListenPort</span> = <span class="number">51821</span></span><br><span class="line"><span class="attr">MTU</span> = <span class="number">1300</span></span><br><span class="line"><span class="attr">PreUp</span> = iptables -t nat -A POSTROUTING -o eth0 -s <span class="number">192.168</span>.<span class="number">200.2</span> -j MASQUERADE</span><br><span class="line"><span class="attr">PreUp</span> = RUST_LOG=info phantun_client --local <span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">4567</span> --remote <span class="number">121.36</span>.<span class="number">134.95</span>:<span class="number">4567</span> &amp;&gt; /var/log/phantun_client.log &amp;</span><br><span class="line"><span class="attr">PreUp</span> = RUST_LOG=info phantun_client --local <span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">4568</span> --remote xxxx:<span class="number">4567</span> --tun-local=<span class="number">192.168</span>.<span class="number">202.1</span> --tun-peer=<span class="number">192.168</span>.<span class="number">202.2</span> &amp;&gt; /var/log/phantun_client.log &amp;</span><br><span class="line"><span class="attr">PostDown</span> = iptables -t nat -D POSTROUTING -o eth0 -s <span class="number">192.168</span>.<span class="number">200.2</span> -j MASQUERADE</span><br><span class="line"><span class="attr">PostDown</span> = iptables -t nat -D POSTROUTING -o eth0 -s <span class="number">192.168</span>.<span class="number">202.2</span> -j MASQUERADE</span><br><span class="line"><span class="attr">PostDown</span> = killall phantun_client || <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># remote settings for Endpoint B</span></span><br><span class="line"><span class="section">[Peer]</span></span><br><span class="line"><span class="attr">PublicKey</span> = m40NDb5Cqtb78b1DVwY1+kxbG2yEcRhxlrLm/DlPpz8=</span><br><span class="line"><span class="attr">Endpoint</span> = <span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">4567</span></span><br><span class="line"><span class="attr">AllowedIPs</span> = <span class="number">10.0</span>.<span class="number">0.2</span>/<span class="number">32</span></span><br><span class="line"><span class="attr">PersistentKeepalive</span> = <span class="number">25</span></span><br></pre></td></tr></table></figure>
+<h2 id="MTU-调优">MTU 调优</h2>
+<p>如果你使用 ping 或者 dig 等工具（小数据包）测试 WireGuard 隧道能够正常工作，但浏览器或者远程桌面（大数据包）却无法正常访问，很有可能是 MTU 的问题，你需要将 MTU 的值调小一点。</p>
+<p>Phantun 官方建议将 MTU 的值设为 <code>1428</code>（假设物理网卡的 MTU 是 1500），但经我测试是有问题的。建议直接将 MTU 设置为最低值 <code>1280</code>，然后渐渐增加，直到无法正常工作为止，此时你的 MTU 就是最佳值。</p>
+<p><strong>你学废了吗？</strong></p>
+<h2 id="参考资料">参考资料</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.v2ex.com/t/802949">Phantun - Rust 写的轻量级 UDP -&gt; TCP 混淆器</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/dndx/phantun">Phantun GitHub Repo</a></li>
+</ul>
 
 
         <hr>
         <!-- Pager -->
         <ul class="pager">
           
-          <li class="previous">
-            <a href="/cn/Phantun/" data-toggle="tooltip" data-placement="top" title="使用 Phantun 将 WireGuard 的 UDP 流量伪装成 TCP">&larr; Previous Post</a>
-          </li>
-          
           
           <li class="next">
-            <a href="/cn/华为交换机限速与端口隔离/" data-toggle="tooltip" data-placement="top" title="华为交换机限速与端口隔离">Next Post &rarr;</a>
+            <a href="/cn/citrix-vpx/" data-toggle="tooltip" data-placement="top" title="Citrix ADC的安装配置">Next Post &rarr;</a>
           </li>
           
         </ul>
@@ -525,7 +633,7 @@
       repo: '',
       owner: '',
       admin: '',
-      id: 'Tue Oct 04 2022 21:35:45 GMT+0800', // Ensure uniqueness and length less than 50
+      id: 'Sat Oct 15 2022 19:45:13 GMT+0800', // Ensure uniqueness and length less than 50
       distractionFreeMode: false, // Facebook-like distraction free mode
       perPage: 10,
       pagerDirection: 'last',
@@ -578,7 +686,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">目录</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E4%BA%A7%E5%93%81%E5%AE%89%E8%A3%85"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">产品安装</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E9%85%8D%E7%BD%AE"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">配置</span></a></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Phantun-%E4%BB%8B%E7%BB%8D"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Phantun 介绍</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Phantun-%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">Phantun 工作原理</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Phantun-%E9%85%8D%E7%BD%AE%E6%AD%A5%E9%AA%A4"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">Phantun 配置步骤</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#%E6%9C%8D%E5%8A%A1%E7%AB%AF"><span class="toc-nav-number">3.1.</span> <span class="toc-nav-text">服务端</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF"><span class="toc-nav-number">3.2.</span> <span class="toc-nav-text">客户端</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%EF%BC%88%E5%A4%9A%E6%9C%8D%E5%8A%A1%E7%AB%AF%EF%BC%89"><span class="toc-nav-number">3.3.</span> <span class="toc-nav-text">客户端（多服务端）</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#MTU-%E8%B0%83%E4%BC%98"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">MTU 调优</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">参考资料</span></a></li></ol>
         
         </div>
       </aside>
@@ -601,9 +709,9 @@
           </h5>
           <div class="tags">
             
-            <a class="tag" href="/tags/#Citrix" title="Citrix">Citrix</a>
+            <a class="tag" href="/tags/#linux" title="linux">linux</a>
             
-            <a class="tag" href="/tags/#虚拟化" title="虚拟化">虚拟化</a>
+            <a class="tag" href="/tags/#vpn" title="vpn">vpn</a>
             
           </div>
         </section>
