@@ -135,10 +135,10 @@
   <!--[if lt IE 9]> <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script> <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script> <![endif]-->
 
   <!-- ga & ba script hoook -->
-  <link rel="canonical" href="https://yanest.github.io/tags/虚拟化/">
+  <link rel="canonical" href="https://yanest.github.io/cn/fortigate_update/">
   <title>
     
-      岩哥的数据中心系统技术内幕
+      FortiGate防火墙授权过期后离线升级 - 岩哥的数据中心系统技术内幕
     
   </title>
 <meta name="generator" content="Hexo 5.4.2"></head>
@@ -334,19 +334,19 @@
     .body--light {
       /* intro-header */
       --intro-header-background-image-url-home: url('/img/header_img/newhome_bg.jpg');
-      --intro-header-background-image-url-post: url('');
-      --intro-header-background-image-url-page: url('/img/header_img/archive_bg2.jpg');
+      --intro-header-background-image-url-post: url('/img/header_img/categories_bg.jpg');
+      --intro-header-background-image-url-page: url('//img/header_img/categories_bg.jpg');
     }
     .body--dark {
       --intro-header-background-image-url-home: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)), url('/img/header_img/newhome_bg.jpg');
-      --intro-header-background-image-url-post: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)), url('');
-      --intro-header-background-image-url-page: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)), url('/img/header_img/archive_bg2.jpg');
+      --intro-header-background-image-url-post: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)), url('/img/header_img/categories_bg.jpg');
+      --intro-header-background-image-url-page: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)), url('//img/header_img/categories_bg.jpg');
     }
 
     header.intro-header {
-       /*page*/
-        background-image: var(--intro-header-background-image-url-page);
-        /* background-image: url('/img/header_img/archive_bg2.jpg'); */
+       /*post*/
+        background-image: var(--intro-header-background-image-url-post);
+        /* background-image: url('/img/header_img/categories_bg.jpg'); */
       
     }
 
@@ -368,10 +368,44 @@
       <div class="row">
         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
           
-          <div class="site-heading">
-            <h1>岩哥的数据中心系统技术内幕</h1>
-            <!--<hr class="small">-->
-            <span class="subheading"></span>
+          <div class="post-heading">
+            <div class="tags">
+              
+              <a class="tag" href="/tags/#网络安全" title="网络安全">网络安全</a>
+              
+              <a class="tag" href="/tags/#fortinet" title="fortinet">fortinet</a>
+              
+            </div>
+            <h1>FortiGate防火墙授权过期后离线升级</h1>
+            <h2 class="subheading"></h2>
+            <span class="meta">
+              Posted by Yan on
+              2022-10-16
+            </span>
+
+
+            
+            <!-- WordCount start -->
+            <div class="blank_box"></div>
+            <span class="meta">
+              Estimated Reading Time <span class="post-count">3</span> Minutes
+            </span>
+            <div class="blank_box"></div>
+            <span class="meta">
+              Words <span class="post-count">789</span> In Total
+            </span>
+            <div class="blank_box"></div>
+            <!-- WordCount end -->
+            
+            
+            <!-- 不蒜子统计 start -->
+            <span class="meta" id="busuanzi_container_page_pv">
+              Viewed <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span> Times
+            </span>
+            <!-- 不蒜子统计 end -->
+            
+
+
           </div>
           
         </div>
@@ -412,364 +446,227 @@
 	Friends Blog、
 	anchorjs、
 	) -->
-		<!-- Main Content -->
-<div class="container">
-  <div class="row">
-    
+		<!-- Modify by Yu-Hsuan Yen -->
+<!-- Post Content -->
+<article>
+  <div class="container">
+    <div class="row">
+      <!-- Post Container -->
+      <div class="col-lg-8 col-lg-offset-1 col-md-10 col-md-offset-1 post-container">
 
-    <!-- USE SIDEBAR -->
-    <!-- Post Container -->
-    <div class="
-                col-lg-8 col-lg-offset-1
-                col-md-8 col-md-offset-1
-                col-sm-12
-                col-xs-12
-                post-container
-            ">
+        <p><strong>一、需求</strong></p>
+<p>​    防火墙无法联网或授权过期的情况下，技术支持 中心可以临时提供<strong>入侵（IPS）、应用（APP）和病毒（AV）的离线特征库</strong>进行手工升级。建议尽快购买授权，实现在线自动升级，确保库文件及时更新，提升安全性。</p>
+<p>​    **说明：**URL分类过滤、垃圾邮件是存放在云端。必须购买授权且在线联网实现。</p>
+<p><strong>二、组网拓扑</strong></p>
+<p>​             <img src="https://support.fortinet.com.cn/uploadfile/FortiGate_Product_Implementation_Book/HTML/a1a80979_1cfa0411_0.jpg" alt="img"></p>
+<p><strong>三、配置要点</strong></p>
+<p>1、获取离线特征库</p>
+<p>2、手工更新</p>
+<p>3、确认升级成功</p>
+<p><strong>四、配置步骤</strong></p>
+<p><strong>1、获取离线特征库</strong></p>
+<p>通过https://support.fortinet.com/Download/AvNidsDownload.aspx网站离线获取特征库文件。有服务的设备才有权限下载特征库，要是没有服务可以通过技术支持处获取离线的特征库。IPS和AV的引擎是不能从这里下载的，有时候需要最新的引擎，也同样需要从技术支持处获取。</p>
+<p>nids_OS6.0.0_15.00898.NIDS.pkg           IPS特征库包</p>
+<p>vsigupdate-OS6.2.0_79.00517.ETDB.High.pkg  AV特征库包</p>
+<p>apdb_OS6.0.0_15.00898.APDB.pkg          APP control特征库包</p>
+<p><strong>2、手动更新方式</strong></p>
+<p>进入&quot;系统管理&quot;–“FortiGuard”，分别升级&quot;应用控制&quot;、“病毒特征库”、“IPS特征库”。</p>
+<p>点击相应特征库后面的&quot;升级数据库&quot;</p>
+<p>点击&quot;上传&quot;选择本地的离线特征库文件，确定即可。然后分别导入到防火墙里升级完后，不需要重启防火墙，升级完毕之后页面会提示升级成功。不会更新特征库和引擎都不会影响到业务的正常运行。</p>
+<p>3.有时会你会发现，没有手工上传的按钮，因为设备没有连接到互联网，新版本没有这样的GUI上传按钮了，这个时候就需要手工上传特征库文件了：</p>
+<p>需要一个TFTP服务 ，比如ciscotftp、3CDaemon等等FTP/TFTP的工具，然后防火墙通过命令行上传IPS/AV引擎或者特征库文件即可。</p>
+<p><a href="nyf://entry?itemid=27&amp;file=3CDaemon.rar&amp;itemtext=%E7%A6%BB%E7%BA%BF%E6%89%8B%E5%B7%A5%E5%8D%87%E7%BA%A7">3CDaemon.rar</a></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">Rack5_RG_3700_Down # execute restore ？</span><br><span class="line">av                 av</span><br><span class="line">config             config</span><br><span class="line">image              image</span><br><span class="line">ips                ips</span><br><span class="line">ipsuserdefsig      ipsuserdefsig</span><br><span class="line">other-objects      other-objects</span><br><span class="line">script             script</span><br><span class="line">secondary-image    secondary-image</span><br><span class="line">src-vis            src-vis</span><br><span class="line">Rack5_RG_3700_Down # execute restore ips ？</span><br><span class="line">ips              ips</span><br><span class="line">ipsuserdefsig    ipsuserdefsig</span><br><span class="line">Rack5_RG_3700_Down # execute restore ips</span><br><span class="line">ftp     Restore IPS database <span class="keyword">from</span> FTP server.</span><br><span class="line">tftp    Restore IPS database <span class="keyword">from</span> TFTP server.</span><br><span class="line">Rack5_RG_3700_Down # execute restore ips tftp</span><br><span class="line">&lt;string&gt;    IPS database file name on the TFTP server.</span><br><span class="line">Rack5_RG_3700_Down # execute restore ips tftp nids_OS6.0.0_15.00898.NIDS.pkg ？</span><br><span class="line">&lt;ip&gt;    IP address.</span><br><span class="line">Rack5_RG_3700_Down # execute restore ips tftp nids_OS6.0.0_15.00898.NIDS.pkg 192.168.112.119</span><br><span class="line">This operation will overwrite the current IPS package!</span><br><span class="line">Do you want to <span class="keyword">continue</span>? (y/n)y</span><br><span class="line">Please wait...</span><br><span class="line">Connect to tftp server <span class="number">192.168</span><span class="number">.112</span><span class="number">.119</span> ...</span><br><span class="line">#</span><br><span class="line">Get IPS database <span class="keyword">from</span> tftp server OK.</span><br><span class="line">Rack5_RG_3700_Down # execute restore ips tftp flen-fos6.0-4.065.pkg 192.168.112.119                             </span><br><span class="line">This operation will overwrite the current IPS package!</span><br><span class="line">Do you want to <span class="keyword">continue</span>? (y/n)y</span><br><span class="line">Please wait...</span><br><span class="line">Connect to tftp server <span class="number">192.168</span><span class="number">.112</span><span class="number">.119</span> ...</span><br><span class="line">##########</span><br><span class="line">Get IPS database <span class="keyword">from</span> tftp server OK.</span><br><span class="line">Rack5_RG_3700_Down #</span><br><span class="line">Rack5_RG_3700_Down # execute restore av tftp vsigupdate-OS6.0.0_79.00334.ETDB.High.pkg 192.168.112.119</span><br><span class="line">This operation will overwrite the current antivirus database!</span><br><span class="line">Do you want to <span class="keyword">continue</span>? (y/n)y</span><br><span class="line">Please wait...</span><br><span class="line">Connect to tftp server <span class="number">192.168</span><span class="number">.112</span><span class="number">.119</span> ...</span><br><span class="line">###########</span><br><span class="line">Get antivirus database <span class="keyword">from</span> tftp server OK.</span><br><span class="line">Rack5_RG_3700_Down #</span><br><span class="line">Rack5_RG_3700_Down # execute restore av tftp vsigupdate-OS6.00_6.030_ENG_ALL.pkg 192.168.112.119                                        </span><br><span class="line">This operation will overwrite the current antivirus database!</span><br><span class="line">Do you want to <span class="keyword">continue</span>? (y/n)y</span><br><span class="line">Please wait...</span><br><span class="line">Connect to tftp server <span class="number">192.168</span><span class="number">.112</span><span class="number">.119</span> ...</span><br><span class="line">#########</span><br><span class="line">Get antivirus database <span class="keyword">from</span> tftp server OK.</span><br><span class="line">Rack5_RG_3700_Down # </span><br></pre></td></tr></table></figure>
 
-      <!-- Main Content -->
-<div class="container">
-  <div class="row">
-    <div class="col-lg-8 col-lg-offset-0 col-md-10 col-md-offset-1">
-      <!-- 归档列表 -->
 
-      
-
-      <!-- 归档列表 -->
-      
-      <div class="one-tag-list">
-        <span class="fa fa-calendar-times-o listing-seperator" id="2022">
-          <span class="tag-text">2022</span>
-        </span>
-        <ul>
+        <hr>
+        <!-- Pager -->
+        <ul class="pager">
           
-          <li>
-            10-16
-            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/cn/fortigate_update/" style="color: #0085a1">
-              <span>
-                FortiGate防火墙授权过期后离线升级
-                
-                -- cn
-                
-              </span>
-            </a>
-          </li>
           
-          <li>
-            10-15
-            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/cn/zfs/" style="color: #0085a1">
-              <span>
-                ZFS系统调优
-                
-                -- cn
-                
-              </span>
-            </a>
-          </li>
-          
-          <li>
-            10-15
-            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/cn/Phantun/" style="color: #0085a1">
-              <span>
-                使用 Phantun 将 WireGuard 的 UDP 流量伪装成 TCP
-                
-                -- cn
-                
-              </span>
-            </a>
-          </li>
-          
-          <li>
-            10-04
-            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/cn/citrix-vpx/" style="color: #0085a1">
-              <span>
-                Citrix ADC的安装配置
-                
-                -- cn
-                
-              </span>
-            </a>
-          </li>
-          
-          <li>
-            10-02
-            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/cn/华为交换机限速与端口隔离/" style="color: #0085a1">
-              <span>
-                华为交换机限速与端口隔离
-                
-                -- cn
-                
-              </span>
-            </a>
-          </li>
-          
-          <li>
-            10-02
-            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/cn/docker的安装/" style="color: #0085a1">
-              <span>
-                docker的安装
-                
-                -- cn
-                
-              </span>
-            </a>
-          </li>
-          
-          <li>
-            10-02
-            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/cn/搭建NFS服务器/" style="color: #0085a1">
-              <span>
-                搭建NFS服务器
-                
-                -- cn
-                
-              </span>
-            </a>
+          <li class="next">
+            <a href="/cn/zfs/" data-toggle="tooltip" data-placement="top" title="ZFS系统调优">Next Post &rarr;</a>
           </li>
           
         </ul>
+
+        
+        <!-- tip start -->
+        <!-- tip -->
+<!-- tip start -->
+<div class="tip">
+  <p>
+    
+      如果您喜欢此博客或发现它对您有用，则欢迎对此发表评论。 也欢迎您共享此博客，以便更多人可以参与。 如果博客中使用的图像侵犯了您的版权，请与作者联系以将其删除。 谢谢 ！
+    
+  </p>
+</div>
+<!-- tip end -->
+
+        <!-- tip end -->
+        
+
+        
+        <hr>
+
+        <!-- comments start -->
+        <!-- 1. gitalk comment -->
+
+  <!-- gitalk start -->
+  <!-- Docs:https://github.com/gitalk/gitalk/blob/master/readme-cn.md -->
+
+  <div id="gitalk-container"></div>
+
+  
+    <!-- <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.js"></script> -->
+    <script src="/js/comment/gitalk.js"></script>
+  
+
+  <script>
+    var gitalk = new Gitalk({
+      clientID: '',
+      clientSecret: '',
+      repo: '',
+      owner: '',
+      admin: '',
+      id: 'Sun Oct 16 2022 19:16:46 GMT+0800', // Ensure uniqueness and length less than 50
+      distractionFreeMode: false, // Facebook-like distraction free mode
+      perPage: 10,
+      pagerDirection: 'last',
+      createIssueManually: false,
+      language: 'zh-CN',
+      proxy: 'https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token'
+    });
+    gitalk.render('gitalk-container');
+
+    var gtFolded = () => {
+      setTimeout(function () {
+        let markdownBody = document.getElementsByClassName("markdown-body");
+        let list = Array.from(markdownBody);
+        list.forEach(item => {
+          if (item.clientHeight > 250) {
+            item.classList.add('gt-comment-body-folded');
+            item.style.maxHeight = '250px';
+            item.title = 'Click to Expand';
+            item.onclick = function () {
+              item.classList.remove('gt-comment-body-folded');
+              item.style.maxHeight = '';
+              item.title = '';
+              item.onclick = null;
+            };
+          }
+        })
+      }, 800);
+    }
+  </script>
+
+  <!-- gitalk end -->
+
+
+<!-- 2. gitment comment -->
+
+
+<!-- 3. disqus comment -->
+
+
+        <!-- comments end -->
+        <hr>
+
       </div>
-      
-    </div>
-  </div>
-</div>
 
+      <!-- Catalog: Tabe of Content -->
+      <!-- Table of Contents -->
 
-      <!-- 如果开启评论功能 -->
-      
-    </div>
-
-    <!-- Sidebar Container -->
-<div class="
-    col-lg-3 col-lg-offset-0
-    col-md-3 col-md-offset-0
-    col-sm-12
-    col-xs-12
-    sidebar-container
-">
     
-        <!-- Visitors -->
-<h5><a href="/">来访者</a></h5>
-
-<div class="widget">
-  <span>
-    Viewed <b><i><span id="busuanzi_value_site_pv"><i class="fa fa-spinner fa-spin"></i></span></i></b> Times
-  </span>
-  <br />
-  <span>
-    <b><i><span id="busuanzi_value_site_uv"><i class="fa fa-spinner fa-spin"></i></span></i></b> Visitors In Total
-  </span>
-</div>
-
-
-        <hr>
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">目录</strong>
+        
+          <ol class="nav">none</ol>
+        
+        </div>
+      </aside>
     
+
+
+
+      <!-- Sidebar Container -->
+      <div class="
+                col-lg-8 col-lg-offset-1
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
         <!-- Featured Tags -->
+        
+        <section>
+          <!-- no hr -->
+          <h5>
+            <a href="/tags/">特色标签</a>
+          </h5>
+          <div class="tags">
+            
+            <a class="tag" href="/tags/#网络安全" title="网络安全">网络安全</a>
+            
+            <a class="tag" href="/tags/#fortinet" title="fortinet">fortinet</a>
+            
+          </div>
+        </section>
+        
 
-<section>
-  <h5><a href="/tags/">特色标签</a></h5>
-  <div class="tags">
-    
-    
-    <a href="/tags/#linux" title="linux" rel="3">linux</a>
-    
-    
-    
-    <a href="/tags/#nfs" title="nfs" rel="1">nfs</a>
-    
-    
-    
-    <a href="/tags/#docker" title="docker" rel="1">docker</a>
-    
-    
-    
-    <a href="/tags/#网络" title="网络" rel="1">网络</a>
-    
-    
-    
-    <a href="/tags/#交换机" title="交换机" rel="1">交换机</a>
-    
-    
-    
-    <a href="/tags/#Citrix" title="Citrix" rel="1">Citrix</a>
-    
-    
-    
-    <a href="/tags/#虚拟化" title="虚拟化" rel="1">虚拟化</a>
-    
-    
-    
-    <a href="/tags/#vpn" title="vpn" rel="1">vpn</a>
-    
-    
-    
-    <a href="/tags/#zfs" title="zfs" rel="1">zfs</a>
-    
-    
-    
-    <a href="/tags/#网络安全" title="网络安全" rel="1">网络安全</a>
-    
-    
-    
-    <a href="/tags/#fortinet" title="fortinet" rel="1">fortinet</a>
-    
-    
+        <!-- Friends Blog -->
+        
+      </div>
+    </div>
   </div>
-</section>
+</article>
 
 
-        <hr>
-    
-        <!-- Short About -->
-<section class="visible-md visible-lg">
-  <h5><a href="/about/">关于自己</a></h5>
-  <div class="short-about">
 
-    
-    <img id="avatar_pic" src="/img/about/me.jpeg" alt="avatar_pic" style="box-shadow: 5px 5px 10px 5px rgba(0, 0, 0, .5);
-    -moz-box-shadow: 5px 5px 10px 5px rgba(0, 0, 0, .5);
-    -webkit-box-shadow: 5px 5px 10px 5px rgba(0, 0, 0, .5);" />
-    
+<!-- anchorjs start -->
+<!-- async load function -->
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script type="text/javascript">
+  // async load function
+  function async (u, c) {
+    var d = document,
+      t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) {
+      o.addEventListener('load', function(e) {
+        c(null, e);
+      }, false);
+    }
+    s.parentNode.insertBefore(o, s);
+  };
+</script>
+<script type="text/javascript">
+  //anchor-js, Doc:http://bryanbraun.github.io/anchorjs/
+  async ("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js", function() {
+    anchors.options = {
+      visible: 'hover',
+      placement: 'left',
+      // icon: 'ℬ'
+      icon: '❡'
+    };
+    anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+  });
+</script>
+<style>
+  /* place left on bigger screen */
+  @media all and (min-width: 800px) {
+    .anchorjs-link {
+      position: absolute;
+      left: -0.75em;
+      font-size: 1.1em;
+      margin-top: -0.1em;
+    }
+  }
+</style>
 
-    
-    <p>生命不息 折腾不止 敏捷而生 适者生存</p>
-    
+<!-- anchorjs end -->
 
-    <!-- SNS Link -->
-    <ul class="list-inline">
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-    </ul>
-  </div>
-</section>
-
-        <hr>
-    
-        <!-- RECENT POSTS -->
-
-<h5><a href="/">最近博文</a></h5>
-<div class="widget">
-  <ul>
-    
-    <a href="../../cn/fortigate_update/">
-      <li>FortiGate防火墙授权过期后离线升级</li>
-    </a>
-    
-    <a href="../../cn/zfs/">
-      <li>ZFS系统调优</li>
-    </a>
-    
-    <a href="../../cn/Phantun/">
-      <li>使用 Phantun 将 WireGuard 的 UDP 流量伪装成 TCP</li>
-    </a>
-    
-    <a href="../../cn/citrix-vpx/">
-      <li>Citrix ADC的安装配置</li>
-    </a>
-    
-    <a href="../../cn/%E5%8D%8E%E4%B8%BA%E4%BA%A4%E6%8D%A2%E6%9C%BA%E9%99%90%E9%80%9F%E4%B8%8E%E7%AB%AF%E5%8F%A3%E9%9A%94%E7%A6%BB/">
-      <li>华为交换机限速与端口隔离</li>
-    </a>
-    
-  </ul>
-</div>
-
-
-        <hr>
-    
-        <!-- Archives -->
-
-<h5><a href="/archives/">archives</a></h5>
-<div class="widget">
-  <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/10/">October 2022</a><span class="archive-list-count">7</span></li></ul>
-</div>
-
-
-        <hr>
-    
-        <!-- Categories -->
-
-<h5><a href="/categories/">categories</a></h5>
-<div class="widget">
-  <ul>
-    
-    <a href="/categories/#linux">
-      <li>linux</li>
-    </a>
-    
-    <a href="/categories/#nfs">
-      <li>nfs</li>
-    </a>
-    
-    <a href="/categories/#docker">
-      <li>docker</li>
-    </a>
-    
-    <a href="/categories/#网络">
-      <li>网络</li>
-    </a>
-    
-    <a href="/categories/#交换机">
-      <li>交换机</li>
-    </a>
-    
-    <a href="/categories/#Citrix">
-      <li>Citrix</li>
-    </a>
-    
-    <a href="/categories/#虚拟化">
-      <li>虚拟化</li>
-    </a>
-    
-    <a href="/categories/#vpn">
-      <li>vpn</li>
-    </a>
-    
-    <a href="/categories/#zfs">
-      <li>zfs</li>
-    </a>
-    
-    <a href="/categories/#网络安全">
-      <li>网络安全</li>
-    </a>
-    
-    <a href="/categories/#fortinet">
-      <li>fortinet</li>
-    </a>
-    
-  </ul>
-</div>
-
-
-        <hr>
-    
-</div>
-
-
-    
-  </div>
-</div>
 
 
 		<!-- Footer (contains ThemeColor、viewer) -->

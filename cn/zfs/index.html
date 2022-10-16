@@ -371,6 +371,10 @@
           <div class="post-heading">
             <div class="tags">
               
+              <a class="tag" href="/tags/#linux" title="linux">linux</a>
+              
+              <a class="tag" href="/tags/#zfs" title="zfs">zfs</a>
+              
             </div>
             <h1>ZFS系统调优</h1>
             <h2 class="subheading"></h2>
@@ -388,7 +392,7 @@
             </span>
             <div class="blank_box"></div>
             <span class="meta">
-              Words <span class="post-count">590</span> In Total
+              Words <span class="post-count">591</span> In Total
             </span>
             <div class="blank_box"></div>
             <!-- WordCount end -->
@@ -451,7 +455,8 @@
       <div class="col-lg-8 col-lg-offset-1 col-md-10 col-md-offset-1 post-container">
 
         <ol>
-<li><p>Ensure that the ‘ashift’ parameter is set correctly for each of your pools. Generally speaking, ashift should be set as follows:</p>
+<li>
+<p>Ensure that the ‘ashift’ parameter is set correctly for each of your pools. Generally speaking, ashift should be set as follows:</p>
 <ul>
 <li>ashift=9 for older HDD’s with 512b sectors</li>
 <li>ashift=12 for newer HDD’s with 4k sectors</li>
@@ -459,25 +464,37 @@
 </ul>
 <p>If you’re unsure about the sector size of your drives, you can consult the <a target="_blank" rel="noopener" href="https://github.com/openzfs/zfs/blob/6eb6073a044653016013b1a72de03a1257e899c5/cmd/zpool/zpool_vdev.c#L107">list of drive ID’s and sector sizes hard coded into ZFS</a>. If you’re still unsure, it’s better to set a higher ashift than a lower one. Note that ashift can only be set when creating a vdev, and cannot be modified once a vdev is created. You can see what ashift is set to for an existing pool by running sudo zdb.</p>
 </li>
-<li><p>Avoid raidz pools for running VM’s. Use mirror vdevs instead. The write amplification associated with raidz1+ vdevs will kill performance.</p>
+<li>
+<p>Avoid raidz pools for running VM’s. Use mirror vdevs instead. The write amplification associated with raidz1+ vdevs will kill performance.</p>
 </li>
-<li><p>Create your ZFS vdevs from whole disks, not partitions. sudo zdb will show whole_disk: 1 if you properly assign a whole disk (rather than a partition) to a vdev.</p>
+<li>
+<p>Create your ZFS vdevs from whole disks, not partitions. sudo zdb will show whole_disk: 1 if you properly assign a whole disk (rather than a partition) to a vdev.</p>
 </li>
-<li><p>Enable lz4 compression on your pools. sudo zfs set compression=lz4 $POOL. lz4 is fast and you’re likely IO bound, not CPU bound, so enabling compression will likely be a net win for performance. Note that you can disable compression on individual datasets that store incompressible data.</p>
+<li>
+<p>Enable lz4 compression on your pools. sudo zfs set compression=lz4 $POOL. lz4 is fast and you’re likely IO bound, not CPU bound, so enabling compression will likely be a net win for performance. Note that you can disable compression on individual datasets that store incompressible data.</p>
 </li>
-<li><p>Disable atime on your pools. sudo zfs set atime=disabled $POOL.</p>
+<li>
+<p>Disable atime on your pools. sudo zfs set atime=disabled $POOL.</p>
 </li>
-<li><p>Consider setting a higher volblocksize for specific workloads. The default “recordsize” in ZFS is 128K, but Proxmox by default uses an 8K “volblocksize” for zvols. Setting this higher did more than anything else to reduce hypervisor and guest lockup during heavy IO. I recommend experimenting with values between 16k and 64k to find what works best for your system. Note that “volblocksize” is set by Proxmox each time a zvol is created (usually when a VM is created), and cannot be modified after a zvol is created. The “volblocksize” is configurable in the Proxmox UI from ‘Datacenter -&gt; Storage -&gt; $ID -&gt; Edit -&gt; Block Size”<br>proxmox_configure_volblocksize-1</p>
+<li>
+<p>Consider setting a higher volblocksize for specific workloads. The default “recordsize” in ZFS is 128K, but Proxmox by default uses an 8K “volblocksize” for zvols. Setting this higher did more than anything else to reduce hypervisor and guest lockup during heavy IO. I recommend experimenting with values between 16k and 64k to find what works best for your system. Note that “volblocksize” is set by Proxmox each time a zvol is created (usually when a VM is created), and cannot be modified after a zvol is created. The “volblocksize” is configurable in the Proxmox UI from 'Datacenter -&gt; Storage -&gt; $ID -&gt; Edit -&gt; Block Size&quot;<br>
+proxmox_configure_volblocksize-1</p>
 </li>
-<li><p>If your workload is doing a lot of synchronous writes, you’ll likely want to add an (enterprise grade) SSD to cache the ZIL. This can be added to a pool as follows: sudo zpool add $POOL log $SSD_DEVICE eg sudo zpool add spinningdisks log /dev/nvme0n1p4. If you do alot of synchronous writes, but can’t afford an enterprise SSD, and you like to live dangerously, you can disable sync on a per pool or per dataset basis eg sudo zfs set sync=disabled $POOL/$DATASET</p>
+<li>
+<p>If your workload is doing a lot of synchronous writes, you’ll likely want to add an (enterprise grade) SSD to cache the ZIL. This can be added to a pool as follows: sudo zpool add $POOL log $SSD_DEVICE eg sudo zpool add spinningdisks log /dev/nvme0n1p4. If you do alot of synchronous writes, but can’t afford an enterprise SSD, and you like to live dangerously, you can disable sync on a per pool or per dataset basis eg sudo zfs set sync=disabled $POOL/$DATASET</p>
 </li>
-<li><p>Configure your VM’s to use ‘SCSI Controller: VirtIO SCSI Single’. Enable discard and iothread.<br>prox_vm_disk_settings</p>
+<li>
+<p>Configure your VM’s to use ‘SCSI Controller: VirtIO SCSI Single’. Enable discard and iothread.<br>
+prox_vm_disk_settings</p>
 </li>
-<li><p>Inside your guest OS, enable trim. For example, on Debian 10: sudo systemctl enable fstrim.timer. This will discard unused blocks once a week, freeing up space on the underlying ZFS filesystem. Note that this requires that the ‘discard=1’ option is set on the disk per step 8 above.</p>
+<li>
+<p>Inside your guest OS, enable trim. For example, on Debian 10: sudo systemctl enable fstrim.timer. This will discard unused blocks once a week, freeing up space on the underlying ZFS filesystem. Note that this requires that the ‘discard=1’ option is set on the disk per step 8 above.</p>
 </li>
-<li><p>Beware that since ZFS is a copy on write filesystem, writes will most definitely get slower as the pool becomes more and more full (and fragmented). If a pool gets more than 70% full, and writes become noticably slower, you can remedy this only by moving the data to another pool, deleting and recreating the pool, and moving the data back.</p>
+<li>
+<p>Beware that since ZFS is a copy on write filesystem, writes will most definitely get slower as the pool becomes more and more full (and fragmented). If a pool gets more than 70% full, and writes become noticably slower, you can remedy this only by moving the data to another pool, deleting and recreating the pool, and moving the data back.</p>
 </li>
-<li><p>ZFS replication is your friend, and can help you create a hyper converged infrastructure, seamlessly migrating workloads between nodes without the need for shared storage. More on that in a subsequent post.</p>
+<li>
+<p>ZFS replication is your friend, and can help you create a hyper converged infrastructure, seamlessly migrating workloads between nodes without the need for shared storage. More on that in a subsequent post.</p>
 </li>
 </ol>
 
@@ -485,6 +502,10 @@
         <hr>
         <!-- Pager -->
         <ul class="pager">
+          
+          <li class="previous">
+            <a href="/cn/fortigate_update/" data-toggle="tooltip" data-placement="top" title="FortiGate防火墙授权过期后离线升级">&larr; Previous Post</a>
+          </li>
           
           
           <li class="next">
@@ -607,6 +628,10 @@
             <a href="/tags/">特色标签</a>
           </h5>
           <div class="tags">
+            
+            <a class="tag" href="/tags/#linux" title="linux">linux</a>
+            
+            <a class="tag" href="/tags/#zfs" title="zfs">zfs</a>
             
           </div>
         </section>
@@ -1115,5 +1140,20 @@ start: '#bbbbee', end: '#0085a1' } }; $('#tag_cloud a').tagcloud(); }) } </scrip
 
 
 		
-	</body>
+	<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
 </html>

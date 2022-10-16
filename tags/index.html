@@ -421,7 +421,7 @@
       <!-- 标签云 -->
       <div id='tag_cloud' class="tags">
         
-        <a href="#linux" title="linux" rel="2">linux</a>
+        <a href="#linux" title="linux" rel="3">linux</a>
         
         <a href="#nfs" title="nfs" rel="1">nfs</a>
         
@@ -436,6 +436,12 @@
         <a href="#虚拟化" title="虚拟化" rel="1">虚拟化</a>
         
         <a href="#vpn" title="vpn" rel="1">vpn</a>
+        
+        <a href="#zfs" title="zfs" rel="1">zfs</a>
+        
+        <a href="#网络安全" title="网络安全" rel="1">网络安全</a>
+        
+        <a href="#fortinet" title="fortinet" rel="1">fortinet</a>
         
       </div>
 
@@ -467,6 +473,19 @@
           <a href="/cn/Phantun/">
             <h2 class="post-title">
               使用 Phantun 将 WireGuard 的 UDP 流量伪装成 TCP
+              
+              -- cn
+              
+            </h2>
+            
+          </a>
+        </div>
+        <hr>
+        
+        <div class="post-preview">
+          <a href="/cn/zfs/">
+            <h2 class="post-title">
+              ZFS系统调优
               
               -- cn
               
@@ -623,6 +642,66 @@
           <a href="/cn/Phantun/">
             <h2 class="post-title">
               使用 Phantun 将 WireGuard 的 UDP 流量伪装成 TCP
+              
+              -- cn
+              
+            </h2>
+            
+          </a>
+        </div>
+        <hr>
+        
+      </div>
+      
+      <div class="one-tag-list">
+        <span class="fa fa-tag listing-seperator" id="zfs">
+          <span class="tag-text">zfs</span>
+        </span>
+        
+        <div class="post-preview">
+          <a href="/cn/zfs/">
+            <h2 class="post-title">
+              ZFS系统调优
+              
+              -- cn
+              
+            </h2>
+            
+          </a>
+        </div>
+        <hr>
+        
+      </div>
+      
+      <div class="one-tag-list">
+        <span class="fa fa-tag listing-seperator" id="网络安全">
+          <span class="tag-text">网络安全</span>
+        </span>
+        
+        <div class="post-preview">
+          <a href="/cn/fortigate_update/">
+            <h2 class="post-title">
+              FortiGate防火墙授权过期后离线升级
+              
+              -- cn
+              
+            </h2>
+            
+          </a>
+        </div>
+        <hr>
+        
+      </div>
+      
+      <div class="one-tag-list">
+        <span class="fa fa-tag listing-seperator" id="fortinet">
+          <span class="tag-text">fortinet</span>
+        </span>
+        
+        <div class="post-preview">
+          <a href="/cn/fortigate_update/">
+            <h2 class="post-title">
+              FortiGate防火墙授权过期后离线升级
               
               -- cn
               
@@ -1087,5 +1166,20 @@ start: '#bbbbee', end: '#0085a1' } }; $('#tag_cloud a').tagcloud(); }) } </scrip
 
 
 		
-	</body>
+	<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
 </html>

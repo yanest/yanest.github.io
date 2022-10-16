@@ -438,6 +438,48 @@
   <!-- top end -->
   
 
+  <a href="/cn/fortigate_update/">
+    <h2 class="post-title">
+      FortiGate防火墙授权过期后离线升级
+    </h2>
+    <h3 class="post-subtitle">
+      
+    </h3>
+    <div class="post-content-preview">
+      一、需求
+​    防火墙无法联网或授权过期的情况下，技术支持 中心可以临时提供入侵（IPS）、应用（APP）和病毒（AV）的离线特征库进行手工升级。建议尽快购买授权，实现在线自动升级，确保库文件及时更新，提升安全性。
+​    **说明：**URL分类过滤、垃圾邮件是存放在云端。必须购买授权且在线联网实现。
+二、组网拓扑
+​             
+三、配置要点
+1、获取离线特征库
+2、......
+    </div>
+  </a>
+  
+  <p class="post-meta" style="margin: 10px 0;">
+    Posted by Yan on
+    2022-10-16
+  </p>
+  <div class="tags">
+    
+    <a href="/tags/#网络安全" title="网络安全">网络安全</a>
+    
+    <a href="/tags/#fortinet" title="fortinet">fortinet</a>
+    
+  </div>
+  
+
+</div>
+<hr>
+
+<div class="post-preview">
+  
+  <!-- top start (article top hot config) -->
+  
+  <!-- top end -->
+  
+
   <a href="/cn/zfs/">
     <h2 class="post-title">
       ZFS系统调优
@@ -447,10 +489,11 @@
     </h3>
     <div class="post-content-preview">
       
+
 Ensure that the ‘ashift’ parameter is set correctly for each of your pools. Generally speaking, ashift should be set as follows:
 
 ashift=9 for older HDD’s with 512b sectors
-ashift=12 for newer HDD......
+ashift=12 for newer HD......
     </div>
   </a>
   
@@ -459,6 +502,10 @@ ashift=12 for newer HDD......
     2022-10-15
   </p>
   <div class="tags">
+    
+    <a href="/tags/#linux" title="linux">linux</a>
+    
+    <a href="/tags/#zfs" title="zfs">zfs</a>
     
   </div>
   
@@ -699,7 +746,7 @@ rancher维护的安装脚本
   <div class="tags">
     
     
-    <a href="/tags/#linux" title="linux" rel="2">linux</a>
+    <a href="/tags/#linux" title="linux" rel="3">linux</a>
     
     
     
@@ -728,6 +775,18 @@ rancher维护的安装脚本
     
     
     <a href="/tags/#vpn" title="vpn" rel="1">vpn</a>
+    
+    
+    
+    <a href="/tags/#zfs" title="zfs" rel="1">zfs</a>
+    
+    
+    
+    <a href="/tags/#网络安全" title="网络安全" rel="1">网络安全</a>
+    
+    
+    
+    <a href="/tags/#fortinet" title="fortinet" rel="1">fortinet</a>
     
     
   </div>
@@ -781,6 +840,10 @@ rancher维护的安装脚本
 <div class="widget">
   <ul>
     
+    <a href="fortigate_update/">
+      <li>FortiGate防火墙授权过期后离线升级</li>
+    </a>
+    
     <a href="zfs/">
       <li>ZFS系统调优</li>
     </a>
@@ -797,10 +860,6 @@ rancher维护的安装脚本
       <li>华为交换机限速与端口隔离</li>
     </a>
     
-    <a href="docker%E7%9A%84%E5%AE%89%E8%A3%85/">
-      <li>docker的安装</li>
-    </a>
-    
   </ul>
 </div>
 
@@ -811,7 +870,7 @@ rancher维护的安装脚本
 
 <h5><a href="/archives/">archives</a></h5>
 <div class="widget">
-  <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../archives/2022/10/">October 2022</a><span class="archive-list-count">6</span></li></ul>
+  <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../archives/2022/10/">October 2022</a><span class="archive-list-count">7</span></li></ul>
 </div>
 
 
@@ -853,6 +912,18 @@ rancher维护的安装脚本
     
     <a href="/categories/#vpn">
       <li>vpn</li>
+    </a>
+    
+    <a href="/categories/#zfs">
+      <li>zfs</li>
+    </a>
+    
+    <a href="/categories/#网络安全">
+      <li>网络安全</li>
+    </a>
+    
+    <a href="/categories/#fortinet">
+      <li>fortinet</li>
     </a>
     
   </ul>
@@ -1316,5 +1387,20 @@ start: '#bbbbee', end: '#0085a1' } }; $('#tag_cloud a').tagcloud(); }) } </scrip
 
 
 		
-	</body>
+	<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
 </html>

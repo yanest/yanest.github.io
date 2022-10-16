@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://yanest.github.io/cn/fortigate_update/</loc>
+    
+    <lastmod>2022-10-16</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://yanest.github.io/cn/zfs/</loc>
     
     <lastmod>2022-10-15</lastmod>
@@ -143,6 +150,27 @@
     <priority>0.6</priority>
   </url>
   
+  <url>
+    <loc>https://yanest.github.io/tags/zfs/</loc>
+    <lastmod>2022-10-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://yanest.github.io/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/</loc>
+    <lastmod>2022-10-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://yanest.github.io/tags/fortinet/</loc>
+    <lastmod>2022-10-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
 
   
   <url>
@@ -196,6 +224,27 @@
   
   <url>
     <loc>https://yanest.github.io/categories/linux/vpn/</loc>
+    <lastmod>2022-10-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://yanest.github.io/categories/linux/zfs/</loc>
+    <lastmod>2022-10-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://yanest.github.io/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/</loc>
+    <lastmod>2022-10-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://yanest.github.io/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/fortinet/</loc>
     <lastmod>2022-10-16</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
