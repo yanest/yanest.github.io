@@ -135,10 +135,10 @@
   <!--[if lt IE 9]> <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script> <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script> <![endif]-->
 
   <!-- ga & ba script hoook -->
-  <link rel="canonical" href="https://yanest.github.io/categories/网络/交换机/">
+  <link rel="canonical" href="https://yanest.github.io/cn/esxtop/">
   <title>
     
-      岩哥的数据中心系统技术内幕
+      通过esxtop定位vmware性能问题 - 岩哥的数据中心系统技术内幕
     
   </title>
 <meta name="generator" content="Hexo 5.4.2"></head>
@@ -334,19 +334,19 @@
     .body--light {
       /* intro-header */
       --intro-header-background-image-url-home: url('/img/header_img/newhome_bg.jpg');
-      --intro-header-background-image-url-post: url('');
-      --intro-header-background-image-url-page: url('/img/header_img/archive_bg2.jpg');
+      --intro-header-background-image-url-post: url('/img/header_img/categories_bg.jpg');
+      --intro-header-background-image-url-page: url('//img/header_img/categories_bg.jpg');
     }
     .body--dark {
       --intro-header-background-image-url-home: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)), url('/img/header_img/newhome_bg.jpg');
-      --intro-header-background-image-url-post: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)), url('');
-      --intro-header-background-image-url-page: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)), url('/img/header_img/archive_bg2.jpg');
+      --intro-header-background-image-url-post: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)), url('/img/header_img/categories_bg.jpg');
+      --intro-header-background-image-url-page: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)), url('//img/header_img/categories_bg.jpg');
     }
 
     header.intro-header {
-       /*page*/
-        background-image: var(--intro-header-background-image-url-page);
-        /* background-image: url('/img/header_img/archive_bg2.jpg'); */
+       /*post*/
+        background-image: var(--intro-header-background-image-url-post);
+        /* background-image: url('/img/header_img/categories_bg.jpg'); */
       
     }
 
@@ -368,10 +368,42 @@
       <div class="row">
         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
           
-          <div class="site-heading">
-            <h1>岩哥的数据中心系统技术内幕</h1>
-            <!--<hr class="small">-->
-            <span class="subheading"></span>
+          <div class="post-heading">
+            <div class="tags">
+              
+              <a class="tag" href="/tags/#vmware" title="vmware">vmware</a>
+              
+            </div>
+            <h1>通过esxtop定位vmware性能问题</h1>
+            <h2 class="subheading"></h2>
+            <span class="meta">
+              Posted by Yan on
+              2022-10-28
+            </span>
+
+
+            
+            <!-- WordCount start -->
+            <div class="blank_box"></div>
+            <span class="meta">
+              Estimated Reading Time <span class="post-count">6</span> Minutes
+            </span>
+            <div class="blank_box"></div>
+            <span class="meta">
+              Words <span class="post-count">1.8k</span> In Total
+            </span>
+            <div class="blank_box"></div>
+            <!-- WordCount end -->
+            
+            
+            <!-- 不蒜子统计 start -->
+            <span class="meta" id="busuanzi_container_page_pv">
+              Viewed <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span> Times
+            </span>
+            <!-- 不蒜子统计 end -->
+            
+
+
           </div>
           
         </div>
@@ -412,419 +444,311 @@
 	Friends Blog、
 	anchorjs、
 	) -->
-		<!-- Main Content -->
-<div class="container">
-  <div class="row">
-    
+		<!-- Modify by Yu-Hsuan Yen -->
+<!-- Post Content -->
+<article>
+  <div class="container">
+    <div class="row">
+      <!-- Post Container -->
+      <div class="col-lg-8 col-lg-offset-1 col-md-10 col-md-offset-1 post-container">
 
-    <!-- USE SIDEBAR -->
-    <!-- Post Container -->
-    <div class="
-                col-lg-8 col-lg-offset-1
-                col-md-8 col-md-offset-1
-                col-sm-12
-                col-xs-12
-                post-container
-            ">
+        <h1>ESXTOP命令输出我们应该关注什么？</h1>
+<h2 id="1-前言">1.前言</h2>
+<p>在进行ESXi性能监控的时候，许多管理员喜欢用esxtop命令查看ESXi的运行状况，本文旨在解释esxtop在进行性能查看的时候具体查看哪些参数，以及建议的参考值。仅仅是参考，因为每个应用的架构都是不同的，并且没有一种架构适合所有的应用。</p>
+<h2 id="2-ESXTOP命令概览">2.ESXTOP命令概览</h2>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>查看区域</th>
+<th>命令</th>
+<th>查看区域</th>
+<th>命令</th>
+<th>查看区域</th>
+<th>命令</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>m</td>
+<td>内存</td>
+<td>i</td>
+<td>中断</td>
+<td>v</td>
+<td>虚拟机磁盘</td>
+<td>2</td>
+<td>高亮显示(向下)</td>
+</tr>
+<tr>
+<td>c</td>
+<td>CPU</td>
+<td>d</td>
+<td>存储适配器</td>
+<td>p</td>
+<td>电源状态</td>
+<td>8</td>
+<td>高亮显示(向上)</td>
+</tr>
+<tr>
+<td>n</td>
+<td>网络</td>
+<td>u</td>
+<td>磁盘设备</td>
+<td>x</td>
+<td>vsan信息</td>
+<td>V</td>
+<td>只显示虚拟机</td>
+</tr>
+</tbody>
+</table>
+<p>由于篇幅有限，本次只介绍平时用的较多，较为重要的命令</p>
+<h2 id="2-CPU相关信息">2.CPU相关信息</h2>
+<p><img src="http://blog.chinaunix.net/attachment/202012/23/28255964_1608691367pUZ5.png" alt="img"></p>
+<p>%USED 虚拟机被CPU调度的时间，此值较高的话，有可能预示着ESXi出现性能问题</p>
+<p>%SYS 代表资源池、虚拟机或环境在 ESXi VMkernel 中处理中断和执行其他系统活动所用的时间百分比。此值超过10需要关注。</p>
+<p>%VMWAIT 虚拟机等待其他资源完成继续CPU调用的时间，此值超过100需要关注</p>
+<p>%RDY 虚拟机等待被调度的时间，上面是等待其它资源的时间，这个是其他条件都具备，等待CPU的时间。此值超过5或者10需要关注。</p>
+<p>%CSTP 如果虚拟机分配多个vCPU，这个值表示在就绪、共同取消调度状况中所用的时间百分比。此值过高可以考虑减少虚拟机vCPU的数量。此值超过3需要关注。</p>
+<p>%MLMTD由于设置了CPU限制，导致虚拟机不能被正常调度的百分比，此值超过1需要关注，最好是取消CPU限制</p>
+<p>%SWPWT 虚拟机等待交换内存所用的时间百分比，很大原因是内存出现问题，此值超过5需要关注。</p>
+<h2 id="3-内存相关信息">3.内存相关信息</h2>
+<p><img src="http://blog.chinaunix.net/attachment/202012/23/28255964_1608691379ppF1.png" alt="img"></p>
+<p>MEMCTL (MB)  使用 vmmemctl 模块回收的物理内存总量。这个值不是0说明内存有可能出现问题，此值大于1需要关注</p>
+<p>SWCUR (MB)  虚拟机或者资源池目前使用的交换分区值，这个值不是0说明内存有可能出现问题，此值大于1需要关注</p>
+<p>SWR/s (MB)、SWW/s (MB)  由于虚拟机或者资源池的需求ESXi主机从磁盘换出、换入到内存的速率，此值大于1需要关注</p>
+<p>ZIP/s (MB/s)、UNZIP/s (MB/s) 每秒压缩、解压的内存。这个值大于0说明内存有可能出现问题，此值大于1需要关注</p>
+<p>关于内存的相关信息可以参考另外一篇文章</p>
+<h1><strong>4.<strong><strong>存储适配器</strong></strong>相关信息</strong></h1>
+<p><img src="http://blog.chinaunix.net/attachment/202012/23/28255964_1608691395QvtA.png" alt="img"></p>
+<p>DAVG/cmd 平均每个命令的设备延迟时间（ms），此值大于25需要关注</p>
+<p>KAVG/cmd 平均每个命令的ESXi VMkernel延迟时间(ms)，此值大于3需要关注</p>
+<p>GAVG/cmd 虚拟机的一个读操作的平均延迟时间，此值大于25需要关注</p>
+<p>ABRTS/s 每秒中断的命令数，此值大于1需要关注</p>
+<p>RESETS/s 每秒重置的命令数，此值大于1需要关注</p>
+<h2 id="5-网络相关信息">5.网络相关信息</h2>
+<h2 id="img"><img src="http://blog.chinaunix.net/attachment/202012/23/28255964_1608691444IjoW.png" alt="img"></h2>
+<p>%DRPTX、%DRPRX 丢弃的传输/接收的数据包百分比，此值大于0需要关注</p>
+<h2 id="6-存储设备相关信息">6.存储设备相关信息</h2>
+<p><img src="http://blog.chinaunix.net/attachment/202012/23/28255964_1608691416u1mU.png" alt="img"></p>
+<p>ACTV、QUED 当前活动、排队的 ESXi VMkernel 中的命令数量，此值大于0需要关注</p>
+<p>DAVG/cmd  平均每个命令的设备延迟时间（ms），此值大于15需要关注</p>
+<p>ESXi VMkernel 活动命令加上 ESXi VMkernel 排队命令与队列深度的比率。此值大于1需要关注</p>
+<p>KAVG/cmd 平均每个命令的ESXi VMkernel延迟时间(ms)，此值大于1需要关注</p>
+<p><strong>使用什么机制进行回收？</strong></p>
+<p>根据ESXi主机实际可用内存量的不同，ESXi有4种内存状态，分别是High、Soft、Hard以及Low，具体定义阀值如下表：<br>
+<img src="https://oss-emcsprod-public.modb.pro/wechatSpider/modb_20211104_a4b270c6-3d5a-11ec-8251-fa163eb4f6be.png" alt="img"></p>
+<p>可以使用esxtop命令查看当前处于哪种状态。<br>
+<img src="https://oss-emcsprod-public.modb.pro/wechatSpider/modb_20211104_a4d72b28-3d5a-11ec-8251-fa163eb4f6be.png" alt="img"></p>
+<p>主机内存处于不同的状态，会触发相应的内存机制进行内存回收，具体如下表：<br>
+<img src="https://oss-emcsprod-public.modb.pro/wechatSpider/modb_20211104_a51138ea-3d5a-11ec-8251-fa163eb4f6be.png" alt="img"></p>
+<p><strong>怎么判断是否存在性能瓶颈？</strong></p>
+<p>查看内存的使用情况有很多种，你可以通过vSphere网页客户端进行查看，可以通过使用VMware vRealize Operations Manager，也可以通过esxtop命令进行查看。这里简单介绍下通过esxtop命令进行分析。<br>
+SSH登录到ESXi主机，然后输入esxtop命令，输入m进入内存页面，默认5s中更新一次，可以使用s来更改更新间隔（输入s会看到Secondsto delay: 输入你想要的刷新频率，单位为秒，然后回车确认），可以使用f选择要查看的字段，具体详细命令可以参考官方手册，这里只介绍几个比较重要的参数及判断标准。<br>
+下图是一个输出截图<br>
+<img src="https://oss-emcsprod-public.modb.pro/wechatSpider/modb_20211104_a531f21a-3d5a-11ec-8251-fa163eb4f6be.png" alt="img"></p>
+<p>PMEM/MB  显示服务器的计算机内存统计信息<br>
+VMKMEM/MB  显示ESXi VMkernel的计算内存统计信息。这里面要重点注意主机的内存状态。当状态为Soft的时候说明要关注内存情况，说明主机已经存在内存压力。<br>
+PSHARE/MB  显示ESXi页共享信息<br>
+SWAP/MB  显示ESXi交换使用量统计信息<br>
+r/s 由ESXi系统从磁盘换入内存的速率，如果该值大于0，主机物理内存量过量，主机尝试回收内存，并且仅仅通过内存膨胀这机制无法满足<br>
+w/s  由ESXi系统将内存交换到磁盘的速率，如果该值大于0，可能主机物理内存已严重不足<br>
+ZIP/MB  显示ESXi内存压缩统计信息<br>
+ZIP/s  主机内存压缩率，如果该值大于0,说明主机正在进行内存压缩<br>
+UNZIP/s 如果该值大于0，那么被压缩的内存正在被主机或者虚拟机访问，此时将对虚拟机的性能造成影响。</p>
+<p>本文从虚拟化平台虚拟机内存的运行机制，内存几种回收机制以及在进行问题发现及诊断时需要注意的指标进行了分析。如果存在比较严重的内存问题，有可能对磁盘的性能也会造成影响。建议在平时工作中向虚拟机分配内存的时候按需分配，使内存发挥出最大性能。</p>
+<h2 id="7-总结">7.总结</h2>
+<h2 id=""></h2>
+<p>本文旨在为虚拟化管理员在日常工作中，对ESXi性能有更好的了解，并对某些性能数据提供一些参考值进行。希望对在日常工作中有所帮助。如文章开头所说，因为每个应用的架构都是不同的，并且没有一种架构适合所有的应用。</p>
+<p>虚拟化平台使用的存储设备，机器型号，配置的内存，连接的网络等都不尽相同，所以还是要根据实际情况进行分析。</p>
 
-      <!-- Main Content -->
-<div class="container">
-  <div class="row">
-    <div class="col-lg-8 col-lg-offset-0 col-md-10 col-md-offset-1">
-      <!-- 归档列表 -->
 
-      
-
-      <!-- 归档列表 -->
-      
-      <div class="one-tag-list">
-        <span class="fa fa-calendar-times-o listing-seperator" id="2022">
-          <span class="tag-text">2022</span>
-        </span>
-        <ul>
+        <hr>
+        <!-- Pager -->
+        <ul class="pager">
           
-          <li>
-            10-28
-            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/cn/esxtop/" style="color: #0085a1">
-              <span>
-                通过esxtop定位vmware性能问题
-                
-                -- cn
-                
-              </span>
-            </a>
-          </li>
           
-          <li>
-            10-25
-            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/cn/zerto/" style="color: #0085a1">
-              <span>
-                zerto容灾
-                
-                -- cn
-                
-              </span>
-            </a>
-          </li>
-          
-          <li>
-            10-16
-            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/cn/mysql-ha/" style="color: #0085a1">
-              <span>
-                mysql双机高可用
-                
-                -- cn
-                
-              </span>
-            </a>
-          </li>
-          
-          <li>
-            10-16
-            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/cn/fortigate_update/" style="color: #0085a1">
-              <span>
-                FortiGate防火墙授权过期后离线升级
-                
-                -- cn
-                
-              </span>
-            </a>
-          </li>
-          
-          <li>
-            10-15
-            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/cn/zfs/" style="color: #0085a1">
-              <span>
-                ZFS系统调优
-                
-                -- cn
-                
-              </span>
-            </a>
-          </li>
-          
-          <li>
-            10-15
-            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/cn/Phantun/" style="color: #0085a1">
-              <span>
-                使用 Phantun 将 WireGuard 的 UDP 流量伪装成 TCP
-                
-                -- cn
-                
-              </span>
-            </a>
-          </li>
-          
-          <li>
-            10-04
-            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/cn/citrix-vpx/" style="color: #0085a1">
-              <span>
-                Citrix ADC的安装配置
-                
-                -- cn
-                
-              </span>
-            </a>
-          </li>
-          
-          <li>
-            10-02
-            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/cn/华为交换机限速与端口隔离/" style="color: #0085a1">
-              <span>
-                华为交换机限速与端口隔离
-                
-                -- cn
-                
-              </span>
-            </a>
-          </li>
-          
-          <li>
-            10-02
-            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/cn/docker的安装/" style="color: #0085a1">
-              <span>
-                docker的安装
-                
-                -- cn
-                
-              </span>
-            </a>
-          </li>
-          
-          <li>
-            10-02
-            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/cn/搭建NFS服务器/" style="color: #0085a1">
-              <span>
-                搭建NFS服务器
-                
-                -- cn
-                
-              </span>
-            </a>
+          <li class="next">
+            <a href="/cn/zerto/" data-toggle="tooltip" data-placement="top" title="zerto容灾">Next Post &rarr;</a>
           </li>
           
         </ul>
+
+        
+        <!-- tip start -->
+        <!-- tip -->
+<!-- tip start -->
+<div class="tip">
+  <p>
+    
+      如果您喜欢此博客或发现它对您有用，则欢迎对此发表评论。 也欢迎您共享此博客，以便更多人可以参与。 如果博客中使用的图像侵犯了您的版权，请与作者联系以将其删除。 谢谢 ！
+    
+  </p>
+</div>
+<!-- tip end -->
+
+        <!-- tip end -->
+        
+
+        
+        <hr>
+
+        <!-- comments start -->
+        <!-- 1. gitalk comment -->
+
+  <!-- gitalk start -->
+  <!-- Docs:https://github.com/gitalk/gitalk/blob/master/readme-cn.md -->
+
+  <div id="gitalk-container"></div>
+
+  
+    <!-- <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.js"></script> -->
+    <script src="/js/comment/gitalk.js"></script>
+  
+
+  <script>
+    var gitalk = new Gitalk({
+      clientID: '',
+      clientSecret: '',
+      repo: '',
+      owner: '',
+      admin: '',
+      id: 'Fri Oct 28 2022 19:16:27 GMT+0800', // Ensure uniqueness and length less than 50
+      distractionFreeMode: false, // Facebook-like distraction free mode
+      perPage: 10,
+      pagerDirection: 'last',
+      createIssueManually: false,
+      language: 'zh-CN',
+      proxy: 'https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token'
+    });
+    gitalk.render('gitalk-container');
+
+    var gtFolded = () => {
+      setTimeout(function () {
+        let markdownBody = document.getElementsByClassName("markdown-body");
+        let list = Array.from(markdownBody);
+        list.forEach(item => {
+          if (item.clientHeight > 250) {
+            item.classList.add('gt-comment-body-folded');
+            item.style.maxHeight = '250px';
+            item.title = 'Click to Expand';
+            item.onclick = function () {
+              item.classList.remove('gt-comment-body-folded');
+              item.style.maxHeight = '';
+              item.title = '';
+              item.onclick = null;
+            };
+          }
+        })
+      }, 800);
+    }
+  </script>
+
+  <!-- gitalk end -->
+
+
+<!-- 2. gitment comment -->
+
+
+<!-- 3. disqus comment -->
+
+
+        <!-- comments end -->
+        <hr>
+
       </div>
-      
-    </div>
-  </div>
-</div>
 
+      <!-- Catalog: Tabe of Content -->
+      <!-- Table of Contents -->
 
-      <!-- 如果开启评论功能 -->
-      
-    </div>
-
-    <!-- Sidebar Container -->
-<div class="
-    col-lg-3 col-lg-offset-0
-    col-md-3 col-md-offset-0
-    col-sm-12
-    col-xs-12
-    sidebar-container
-">
     
-        <!-- Visitors -->
-<h5><a href="/">来访者</a></h5>
-
-<div class="widget">
-  <span>
-    Viewed <b><i><span id="busuanzi_value_site_pv"><i class="fa fa-spinner fa-spin"></i></span></i></b> Times
-  </span>
-  <br />
-  <span>
-    <b><i><span id="busuanzi_value_site_uv"><i class="fa fa-spinner fa-spin"></i></span></i></b> Visitors In Total
-  </span>
-</div>
-
-
-        <hr>
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">目录</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">ESXTOP命令输出我们应该关注什么？</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#1-%E5%89%8D%E8%A8%80"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">1.前言</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2-ESXTOP%E5%91%BD%E4%BB%A4%E6%A6%82%E8%A7%88"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">2.ESXTOP命令概览</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2-CPU%E7%9B%B8%E5%85%B3%E4%BF%A1%E6%81%AF"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">2.CPU相关信息</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#3-%E5%86%85%E5%AD%98%E7%9B%B8%E5%85%B3%E4%BF%A1%E6%81%AF"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text">3.内存相关信息</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">4.存储适配器相关信息</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#5-%E7%BD%91%E7%BB%9C%E7%9B%B8%E5%85%B3%E4%BF%A1%E6%81%AF"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">5.网络相关信息</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#img"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text"></span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#6-%E5%AD%98%E5%82%A8%E8%AE%BE%E5%A4%87%E7%9B%B8%E5%85%B3%E4%BF%A1%E6%81%AF"><span class="toc-nav-number">2.3.</span> <span class="toc-nav-text">6.存储设备相关信息</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#7-%E6%80%BB%E7%BB%93"><span class="toc-nav-number">2.4.</span> <span class="toc-nav-text">7.总结</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link"><span class="toc-nav-number">2.5.</span> <span class="toc-nav-text"></span></a></li></ol></li></ol>
+        
+        </div>
+      </aside>
     
+
+
+
+      <!-- Sidebar Container -->
+      <div class="
+                col-lg-8 col-lg-offset-1
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
         <!-- Featured Tags -->
+        
+        <section>
+          <!-- no hr -->
+          <h5>
+            <a href="/tags/">特色标签</a>
+          </h5>
+          <div class="tags">
+            
+            <a class="tag" href="/tags/#vmware" title="vmware">vmware</a>
+            
+          </div>
+        </section>
+        
 
-<section>
-  <h5><a href="/tags/">特色标签</a></h5>
-  <div class="tags">
-    
-    
-    <a href="/tags/#linux" title="linux" rel="3">linux</a>
-    
-    
-    
-    <a href="/tags/#vpn" title="vpn" rel="1">vpn</a>
-    
-    
-    
-    <a href="/tags/#Citrix" title="Citrix" rel="1">Citrix</a>
-    
-    
-    
-    <a href="/tags/#虚拟化" title="虚拟化" rel="1">虚拟化</a>
-    
-    
-    
-    <a href="/tags/#docker" title="docker" rel="1">docker</a>
-    
-    
-    
-    <a href="/tags/#网络安全" title="网络安全" rel="1">网络安全</a>
-    
-    
-    
-    <a href="/tags/#fortinet" title="fortinet" rel="1">fortinet</a>
-    
-    
-    
-    <a href="/tags/#mysql" title="mysql" rel="1">mysql</a>
-    
-    
-    
-    <a href="/tags/#zfs" title="zfs" rel="1">zfs</a>
-    
-    
-    
-    <a href="/tags/#网络" title="网络" rel="1">网络</a>
-    
-    
-    
-    <a href="/tags/#交换机" title="交换机" rel="1">交换机</a>
-    
-    
-    
-    <a href="/tags/#nfs" title="nfs" rel="1">nfs</a>
-    
-    
-    
-    <a href="/tags/#vmware" title="vmware" rel="1">vmware</a>
-    
-    
+        <!-- Friends Blog -->
+        
+      </div>
+    </div>
   </div>
-</section>
+</article>
 
 
-        <hr>
-    
-        <!-- Short About -->
-<section class="visible-md visible-lg">
-  <h5><a href="/about/">关于自己</a></h5>
-  <div class="short-about">
 
-    
-    <img id="avatar_pic" src="/img/about/me.jpeg" alt="avatar_pic" style="box-shadow: 5px 5px 10px 5px rgba(0, 0, 0, .5);
-    -moz-box-shadow: 5px 5px 10px 5px rgba(0, 0, 0, .5);
-    -webkit-box-shadow: 5px 5px 10px 5px rgba(0, 0, 0, .5);" />
-    
+<!-- anchorjs start -->
+<!-- async load function -->
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script type="text/javascript">
+  // async load function
+  function async (u, c) {
+    var d = document,
+      t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) {
+      o.addEventListener('load', function(e) {
+        c(null, e);
+      }, false);
+    }
+    s.parentNode.insertBefore(o, s);
+  };
+</script>
+<script type="text/javascript">
+  //anchor-js, Doc:http://bryanbraun.github.io/anchorjs/
+  async ("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js", function() {
+    anchors.options = {
+      visible: 'hover',
+      placement: 'left',
+      // icon: 'ℬ'
+      icon: '❡'
+    };
+    anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+  });
+</script>
+<style>
+  /* place left on bigger screen */
+  @media all and (min-width: 800px) {
+    .anchorjs-link {
+      position: absolute;
+      left: -0.75em;
+      font-size: 1.1em;
+      margin-top: -0.1em;
+    }
+  }
+</style>
 
-    
-    <p>生命不息 折腾不止  敏捷而生 适者生存</p>
-    
+<!-- anchorjs end -->
 
-    <!-- SNS Link -->
-    <ul class="list-inline">
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-    </ul>
-  </div>
-</section>
-
-        <hr>
-    
-        <!-- RECENT POSTS -->
-
-<h5><a href="/">最近博文</a></h5>
-<div class="widget">
-  <ul>
-    
-    <a href="../../../cn/esxtop/">
-      <li>通过esxtop定位vmware性能问题</li>
-    </a>
-    
-    <a href="../../../cn/zerto/">
-      <li>zerto容灾</li>
-    </a>
-    
-    <a href="../../../cn/mysql-ha/">
-      <li>mysql双机高可用</li>
-    </a>
-    
-    <a href="../../../cn/fortigate_update/">
-      <li>FortiGate防火墙授权过期后离线升级</li>
-    </a>
-    
-    <a href="../../../cn/zfs/">
-      <li>ZFS系统调优</li>
-    </a>
-    
-  </ul>
-</div>
-
-
-        <hr>
-    
-        <!-- Archives -->
-
-<h5><a href="/archives/">archives</a></h5>
-<div class="widget">
-  <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../../archives/2022/10/">October 2022</a><span class="archive-list-count">10</span></li></ul>
-</div>
-
-
-        <hr>
-    
-        <!-- Categories -->
-
-<h5><a href="/categories/">categories</a></h5>
-<div class="widget">
-  <ul>
-    
-    <a href="/categories/#linux">
-      <li>linux</li>
-    </a>
-    
-    <a href="/categories/#Citrix">
-      <li>Citrix</li>
-    </a>
-    
-    <a href="/categories/#docker">
-      <li>docker</li>
-    </a>
-    
-    <a href="/categories/#网络安全">
-      <li>网络安全</li>
-    </a>
-    
-    <a href="/categories/#vpn">
-      <li>vpn</li>
-    </a>
-    
-    <a href="/categories/#mysql">
-      <li>mysql</li>
-    </a>
-    
-    <a href="/categories/#虚拟化">
-      <li>虚拟化</li>
-    </a>
-    
-    <a href="/categories/#zfs">
-      <li>zfs</li>
-    </a>
-    
-    <a href="/categories/#网络">
-      <li>网络</li>
-    </a>
-    
-    <a href="/categories/#nfs">
-      <li>nfs</li>
-    </a>
-    
-    <a href="/categories/#fortinet">
-      <li>fortinet</li>
-    </a>
-    
-    <a href="/categories/#交换机">
-      <li>交换机</li>
-    </a>
-    
-    <a href="/categories/#vmware">
-      <li>vmware</li>
-    </a>
-    
-  </ul>
-</div>
-
-
-        <hr>
-    
-</div>
-
-
-    
-  </div>
-</div>
 
 
 		<!-- Footer (contains ThemeColor、viewer) -->
