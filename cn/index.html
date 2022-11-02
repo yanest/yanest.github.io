@@ -438,6 +438,152 @@
   <!-- top end -->
   
 
+  <a href="/cn/esxi_staticroute/">
+    <h2 class="post-title">
+      esxi静态路由
+    </h2>
+    <h3 class="post-subtitle">
+      
+    </h3>
+    <div class="post-content-preview">
+      ESXI添加静态路由
+ESXI添加静态路由
+打开esxi主机的ssh，通过ssh登陆到命令行界面下
+临时生效方法：添加静态路由命令,直接生效，不需要重启
+esxcli network ip route ipv4 add --gateway 172.28.x.x8 --network 10.12.12.0/24
+查看当前路由
+esxcfg-route -l
+永久生效方法：该路由添加后重启机器会......
+    </div>
+  </a>
+  
+  <p class="post-meta" style="margin: 10px 0;">
+    Posted by Yan on
+    2022-11-02
+  </p>
+  <div class="tags">
+    
+  </div>
+  
+
+</div>
+<hr>
+
+<div class="post-preview">
+  
+  <!-- top start (article top hot config) -->
+  
+  <!-- top end -->
+  
+
+  <a href="/cn/zerto-1/">
+    <h2 class="post-title">
+      虚拟机容灾技术
+    </h2>
+    <h3 class="post-subtitle">
+      
+    </h3>
+    <div class="post-content-preview">
+      现在各个大企业的计算虚拟化程度都很高了，因此，很多关键的业务，如Oracle数据库都跑在虚拟机上，特别是VMware虚拟机上。但是，虚拟机上的数据保护，和物理机还是有很多的不同。物理机时代很多传统的方法，用在虚拟机场景并不是特别合适。
+既然是关键业务，肯定是采用复制技术才能实现RPO比较小的容灾保护，传统的每天晚上备份一次的方式，肯定是无法满足关键业务的RPO需求的。下面我就来讲讲各种基于复......
+    </div>
+  </a>
+  
+  <p class="post-meta" style="margin: 10px 0;">
+    Posted by Yan on
+    2022-10-28
+  </p>
+  <div class="tags">
+    
+    <a href="/tags/#容灾" title="容灾">容灾</a>
+    
+  </div>
+  
+
+</div>
+<hr>
+
+<div class="post-preview">
+  
+  <!-- top start (article top hot config) -->
+  
+  <!-- top end -->
+  
+
+  <a href="/cn/veeam-vbr/">
+    <h2 class="post-title">
+      Veeam VBR 加固存储库
+    </h2>
+    <h3 class="post-subtitle">
+      
+    </h3>
+    <div class="post-content-preview">
+      脚本用途
+根据Veeam最佳实践，一键脚本配置Linux系统，操作系统配置完成后，可以回到VBR控制台完成存储库的添加。关于手工配置和原理介绍，请参考以下帖子：
+veeam-v11-hardened-linux-repository-配置指南-centos8[1]
+加固的备份存储库hardened-repository配置指南-ubuntu[2]
+veeam-hardened-reposit......
+    </div>
+  </a>
+  
+  <p class="post-meta" style="margin: 10px 0;">
+    Posted by Yan on
+    2022-10-28
+  </p>
+  <div class="tags">
+    
+    <a href="/tags/#灾备" title="灾备">灾备</a>
+    
+  </div>
+  
+
+</div>
+<hr>
+
+<div class="post-preview">
+  
+  <!-- top start (article top hot config) -->
+  
+  <!-- top end -->
+  
+
+  <a href="/cn/esxi-lacp/">
+    <h2 class="post-title">
+      esxi链路聚合
+    </h2>
+    <h3 class="post-subtitle">
+      
+    </h3>
+    <div class="post-content-preview">
+      vmware esxi 做链路聚合LACP踩坑
+一、项目背景
+客户有1台dell服务器，服务器上有4个千兆业务口，通过esxi进行虚拟化，客户现在希望将服务器的3个端口进行链路聚合，使整个服务器的出口带宽从1G提升到3G。想想自己对交换机的链路聚合还是比较清楚地，发现链路聚合以后，虚拟机之间丢包非常严重，甚至不通。客户现在用的是v6.7u1版本，查阅资料后发现有坑。
+
+将服务器的3个端口进行......
+    </div>
+  </a>
+  
+  <p class="post-meta" style="margin: 10px 0;">
+    Posted by Yan on
+    2022-10-28
+  </p>
+  <div class="tags">
+    
+    <a href="/tags/#vmware" title="vmware">vmware</a>
+    
+  </div>
+  
+
+</div>
+<hr>
+
+<div class="post-preview">
+  
+  <!-- top start (article top hot config) -->
+  
+  <!-- top end -->
+  
+
   <a href="/cn/esxtop/">
     <h2 class="post-title">
       通过esxtop定位vmware性能问题
@@ -684,164 +830,14 @@ ashift=12 for newer HD......
 </div>
 <hr>
 
-<div class="post-preview">
-  
-  <!-- top start (article top hot config) -->
-  
-  <!-- top end -->
-  
-
-  <a href="/cn/citrix-vpx/">
-    <h2 class="post-title">
-      Citrix ADC的安装配置
-    </h2>
-    <h3 class="post-subtitle">
-      Citrix ADC的安装配置
-    </h3>
-    <div class="post-content-preview">
-      思杰的这个Citrix ADC改了好几次名字，目前叫ADC，有多种形态，虚拟化版本叫VPX。是个功能很强大的东西，核心功能是负载均衡和WAF、还支持VPN。同时还支持xendesktop的外网发布功能，实际这个功能在Citrix Gateway（以前叫netscaler gateway)也有。思杰家的东西，很多产品功能互相重叠，产品又互相联动，搞得晕乎的。不过经过这几年断断续续的摸索，基本上......
-    </div>
-  </a>
-  
-  <p class="post-meta" style="margin: 10px 0;">
-    Posted by Yan on
-    2022-10-04
-  </p>
-  <div class="tags">
-    
-    <a href="/tags/#Citrix" title="Citrix">Citrix</a>
-    
-    <a href="/tags/#虚拟化" title="虚拟化">虚拟化</a>
-    
-  </div>
-  
-
-</div>
-<hr>
-
-<div class="post-preview">
-  
-  <!-- top start (article top hot config) -->
-  
-  <!-- top end -->
-  
-
-  <a href="/cn/华为交换机限速与端口隔离/">
-    <h2 class="post-title">
-      华为交换机限速与端口隔离
-    </h2>
-    <h3 class="post-subtitle">
-      
-    </h3>
-    <div class="post-content-preview">
-      根据我多年经验，数据中心的接入层，直接选华为27、57系列就够了，其次Mikrotik。别浪费时间了，其他的都是垃圾，Cisco、H3C都是垃圾，连限速都做不好的东西用它有何用。
-别问我运营商用的啥，运营商的限速根本不在接入层做，没有意义。
-端口隔离
-在同vlan下，需要隔离的端口下执行 port-isolate enable 可以对同vlan下同隔离组的端口进行2层隔离
-限速
-端口限速 限......
-    </div>
-  </a>
-  
-  <p class="post-meta" style="margin: 10px 0;">
-    Posted by Yan on
-    2022-10-02
-  </p>
-  <div class="tags">
-    
-    <a href="/tags/#网络" title="网络">网络</a>
-    
-    <a href="/tags/#交换机" title="交换机">交换机</a>
-    
-  </div>
-  
-
-</div>
-<hr>
-
-<div class="post-preview">
-  
-  <!-- top start (article top hot config) -->
-  
-  <!-- top end -->
-  
-
-  <a href="/cn/docker的安装/">
-    <h2 class="post-title">
-      docker的安装
-    </h2>
-    <h3 class="post-subtitle">
-      docker的安装
-    </h3>
-    <div class="post-content-preview">
-      docker官方的安装脚本
-1curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
-rancher维护的安装脚本
-1curl https://releases.rancher.com/install-docker/20.10.sh | sh
-...
-    </div>
-  </a>
-  
-  <p class="post-meta" style="margin: 10px 0;">
-    Posted by Yan on
-    2022-10-02
-  </p>
-  <div class="tags">
-    
-    <a href="/tags/#docker" title="docker">docker</a>
-    
-  </div>
-  
-
-</div>
-<hr>
-
-<div class="post-preview">
-  
-  <!-- top start (article top hot config) -->
-  
-  <!-- top end -->
-  
-
-  <a href="/cn/搭建NFS服务器/">
-    <h2 class="post-title">
-      搭建NFS服务器
-    </h2>
-    <h3 class="post-subtitle">
-      搭建NFS服务器
-    </h3>
-    <div class="post-content-preview">
-      NFS服务器实现目前有两种方式：内核态(NFS kernel server)和用户态(nfs-ganesha)，两种方式各有优缺点。
-
-内核态适合自用，优点是效率高节省资源，配置简单。
-用户态性能比内核态稍微差一点，但是扩展性比较好，方便移植。
-
-由于我这都是小规模的环境，所以就用内核态的方式了。
-步骤 1：安装 NFS 服务器 (NFS kernel server)
-1sudo apt i......
-    </div>
-  </a>
-  
-  <p class="post-meta" style="margin: 10px 0;">
-    Posted by Yan on
-    2022-10-02
-  </p>
-  <div class="tags">
-    
-    <a href="/tags/#linux" title="linux">linux</a>
-    
-    <a href="/tags/#nfs" title="nfs">nfs</a>
-    
-  </div>
-  
-
-</div>
-<hr>
-
 
   <!-- Pager -->
   <ul class="pager">
     
+    
+    <li class="next">
+      <a href="/cn/archives/2/">下一页 &rarr;</a>
+    </li>
     
   </ul>
 
@@ -930,7 +926,15 @@ rancher维护的安装脚本
     
     
     
-    <a href="/tags/#vmware" title="vmware" rel="1">vmware</a>
+    <a href="/tags/#vmware" title="vmware" rel="2">vmware</a>
+    
+    
+    
+    <a href="/tags/#容灾" title="容灾" rel="1">容灾</a>
+    
+    
+    
+    <a href="/tags/#灾备" title="灾备" rel="1">灾备</a>
     
     
   </div>
@@ -984,24 +988,24 @@ rancher维护的安装脚本
 <div class="widget">
   <ul>
     
+    <a href="esxi_staticroute/">
+      <li>esxi静态路由</li>
+    </a>
+    
+    <a href="zerto-1/">
+      <li>虚拟机容灾技术</li>
+    </a>
+    
+    <a href="veeam-vbr/">
+      <li>Veeam VBR 加固存储库</li>
+    </a>
+    
+    <a href="esxi-lacp/">
+      <li>esxi链路聚合</li>
+    </a>
+    
     <a href="esxtop/">
       <li>通过esxtop定位vmware性能问题</li>
-    </a>
-    
-    <a href="zerto/">
-      <li>zerto容灾</li>
-    </a>
-    
-    <a href="mysql-ha/">
-      <li>mysql双机高可用</li>
-    </a>
-    
-    <a href="fortigate_update/">
-      <li>FortiGate防火墙授权过期后离线升级</li>
-    </a>
-    
-    <a href="zfs/">
-      <li>ZFS系统调优</li>
     </a>
     
   </ul>
@@ -1014,7 +1018,7 @@ rancher维护的安装脚本
 
 <h5><a href="/archives/">archives</a></h5>
 <div class="widget">
-  <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../archives/2022/10/">October 2022</a><span class="archive-list-count">10</span></li></ul>
+  <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../archives/2022/11/">November 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2022/10/">October 2022</a><span class="archive-list-count">13</span></li></ul>
 </div>
 
 
@@ -1076,6 +1080,14 @@ rancher维护的安装脚本
     
     <a href="/categories/#vmware">
       <li>vmware</li>
+    </a>
+    
+    <a href="/categories/#容灾">
+      <li>容灾</li>
+    </a>
+    
+    <a href="/categories/#灾备">
+      <li>灾备</li>
     </a>
     
   </ul>
