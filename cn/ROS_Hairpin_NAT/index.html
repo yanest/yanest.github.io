@@ -135,10 +135,10 @@
   <!--[if lt IE 9]> <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script> <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script> <![endif]-->
 
   <!-- ga & ba script hoook -->
-  <link rel="canonical" href="https://yanest.github.io/cn/搭建NFS服务器/">
+  <link rel="canonical" href="https://yanest.github.io/cn/ROS_Hairpin_NAT/">
   <title>
     
-      搭建NFS服务器 - 岩哥的数据中心系统技术内幕
+      RouterOS配置端口回流 - 岩哥的数据中心系统技术内幕
     
   </title>
 <meta name="generator" content="Hexo 5.4.2"></head>
@@ -371,16 +371,12 @@
           <div class="post-heading">
             <div class="tags">
               
-              <a class="tag" href="/tags/#linux" title="linux">linux</a>
-              
-              <a class="tag" href="/tags/#nfs" title="nfs">nfs</a>
-              
             </div>
-            <h1>搭建NFS服务器</h1>
-            <h2 class="subheading">搭建NFS服务器</h2>
+            <h1>RouterOS配置端口回流</h1>
+            <h2 class="subheading"></h2>
             <span class="meta">
               Posted by Yan on
-              2022-10-02
+              2022-11-18
             </span>
 
 
@@ -392,7 +388,7 @@
             </span>
             <div class="blank_box"></div>
             <span class="meta">
-              Words <span class="post-count">253</span> In Total
+              Words <span class="post-count">124</span> In Total
             </span>
             <div class="blank_box"></div>
             <!-- WordCount end -->
@@ -454,37 +450,21 @@
       <!-- Post Container -->
       <div class="col-lg-8 col-lg-offset-1 col-md-10 col-md-offset-1 post-container">
 
-        <p>NFS服务器实现目前有两种方式：内核态(NFS kernel server)和用户态(nfs-ganesha)，两种方式各有优缺点。</p>
-<ul>
-<li>内核态适合自用，优点是效率高节省资源，配置简单。</li>
-<li>用户态性能比内核态稍微差一点，但是扩展性比较好，方便移植。</li>
-</ul>
-<p>由于我这都是小规模的环境，所以就用内核态的方式了。</p>
-<h2 id="步骤-1：安装-NFS-服务器-NFS-kernel-server">步骤 1：安装 NFS 服务器 (NFS kernel server)</h2>
-<figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install nfs-kernel-<span class="keyword">server</span></span><br></pre></td></tr></table></figure>
-<h2 id="步骤-2：创建输出目录">步骤 2：创建输出目录</h2>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir -p <span class="regexp">/mnt/</span>demo</span><br><span class="line">sudo chown nobody:nogroup <span class="regexp">/mnt/</span>demo</span><br><span class="line">sudo chmod <span class="number">777</span> <span class="regexp">/mnt/</span>demo</span><br></pre></td></tr></table></figure>
-<h2 id="步骤-3：授予客户端机器访问-NFS-服务器的权限">步骤 3：授予客户端机器访问 NFS 服务器的权限</h2>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo nano <span class="regexp">/etc/</span>exports</span><br><span class="line"><span class="regexp">/mnt/</span>demo <span class="number">192.168</span>.<span class="number">0.0</span>/<span class="number">24</span>(rw,sync,no_subtree_check)</span><br></pre></td></tr></table></figure>
-<blockquote>
-<ul>
-<li><code>rw</code>：读写操作。客户端机器拥有对卷的读写权限。</li>
-<li><code>sync</code>：更改将被写入磁盘和内存中。</li>
-<li><code>no_subtree_check</code>：防止子树检查，即禁用客户端挂载允许的子目录所需的安全验证。</li>
-</ul>
-</blockquote>
-<h2 id="步骤-4：应用配置">步骤 4：应用配置</h2>
-<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo exportfs -a</span><br><span class="line">sudo systemctl <span class="keyword">restart</span> nfs-kernel-<span class="keyword">server</span></span><br></pre></td></tr></table></figure>
+        <p>官方 <code>Hairpin NAT</code> 是指 <code>NAT Loopback</code>即我们所说的回流，意思是 <code>LAN</code>(同一內网) 的裝置透过<code>Public IP</code> 地址访问 <code>LAN</code> 內的另一部服务器，而沒有得到回应的问题。</p>
+<p>端口转发 (<code>Port Forwarding</code>) <code>rules</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/ip firewall nat</span><br><span class="line">add action=masquerade chain=srcnat out-interface=WAN</span><br><span class="line">add action=dst-nat chain=dstnat dst-port=80,443 protocol=tcp to-addresses=12.2.2.99</span><br></pre></td></tr></table></figure>
+<p>解決方法，新增 <code>src-nat rule</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip firewall nat add action=masquerade chain=srcnat out-interface=LAN protocol=tcp src-address=12.2.2.0/24 dst-address=12.2.2.99</span><br></pre></td></tr></table></figure>
 
 
         <hr>
         <!-- Pager -->
         <ul class="pager">
           
-          <li class="previous">
-            <a href="/cn/docker的安装/" data-toggle="tooltip" data-placement="top" title="docker的安装">&larr; Previous Post</a>
-          </li>
           
+          <li class="next">
+            <a href="/cn/pve_remove_cluster/" data-toggle="tooltip" data-placement="top" title="proxmox删除集群配置">Next Post &rarr;</a>
+          </li>
           
         </ul>
 
@@ -527,7 +507,7 @@
       repo: '',
       owner: '',
       admin: '',
-      id: 'Sun Oct 02 2022 21:21:12 GMT+0800', // Ensure uniqueness and length less than 50
+      id: 'Fri Nov 18 2022 22:44:22 GMT+0800', // Ensure uniqueness and length less than 50
       distractionFreeMode: false, // Facebook-like distraction free mode
       perPage: 10,
       pagerDirection: 'last',
@@ -580,7 +560,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">目录</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E6%AD%A5%E9%AA%A4-1%EF%BC%9A%E5%AE%89%E8%A3%85-NFS-%E6%9C%8D%E5%8A%A1%E5%99%A8-NFS-kernel-server"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">步骤 1：安装 NFS 服务器 (NFS kernel server)</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E6%AD%A5%E9%AA%A4-2%EF%BC%9A%E5%88%9B%E5%BB%BA%E8%BE%93%E5%87%BA%E7%9B%AE%E5%BD%95"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">步骤 2：创建输出目录</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E6%AD%A5%E9%AA%A4-3%EF%BC%9A%E6%8E%88%E4%BA%88%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%9C%BA%E5%99%A8%E8%AE%BF%E9%97%AE-NFS-%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E6%9D%83%E9%99%90"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">步骤 3：授予客户端机器访问 NFS 服务器的权限</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E6%AD%A5%E9%AA%A4-4%EF%BC%9A%E5%BA%94%E7%94%A8%E9%85%8D%E7%BD%AE"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">步骤 4：应用配置</span></a></li></ol>
+          <ol class="nav">none</ol>
         
         </div>
       </aside>
@@ -602,10 +582,6 @@
             <a href="/tags/">特色标签</a>
           </h5>
           <div class="tags">
-            
-            <a class="tag" href="/tags/#linux" title="linux">linux</a>
-            
-            <a class="tag" href="/tags/#nfs" title="nfs">nfs</a>
             
           </div>
         </section>

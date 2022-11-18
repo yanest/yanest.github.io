@@ -438,6 +438,39 @@
   <!-- top end -->
   
 
+  <a href="/cn/ROS_Hairpin_NAT/">
+    <h2 class="post-title">
+      RouterOS配置端口回流
+    </h2>
+    <h3 class="post-subtitle">
+      
+    </h3>
+    <div class="post-content-preview">
+      官方 Hairpin NAT 是指 NAT Loopback即我们所说的回流，意思是 LAN(同一內网) 的裝置透过Public IP 地址访问 LAN 內的另一部服务器，而沒有得到回应的问题。
+端口转发 (Port Forwarding) rules
+123/ip firewall natadd action=masquerade chain=srcnat out-interface=WA......
+    </div>
+  </a>
+  
+  <p class="post-meta" style="margin: 10px 0;">
+    Posted by Yan on
+    2022-11-18
+  </p>
+  <div class="tags">
+    
+  </div>
+  
+
+</div>
+<hr>
+
+<div class="post-preview">
+  
+  <!-- top start (article top hot config) -->
+  
+  <!-- top end -->
+  
+
   <a href="/cn/pve_remove_cluster/">
     <h2 class="post-title">
       proxmox删除集群配置
@@ -788,46 +821,6 @@ Zerto Version
 </div>
 <hr>
 
-<div class="post-preview">
-  
-  <!-- top start (article top hot config) -->
-  
-  <!-- top end -->
-  
-
-  <a href="/cn/zfs/">
-    <h2 class="post-title">
-      ZFS系统调优
-    </h2>
-    <h3 class="post-subtitle">
-      
-    </h3>
-    <div class="post-content-preview">
-      
-
-Ensure that the ‘ashift’ parameter is set correctly for each of your pools. Generally speaking, ashift should be set as follows:
-
-ashift=9 for older HDD’s with 512b sectors
-ashift=12 for newer HD......
-    </div>
-  </a>
-  
-  <p class="post-meta" style="margin: 10px 0;">
-    Posted by Yan on
-    2022-10-15
-  </p>
-  <div class="tags">
-    
-    <a href="/tags/#linux" title="linux">linux</a>
-    
-    <a href="/tags/#zfs" title="zfs">zfs</a>
-    
-  </div>
-  
-
-</div>
-<hr>
-
 
   <!-- Pager -->
   <ul class="pager">
@@ -986,6 +979,10 @@ ashift=12 for newer HD......
 <div class="widget">
   <ul>
     
+    <a href="cn/ROS_Hairpin_NAT/">
+      <li>RouterOS配置端口回流</li>
+    </a>
+    
     <a href="cn/pve_remove_cluster/">
       <li>proxmox删除集群配置</li>
     </a>
@@ -1002,10 +999,6 @@ ashift=12 for newer HD......
       <li>Veeam VBR 加固存储库</li>
     </a>
     
-    <a href="cn/esxi-lacp/">
-      <li>esxi链路聚合</li>
-    </a>
-    
   </ul>
 </div>
 
@@ -1016,7 +1009,7 @@ ashift=12 for newer HD......
 
 <h5><a href="/archives/">archives</a></h5>
 <div class="widget">
-  <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="archives/2022/11/">November 2022</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2022/10/">October 2022</a><span class="archive-list-count">13</span></li></ul>
+  <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="archives/2022/11/">November 2022</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="archives/2022/10/">October 2022</a><span class="archive-list-count">13</span></li></ul>
 </div>
 
 
@@ -1549,5 +1542,20 @@ start: '#bbbbee', end: '#0085a1' } }; $('#tag_cloud a').tagcloud(); }) } </scrip
 
 
 		
-	</body>
+	<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
 </html>
