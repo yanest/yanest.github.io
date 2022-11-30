@@ -388,7 +388,7 @@
             </span>
             <div class="blank_box"></div>
             <span class="meta">
-              Words <span class="post-count">124</span> In Total
+              Words <span class="post-count">144</span> In Total
             </span>
             <div class="blank_box"></div>
             <!-- WordCount end -->
@@ -455,11 +455,16 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/ip firewall nat</span><br><span class="line">add action=masquerade chain=srcnat out-interface=WAN</span><br><span class="line">add action=dst-nat chain=dstnat dst-port=80,443 protocol=tcp to-addresses=12.2.2.99</span><br></pre></td></tr></table></figure>
 <p>解決方法，新增 <code>src-nat rule</code></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip firewall nat add action=masquerade chain=srcnat out-interface=LAN protocol=tcp src-address=12.2.2.0/24 dst-address=12.2.2.99</span><br></pre></td></tr></table></figure>
+<p><code>dst-address=12.2.2.99</code>可以省略，省略以后就是全网段的。</p>
 
 
         <hr>
         <!-- Pager -->
         <ul class="pager">
+          
+          <li class="previous">
+            <a href="/cn/caddy/" data-toggle="tooltip" data-placement="top" title="Caddy入门">&larr; Previous Post</a>
+          </li>
           
           
           <li class="next">

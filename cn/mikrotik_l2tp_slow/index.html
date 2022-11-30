@@ -135,10 +135,10 @@
   <!--[if lt IE 9]> <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script> <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script> <![endif]-->
 
   <!-- ga & ba script hoook -->
-  <link rel="canonical" href="https://yanest.github.io/tags/vmware/">
+  <link rel="canonical" href="https://yanest.github.io/cn/mikrotik_l2tp_slow/">
   <title>
     
-      岩哥的数据中心系统技术内幕
+      解决mikrotik路由器上l2tp连接缓慢的问题 - 岩哥的数据中心系统技术内幕
     
   </title>
 <meta name="generator" content="Hexo 5.4.2"></head>
@@ -334,19 +334,19 @@
     .body--light {
       /* intro-header */
       --intro-header-background-image-url-home: url('/img/header_img/newhome_bg.jpg');
-      --intro-header-background-image-url-post: url('');
-      --intro-header-background-image-url-page: url('/img/header_img/archive_bg2.jpg');
+      --intro-header-background-image-url-post: url('/img/header_img/categories_bg.jpg');
+      --intro-header-background-image-url-page: url('//img/header_img/categories_bg.jpg');
     }
     .body--dark {
       --intro-header-background-image-url-home: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)), url('/img/header_img/newhome_bg.jpg');
-      --intro-header-background-image-url-post: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)), url('');
-      --intro-header-background-image-url-page: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)), url('/img/header_img/archive_bg2.jpg');
+      --intro-header-background-image-url-post: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)), url('/img/header_img/categories_bg.jpg');
+      --intro-header-background-image-url-page: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)), url('//img/header_img/categories_bg.jpg');
     }
 
     header.intro-header {
-       /*page*/
-        background-image: var(--intro-header-background-image-url-page);
-        /* background-image: url('/img/header_img/archive_bg2.jpg'); */
+       /*post*/
+        background-image: var(--intro-header-background-image-url-post);
+        /* background-image: url('/img/header_img/categories_bg.jpg'); */
       
     }
 
@@ -368,10 +368,44 @@
       <div class="row">
         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
           
-          <div class="site-heading">
-            <h1>岩哥的数据中心系统技术内幕</h1>
-            <!--<hr class="small">-->
-            <span class="subheading"></span>
+          <div class="post-heading">
+            <div class="tags">
+              
+              <a class="tag" href="/tags/#网络" title="网络">网络</a>
+              
+              <a class="tag" href="/tags/#mikrotik" title="mikrotik">mikrotik</a>
+              
+            </div>
+            <h1>解决mikrotik路由器上l2tp连接缓慢的问题</h1>
+            <h2 class="subheading"></h2>
+            <span class="meta">
+              Posted by Yan on
+              2022-11-30
+            </span>
+
+
+            
+            <!-- WordCount start -->
+            <div class="blank_box"></div>
+            <span class="meta">
+              Estimated Reading Time <span class="post-count">1</span> Minutes
+            </span>
+            <div class="blank_box"></div>
+            <span class="meta">
+              Words <span class="post-count">306</span> In Total
+            </span>
+            <div class="blank_box"></div>
+            <!-- WordCount end -->
+            
+            
+            <!-- 不蒜子统计 start -->
+            <span class="meta" id="busuanzi_container_page_pv">
+              Viewed <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span> Times
+            </span>
+            <!-- 不蒜子统计 end -->
+            
+
+
           </div>
           
         </div>
@@ -412,547 +446,210 @@
 	Friends Blog、
 	anchorjs、
 	) -->
-		<!-- Main Content -->
-<div class="container">
-  <div class="row">
-    
+		<!-- Modify by Yu-Hsuan Yen -->
+<!-- Post Content -->
+<article>
+  <div class="container">
+    <div class="row">
+      <!-- Post Container -->
+      <div class="col-lg-8 col-lg-offset-1 col-md-10 col-md-offset-1 post-container">
 
-    <!-- USE SIDEBAR -->
-    <!-- Post Container -->
-    <div class="
-                col-lg-8 col-lg-offset-1
-                col-md-8 col-md-offset-1
-                col-sm-12
-                col-xs-12
-                post-container
-            ">
+        <p>由于mikrotik是一个比较开放的路由器系统，跟华为cisco这些路由器比较呢，就相当于是小块的乐高积木和大块的组装好的零件。 大块的零件组装速度快，但是灵活性差。小块积木灵活性好，但是很多问题需要自己解决，但也更接近底层了解底层真正的网络原理。</p>
+<p>在使用mikrotik来做VPN网关的过程中，遇到过一个非常典型的问题，就是有时候L2TP会非常缓慢，这个问题是ipsec与fasttrack冲突造成的。解决的办法也很简单，就是把ipsec排除在fasttrack标记之外，下面是解决方法：</p>
+<p><strong>首先，我们“标记”ipsec 连接以供识别：</strong></p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">/ip firewall mangle </span><span class="builtin-name">add</span> <span class="attribute">action</span>=mark-connection <span class="attribute">chain</span>=forward <span class="attribute">comment</span>=<span class="string">&quot;mark ipsec connections to exclude them from fasttrack&quot;</span> <span class="attribute">ipsec-policy</span>=out,ipsec <span class="attribute">new-connection-mark</span>=ipsec</span><br><span class="line"><span class="built_in">/ip firewall mangle </span><span class="builtin-name">add</span> <span class="attribute">action</span>=mark-connection <span class="attribute">chain</span>=forward <span class="attribute">comment</span>=<span class="string">&quot;mark ipsec connections to exclude them from fasttrack&quot;</span> <span class="attribute">ipsec-policy</span>=in,ipsec <span class="attribute">new-connection-mark</span>=ipsec</span><br></pre></td></tr></table></figure>
+<p><strong>然后我们添加一个 fasttrack 规则来快速跟踪所有连接，除了上面的 mangle 命令标记的连接：</strong></p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">/ip firewall filter </span><span class="builtin-name">add</span> <span class="attribute">action</span>=fasttrack-connection <span class="attribute">chain</span>=forward <span class="attribute">comment</span>=<span class="string">&quot;Fast Track everything except IPSEC&quot;</span> <span class="attribute">connection-mark</span>=!ipsec <span class="attribute">connection-state</span>=established,related</span><br></pre></td></tr></table></figure>
 
-      <!-- Main Content -->
-<div class="container">
-  <div class="row">
-    <div class="col-lg-8 col-lg-offset-0 col-md-10 col-md-offset-1">
-      <!-- 归档列表 -->
 
-      
-
-      <!-- 归档列表 -->
-      
-      <div class="one-tag-list">
-        <span class="fa fa-calendar-times-o listing-seperator" id="2022">
-          <span class="tag-text">2022</span>
-        </span>
-        <ul>
+        <hr>
+        <!-- Pager -->
+        <ul class="pager">
           
-          <li>
-            11-30
-            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/cn/mikrotik_l2tp_slow/" style="color: #0085a1">
-              <span>
-                解决mikrotik路由器上l2tp连接缓慢的问题
-                
-                -- cn
-                
-              </span>
-            </a>
-          </li>
           
-          <li>
-            11-20
-            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/cn/caddy/" style="color: #0085a1">
-              <span>
-                Caddy入门
-                
-                -- cn
-                
-              </span>
-            </a>
-          </li>
-          
-          <li>
-            11-18
-            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/cn/ROS_Hairpin_NAT/" style="color: #0085a1">
-              <span>
-                RouterOS配置端口回流
-                
-                -- cn
-                
-              </span>
-            </a>
-          </li>
-          
-          <li>
-            11-06
-            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/cn/pve_remove_cluster/" style="color: #0085a1">
-              <span>
-                proxmox删除集群配置
-                
-                -- cn
-                
-              </span>
-            </a>
-          </li>
-          
-          <li>
-            11-02
-            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/cn/esxi_staticroute/" style="color: #0085a1">
-              <span>
-                esxi静态路由
-                
-                -- cn
-                
-              </span>
-            </a>
-          </li>
-          
-          <li>
-            10-28
-            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/cn/zerto-1/" style="color: #0085a1">
-              <span>
-                虚拟机容灾技术
-                
-                -- cn
-                
-              </span>
-            </a>
-          </li>
-          
-          <li>
-            10-28
-            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/cn/veeam-vbr/" style="color: #0085a1">
-              <span>
-                Veeam VBR 加固存储库
-                
-                -- cn
-                
-              </span>
-            </a>
-          </li>
-          
-          <li>
-            10-28
-            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/cn/esxi-lacp/" style="color: #0085a1">
-              <span>
-                esxi链路聚合
-                
-                -- cn
-                
-              </span>
-            </a>
-          </li>
-          
-          <li>
-            10-28
-            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/cn/esxtop/" style="color: #0085a1">
-              <span>
-                通过esxtop定位vmware性能问题
-                
-                -- cn
-                
-              </span>
-            </a>
-          </li>
-          
-          <li>
-            10-25
-            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/cn/zerto/" style="color: #0085a1">
-              <span>
-                zerto容灾
-                
-                -- cn
-                
-              </span>
-            </a>
-          </li>
-          
-          <li>
-            10-16
-            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/cn/mysql-ha/" style="color: #0085a1">
-              <span>
-                mysql双机高可用
-                
-                -- cn
-                
-              </span>
-            </a>
-          </li>
-          
-          <li>
-            10-16
-            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/cn/fortigate_update/" style="color: #0085a1">
-              <span>
-                FortiGate防火墙授权过期后离线升级
-                
-                -- cn
-                
-              </span>
-            </a>
-          </li>
-          
-          <li>
-            10-15
-            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/cn/zfs/" style="color: #0085a1">
-              <span>
-                ZFS系统调优
-                
-                -- cn
-                
-              </span>
-            </a>
-          </li>
-          
-          <li>
-            10-15
-            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/cn/Phantun/" style="color: #0085a1">
-              <span>
-                使用 Phantun 将 WireGuard 的 UDP 流量伪装成 TCP
-                
-                -- cn
-                
-              </span>
-            </a>
-          </li>
-          
-          <li>
-            10-04
-            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/cn/citrix-vpx/" style="color: #0085a1">
-              <span>
-                Citrix ADC的安装配置
-                
-                -- cn
-                
-              </span>
-            </a>
-          </li>
-          
-          <li>
-            10-02
-            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/cn/华为交换机限速与端口隔离/" style="color: #0085a1">
-              <span>
-                华为交换机限速与端口隔离
-                
-                -- cn
-                
-              </span>
-            </a>
-          </li>
-          
-          <li>
-            10-02
-            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/cn/docker的安装/" style="color: #0085a1">
-              <span>
-                docker的安装
-                
-                -- cn
-                
-              </span>
-            </a>
-          </li>
-          
-          <li>
-            10-02
-            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/cn/搭建NFS服务器/" style="color: #0085a1">
-              <span>
-                搭建NFS服务器
-                
-                -- cn
-                
-              </span>
-            </a>
+          <li class="next">
+            <a href="/cn/caddy/" data-toggle="tooltip" data-placement="top" title="Caddy入门">Next Post &rarr;</a>
           </li>
           
         </ul>
+
+        
+        <!-- tip start -->
+        <!-- tip -->
+<!-- tip start -->
+<div class="tip">
+  <p>
+    
+      如果您喜欢此博客或发现它对您有用，则欢迎对此发表评论。 也欢迎您共享此博客，以便更多人可以参与。 如果博客中使用的图像侵犯了您的版权，请与作者联系以将其删除。 谢谢 ！
+    
+  </p>
+</div>
+<!-- tip end -->
+
+        <!-- tip end -->
+        
+
+        
+        <hr>
+
+        <!-- comments start -->
+        <!-- 1. gitalk comment -->
+
+  <!-- gitalk start -->
+  <!-- Docs:https://github.com/gitalk/gitalk/blob/master/readme-cn.md -->
+
+  <div id="gitalk-container"></div>
+
+  
+    <!-- <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.js"></script> -->
+    <script src="/js/comment/gitalk.js"></script>
+  
+
+  <script>
+    var gitalk = new Gitalk({
+      clientID: '',
+      clientSecret: '',
+      repo: '',
+      owner: '',
+      admin: '',
+      id: 'Wed Nov 30 2022 09:38:01 GMT+0800', // Ensure uniqueness and length less than 50
+      distractionFreeMode: false, // Facebook-like distraction free mode
+      perPage: 10,
+      pagerDirection: 'last',
+      createIssueManually: false,
+      language: 'zh-CN',
+      proxy: 'https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token'
+    });
+    gitalk.render('gitalk-container');
+
+    var gtFolded = () => {
+      setTimeout(function () {
+        let markdownBody = document.getElementsByClassName("markdown-body");
+        let list = Array.from(markdownBody);
+        list.forEach(item => {
+          if (item.clientHeight > 250) {
+            item.classList.add('gt-comment-body-folded');
+            item.style.maxHeight = '250px';
+            item.title = 'Click to Expand';
+            item.onclick = function () {
+              item.classList.remove('gt-comment-body-folded');
+              item.style.maxHeight = '';
+              item.title = '';
+              item.onclick = null;
+            };
+          }
+        })
+      }, 800);
+    }
+  </script>
+
+  <!-- gitalk end -->
+
+
+<!-- 2. gitment comment -->
+
+
+<!-- 3. disqus comment -->
+
+
+        <!-- comments end -->
+        <hr>
+
       </div>
-      
-    </div>
-  </div>
-</div>
 
+      <!-- Catalog: Tabe of Content -->
+      <!-- Table of Contents -->
 
-      <!-- 如果开启评论功能 -->
-      
-    </div>
-
-    <!-- Sidebar Container -->
-<div class="
-    col-lg-3 col-lg-offset-0
-    col-md-3 col-md-offset-0
-    col-sm-12
-    col-xs-12
-    sidebar-container
-">
     
-        <!-- Visitors -->
-<h5><a href="/">来访者</a></h5>
-
-<div class="widget">
-  <span>
-    Viewed <b><i><span id="busuanzi_value_site_pv"><i class="fa fa-spinner fa-spin"></i></span></i></b> Times
-  </span>
-  <br />
-  <span>
-    <b><i><span id="busuanzi_value_site_uv"><i class="fa fa-spinner fa-spin"></i></span></i></b> Visitors In Total
-  </span>
-</div>
-
-
-        <hr>
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">目录</strong>
+        
+          <ol class="nav">none</ol>
+        
+        </div>
+      </aside>
     
+
+
+
+      <!-- Sidebar Container -->
+      <div class="
+                col-lg-8 col-lg-offset-1
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
         <!-- Featured Tags -->
+        
+        <section>
+          <!-- no hr -->
+          <h5>
+            <a href="/tags/">特色标签</a>
+          </h5>
+          <div class="tags">
+            
+            <a class="tag" href="/tags/#网络" title="网络">网络</a>
+            
+            <a class="tag" href="/tags/#mikrotik" title="mikrotik">mikrotik</a>
+            
+          </div>
+        </section>
+        
 
-<section>
-  <h5><a href="/tags/">特色标签</a></h5>
-  <div class="tags">
-    
-    
-    <a href="/tags/#linux" title="linux" rel="3">linux</a>
-    
-    
-    
-    <a href="/tags/#vpn" title="vpn" rel="1">vpn</a>
-    
-    
-    
-    <a href="/tags/#Citrix" title="Citrix" rel="1">Citrix</a>
-    
-    
-    
-    <a href="/tags/#虚拟化" title="虚拟化" rel="1">虚拟化</a>
-    
-    
-    
-    <a href="/tags/#docker" title="docker" rel="1">docker</a>
-    
-    
-    
-    <a href="/tags/#网络安全" title="网络安全" rel="1">网络安全</a>
-    
-    
-    
-    <a href="/tags/#fortinet" title="fortinet" rel="1">fortinet</a>
-    
-    
-    
-    <a href="/tags/#mysql" title="mysql" rel="1">mysql</a>
-    
-    
-    
-    <a href="/tags/#zfs" title="zfs" rel="1">zfs</a>
-    
-    
-    
-    <a href="/tags/#网络" title="网络" rel="2">网络</a>
-    
-    
-    
-    <a href="/tags/#交换机" title="交换机" rel="1">交换机</a>
-    
-    
-    
-    <a href="/tags/#nfs" title="nfs" rel="1">nfs</a>
-    
-    
-    
-    <a href="/tags/#vmware" title="vmware" rel="2">vmware</a>
-    
-    
-    
-    <a href="/tags/#容灾" title="容灾" rel="1">容灾</a>
-    
-    
-    
-    <a href="/tags/#灾备" title="灾备" rel="1">灾备</a>
-    
-    
-    
-    <a href="/tags/#mikrotik" title="mikrotik" rel="1">mikrotik</a>
-    
-    
+        <!-- Friends Blog -->
+        
+      </div>
+    </div>
   </div>
-</section>
+</article>
 
 
-        <hr>
-    
-        <!-- Short About -->
-<section class="visible-md visible-lg">
-  <h5><a href="/about/">关于自己</a></h5>
-  <div class="short-about">
 
-    
-    <img id="avatar_pic" src="/img/about/me.jpeg" alt="avatar_pic" style="box-shadow: 5px 5px 10px 5px rgba(0, 0, 0, .5);
-    -moz-box-shadow: 5px 5px 10px 5px rgba(0, 0, 0, .5);
-    -webkit-box-shadow: 5px 5px 10px 5px rgba(0, 0, 0, .5);" />
-    
+<!-- anchorjs start -->
+<!-- async load function -->
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script type="text/javascript">
+  // async load function
+  function async (u, c) {
+    var d = document,
+      t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) {
+      o.addEventListener('load', function(e) {
+        c(null, e);
+      }, false);
+    }
+    s.parentNode.insertBefore(o, s);
+  };
+</script>
+<script type="text/javascript">
+  //anchor-js, Doc:http://bryanbraun.github.io/anchorjs/
+  async ("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js", function() {
+    anchors.options = {
+      visible: 'hover',
+      placement: 'left',
+      // icon: 'ℬ'
+      icon: '❡'
+    };
+    anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+  });
+</script>
+<style>
+  /* place left on bigger screen */
+  @media all and (min-width: 800px) {
+    .anchorjs-link {
+      position: absolute;
+      left: -0.75em;
+      font-size: 1.1em;
+      margin-top: -0.1em;
+    }
+  }
+</style>
 
-    
-    <p>生命不息 折腾不止  敏捷而生 适者生存</p>
-    
+<!-- anchorjs end -->
 
-    <!-- SNS Link -->
-    <ul class="list-inline">
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-    </ul>
-  </div>
-</section>
-
-        <hr>
-    
-        <!-- RECENT POSTS -->
-
-<h5><a href="/">最近博文</a></h5>
-<div class="widget">
-  <ul>
-    
-    <a href="../../cn/mikrotik_l2tp_slow/">
-      <li>解决mikrotik路由器上l2tp连接缓慢的问题</li>
-    </a>
-    
-    <a href="../../cn/caddy/">
-      <li>Caddy入门</li>
-    </a>
-    
-    <a href="../../cn/ROS_Hairpin_NAT/">
-      <li>RouterOS配置端口回流</li>
-    </a>
-    
-    <a href="../../cn/pve_remove_cluster/">
-      <li>proxmox删除集群配置</li>
-    </a>
-    
-    <a href="../../cn/esxi_staticroute/">
-      <li>esxi静态路由</li>
-    </a>
-    
-  </ul>
-</div>
-
-
-        <hr>
-    
-        <!-- Archives -->
-
-<h5><a href="/archives/">archives</a></h5>
-<div class="widget">
-  <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/11/">November 2022</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/10/">October 2022</a><span class="archive-list-count">13</span></li></ul>
-</div>
-
-
-        <hr>
-    
-        <!-- Categories -->
-
-<h5><a href="/categories/">categories</a></h5>
-<div class="widget">
-  <ul>
-    
-    <a href="/categories/#linux">
-      <li>linux</li>
-    </a>
-    
-    <a href="/categories/#Citrix">
-      <li>Citrix</li>
-    </a>
-    
-    <a href="/categories/#docker">
-      <li>docker</li>
-    </a>
-    
-    <a href="/categories/#网络安全">
-      <li>网络安全</li>
-    </a>
-    
-    <a href="/categories/#vpn">
-      <li>vpn</li>
-    </a>
-    
-    <a href="/categories/#mysql">
-      <li>mysql</li>
-    </a>
-    
-    <a href="/categories/#虚拟化">
-      <li>虚拟化</li>
-    </a>
-    
-    <a href="/categories/#zfs">
-      <li>zfs</li>
-    </a>
-    
-    <a href="/categories/#网络">
-      <li>网络</li>
-    </a>
-    
-    <a href="/categories/#nfs">
-      <li>nfs</li>
-    </a>
-    
-    <a href="/categories/#fortinet">
-      <li>fortinet</li>
-    </a>
-    
-    <a href="/categories/#交换机">
-      <li>交换机</li>
-    </a>
-    
-    <a href="/categories/#vmware">
-      <li>vmware</li>
-    </a>
-    
-    <a href="/categories/#容灾">
-      <li>容灾</li>
-    </a>
-    
-    <a href="/categories/#灾备">
-      <li>灾备</li>
-    </a>
-    
-    <a href="/categories/#mikrotik">
-      <li>mikrotik</li>
-    </a>
-    
-  </ul>
-</div>
-
-
-        <hr>
-    
-</div>
-
-
-    
-  </div>
-</div>
 
 
 		<!-- Footer (contains ThemeColor、viewer) -->

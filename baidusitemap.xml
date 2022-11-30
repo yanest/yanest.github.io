@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://yanest.github.io/cn/mikrotik_l2tp_slow/</loc>
+    <lastmod>2022-11-30</lastmod>
+  </url>
+  <url>
+    <loc>https://yanest.github.io/cn/caddy/</loc>
+    <lastmod>2022-11-20</lastmod>
+  </url>
+  <url>
     <loc>https://yanest.github.io/cn/ROS_Hairpin_NAT/</loc>
     <lastmod>2022-11-18</lastmod>
   </url>
