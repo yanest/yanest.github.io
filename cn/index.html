@@ -438,6 +438,81 @@
   <!-- top end -->
   
 
+  <a href="/cn/esxi_install_120G/">
+    <h2 class="post-title">
+      VMWARE ESXi 7.0安装吃120G空间解决办法
+    </h2>
+    <h3 class="post-subtitle">
+      
+    </h3>
+    <div class="post-content-preview">
+      VMWARE ESXi 7.0安装吃120G空间解决办法
+安装VMWARE ESXi 7.0的过程中被多占用了一个VMFSL的空间。本来就不富裕的磁盘被占用很是悲伤，需要解决。
+直接说结论，很难删除VMFSL。So,直接再安装一次吧！！！
+最佳方式是在安装ESXi的时候，引导后，按Shift+O键。
+敲如下命令：
+autoPartitionOSDataSize=8192
+注意大小写，回车安装......
+    </div>
+  </a>
+  
+  <p class="post-meta" style="margin: 10px 0;">
+    Posted by Yan on
+    2022-12-07
+  </p>
+  <div class="tags">
+    
+    <a href="/tags/#vmware" title="vmware">vmware</a>
+    
+  </div>
+  
+
+</div>
+<hr>
+
+<div class="post-preview">
+  
+  <!-- top start (article top hot config) -->
+  
+  <!-- top end -->
+  
+
+  <a href="/cn/ubuntu_offline_apt/">
+    <h2 class="post-title">
+      ubuntu制作软件离线源
+    </h2>
+    <h3 class="post-subtitle">
+      
+    </h3>
+    <div class="post-content-preview">
+      创建一个目录如下：
+12mkdir -p /opt/offline-packages/archivescd /opt/offline-packages/archives
+执行如下命令会将vim的递归依赖都下载到/opt/offline-packages/archives目录内：
+1sudo apt-get download $(apt-cache depends --recurse --no......
+    </div>
+  </a>
+  
+  <p class="post-meta" style="margin: 10px 0;">
+    Posted by Yan on
+    2022-12-01
+  </p>
+  <div class="tags">
+    
+    <a href="/tags/#linux" title="linux">linux</a>
+    
+  </div>
+  
+
+</div>
+<hr>
+
+<div class="post-preview">
+  
+  <!-- top start (article top hot config) -->
+  
+  <!-- top end -->
+  
+
   <a href="/cn/mikrotik_l2tp_slow/">
     <h2 class="post-title">
       解决mikrotik路由器上l2tp连接缓慢的问题
@@ -493,6 +568,10 @@
   </p>
   <div class="tags">
     
+    <a href="/tags/#linux" title="linux">linux</a>
+    
+    <a href="/tags/#web" title="web">web</a>
+    
   </div>
   
 
@@ -514,9 +593,9 @@
       
     </h3>
     <div class="post-content-preview">
-      官方 Hairpin NAT 是指 NAT Loopback即我们所说的回流，意思是 LAN(同一內网) 的裝置透过Public IP 地址访问 LAN 內的另一部服务器，而沒有得到回应的问题。
+      官方 Hairpin NAT 是指 NAT Loopback 即我们所说的回流，意思是 LAN(同一內网) 的裝置透过Public IP 地址访问 LAN 內的另一部服务器，而沒有得到回应的问题。
 端口转发 (Port Forwarding) rules
-123/ip firewall natadd action=masquerade chain=srcnat out-interface=WA......
+123/ip firewall natadd action=masquerade chain=srcnat out-interface=W......
     </div>
   </a>
   
@@ -525,6 +604,8 @@
     2022-11-18
   </p>
   <div class="tags">
+    
+    <a href="/tags/#mikroitk" title="mikroitk">mikroitk</a>
     
   </div>
   
@@ -558,6 +639,10 @@
     2022-11-06
   </p>
   <div class="tags">
+    
+    <a href="/tags/#linux" title="linux">linux</a>
+    
+    <a href="/tags/#虚拟化" title="虚拟化">虚拟化</a>
     
   </div>
   
@@ -596,6 +681,8 @@ esxcfg-route -l
     2022-11-02
   </p>
   <div class="tags">
+    
+    <a href="/tags/#vmware" title="vmware">vmware</a>
     
   </div>
   
@@ -711,108 +798,6 @@ veeam-hardened-reposit......
 </div>
 <hr>
 
-<div class="post-preview">
-  
-  <!-- top start (article top hot config) -->
-  
-  <!-- top end -->
-  
-
-  <a href="/cn/esxtop/">
-    <h2 class="post-title">
-      通过esxtop定位vmware性能问题
-    </h2>
-    <h3 class="post-subtitle">
-      
-    </h3>
-    <div class="post-content-preview">
-      ESXTOP命令输出我们应该关注什么？
-1.前言
-在进行ESXi性能监控的时候，许多管理员喜欢用esxtop命令查看ESXi的运行状况，本文旨在解释esxtop在进行性能查看的时候具体查看哪些参数，以及建议的参考值。仅仅是参考，因为每个应用的架构都是不同的，并且没有一种架构适合所有的应用。
-2.ESXTOP命令概览
-
-
-
-命令
-查看区域
-命令
-查看区域
-命令
-查看区域
-命令
-功能
-
-
-
-
-m......
-    </div>
-  </a>
-  
-  <p class="post-meta" style="margin: 10px 0;">
-    Posted by Yan on
-    2022-10-28
-  </p>
-  <div class="tags">
-    
-    <a href="/tags/#vmware" title="vmware">vmware</a>
-    
-  </div>
-  
-
-</div>
-<hr>
-
-<div class="post-preview">
-  
-  <!-- top start (article top hot config) -->
-  
-  <!-- top end -->
-  
-
-  <a href="/cn/zerto/">
-    <h2 class="post-title">
-      zerto容灾
-    </h2>
-    <h3 class="post-subtitle">
-      
-    </h3>
-    <div class="post-content-preview">
-      Zerto
-最开始是从一个伊朗的朋友那里接触到zerto，他们那边vmware的市场占有率很高，而zerto正是基于vmware最好的容灾软件。有意思的是zerto最开始是以色列的初创公司，真是想不到伊朗人会使用。
-兼容矩阵
-
-
-
-Zerto Version
-8.5
-8.5U1
-8.5U2
-8.5U3
-8.5U4
-9.0
-9.0U1
-9.0U2
-9.0U3
-9.0U4
-9.5
-9.5U1
-9......
-    </div>
-  </a>
-  
-  <p class="post-meta" style="margin: 10px 0;">
-    Posted by Yan on
-    2022-10-25
-  </p>
-  <div class="tags">
-    
-  </div>
-  
-
-</div>
-<hr>
-
 
   <!-- Pager -->
   <ul class="pager">
@@ -861,7 +846,7 @@ Zerto Version
   <div class="tags">
     
     
-    <a href="/tags/#linux" title="linux" rel="3">linux</a>
+    <a href="/tags/#linux" title="linux" rel="6">linux</a>
     
     
     
@@ -873,7 +858,7 @@ Zerto Version
     
     
     
-    <a href="/tags/#虚拟化" title="虚拟化" rel="1">虚拟化</a>
+    <a href="/tags/#虚拟化" title="虚拟化" rel="2">虚拟化</a>
     
     
     
@@ -909,11 +894,11 @@ Zerto Version
     
     
     
-    <a href="/tags/#vmware" title="vmware" rel="2">vmware</a>
+    <a href="/tags/#vmware" title="vmware" rel="4">vmware</a>
     
     
     
-    <a href="/tags/#容灾" title="容灾" rel="1">容灾</a>
+    <a href="/tags/#容灾" title="容灾" rel="2">容灾</a>
     
     
     
@@ -922,6 +907,14 @@ Zerto Version
     
     
     <a href="/tags/#mikrotik" title="mikrotik" rel="1">mikrotik</a>
+    
+    
+    
+    <a href="/tags/#mikroitk" title="mikroitk" rel="1">mikroitk</a>
+    
+    
+    
+    <a href="/tags/#web" title="web" rel="1">web</a>
     
     
   </div>
@@ -975,6 +968,14 @@ Zerto Version
 <div class="widget">
   <ul>
     
+    <a href="esxi_install_120G/">
+      <li>VMWARE ESXi 7.0安装吃120G空间解决办法</li>
+    </a>
+    
+    <a href="ubuntu_offline_apt/">
+      <li>ubuntu制作软件离线源</li>
+    </a>
+    
     <a href="mikrotik_l2tp_slow/">
       <li>解决mikrotik路由器上l2tp连接缓慢的问题</li>
     </a>
@@ -987,14 +988,6 @@ Zerto Version
       <li>RouterOS配置端口回流</li>
     </a>
     
-    <a href="pve_remove_cluster/">
-      <li>proxmox删除集群配置</li>
-    </a>
-    
-    <a href="esxi_staticroute/">
-      <li>esxi静态路由</li>
-    </a>
-    
   </ul>
 </div>
 
@@ -1005,7 +998,7 @@ Zerto Version
 
 <h5><a href="/archives/">archives</a></h5>
 <div class="widget">
-  <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../archives/2022/11/">November 2022</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2022/10/">October 2022</a><span class="archive-list-count">13</span></li></ul>
+  <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../archives/2022/12/">December 2022</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2022/11/">November 2022</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../archives/2022/10/">October 2022</a><span class="archive-list-count">13</span></li></ul>
 </div>
 
 
@@ -1079,6 +1072,18 @@ Zerto Version
     
     <a href="/categories/#mikrotik">
       <li>mikrotik</li>
+    </a>
+    
+    <a href="/categories/#mikrotik">
+      <li>mikrotik</li>
+    </a>
+    
+    <a href="/categories/#web">
+      <li>web</li>
+    </a>
+    
+    <a href="/categories/#虚拟化">
+      <li>虚拟化</li>
     </a>
     
   </ul>

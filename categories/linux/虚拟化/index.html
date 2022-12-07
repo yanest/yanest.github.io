@@ -135,10 +135,10 @@
   <!--[if lt IE 9]> <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script> <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script> <![endif]-->
 
   <!-- ga & ba script hoook -->
-  <link rel="canonical" href="https://yanest.github.io/cn/esxi_staticroute/">
+  <link rel="canonical" href="https://yanest.github.io/categories/linux/虚拟化/">
   <title>
     
-      esxi静态路由 - 岩哥的数据中心系统技术内幕
+      岩哥的数据中心系统技术内幕
     
   </title>
 <meta name="generator" content="Hexo 5.4.2"></head>
@@ -334,19 +334,19 @@
     .body--light {
       /* intro-header */
       --intro-header-background-image-url-home: url('/img/header_img/newhome_bg.jpg');
-      --intro-header-background-image-url-post: url('/img/header_img/categories_bg.jpg');
-      --intro-header-background-image-url-page: url('//img/header_img/categories_bg.jpg');
+      --intro-header-background-image-url-post: url('');
+      --intro-header-background-image-url-page: url('/img/header_img/archive_bg2.jpg');
     }
     .body--dark {
       --intro-header-background-image-url-home: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)), url('/img/header_img/newhome_bg.jpg');
-      --intro-header-background-image-url-post: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)), url('/img/header_img/categories_bg.jpg');
-      --intro-header-background-image-url-page: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)), url('//img/header_img/categories_bg.jpg');
+      --intro-header-background-image-url-post: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)), url('');
+      --intro-header-background-image-url-page: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)), url('/img/header_img/archive_bg2.jpg');
     }
 
     header.intro-header {
-       /*post*/
-        background-image: var(--intro-header-background-image-url-post);
-        /* background-image: url('/img/header_img/categories_bg.jpg'); */
+       /*page*/
+        background-image: var(--intro-header-background-image-url-page);
+        /* background-image: url('/img/header_img/archive_bg2.jpg'); */
       
     }
 
@@ -368,42 +368,10 @@
       <div class="row">
         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
           
-          <div class="post-heading">
-            <div class="tags">
-              
-              <a class="tag" href="/tags/#vmware" title="vmware">vmware</a>
-              
-            </div>
-            <h1>esxi静态路由</h1>
-            <h2 class="subheading"></h2>
-            <span class="meta">
-              Posted by Yan on
-              2022-11-02
-            </span>
-
-
-            
-            <!-- WordCount start -->
-            <div class="blank_box"></div>
-            <span class="meta">
-              Estimated Reading Time <span class="post-count">1</span> Minutes
-            </span>
-            <div class="blank_box"></div>
-            <span class="meta">
-              Words <span class="post-count">201</span> In Total
-            </span>
-            <div class="blank_box"></div>
-            <!-- WordCount end -->
-            
-            
-            <!-- 不蒜子统计 start -->
-            <span class="meta" id="busuanzi_container_page_pv">
-              Viewed <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span> Times
-            </span>
-            <!-- 不蒜子统计 end -->
-            
-
-
+          <div class="site-heading">
+            <h1>岩哥的数据中心系统技术内幕</h1>
+            <!--<hr class="small">-->
+            <span class="subheading"></span>
           </div>
           
         </div>
@@ -444,225 +412,593 @@
 	Friends Blog、
 	anchorjs、
 	) -->
-		<!-- Modify by Yu-Hsuan Yen -->
-<!-- Post Content -->
-<article>
-  <div class="container">
-    <div class="row">
-      <!-- Post Container -->
-      <div class="col-lg-8 col-lg-offset-1 col-md-10 col-md-offset-1 post-container">
+		<!-- Main Content -->
+<div class="container">
+  <div class="row">
+    
 
-        <h1>ESXI添加静态路由</h1>
-<p>ESXI添加静态路由</p>
-<p>打开esxi主机的ssh，通过ssh登陆到命令行界面下<br>
-临时生效方法：添加静态路由命令,直接生效，不需要重启<br>
-<code>esxcli network ip route ipv4 add --gateway 172.28.x.x8 --network 10.12.12.0/24</code><br>
-查看当前路由<br>
-<code>esxcfg-route -l</code></p>
-<p>永久生效方法：该路由添加后重启机器会失效，添加到启动脚本开机自动运行<br>
-<code>[root@ESXI043:~] vi /etc/rc.local.d/local.sh</code></p>
-<p>#查看路由<br>
-<code>esxcfg-route -l</code><br>
-#添加<br>
-<code>esxcli network ip route ipv4 add --gateway 192.168.0.66 --network 192.168.2.0/24</code><br>
-#删除默认路由<br>
-<code>esxcli network ip route ipv4 remove -n 0.0.0.0/0 -g 192.168.0.66</code><br>
-#恢复默认路由<br>
-<code>esxcli network ip route ipv4 add --gateway 192.168.0.66 --network 0.0.0.0/0</code><br>
-#查看路由<br>
-<code>esxcfg-route -l</code></p>
+    <!-- USE SIDEBAR -->
+    <!-- Post Container -->
+    <div class="
+                col-lg-8 col-lg-offset-1
+                col-md-8 col-md-offset-1
+                col-sm-12
+                col-xs-12
+                post-container
+            ">
 
+      <!-- Main Content -->
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-0 col-md-10 col-md-offset-1">
+      <!-- 归档列表 -->
 
-        <hr>
-        <!-- Pager -->
-        <ul class="pager">
+      
+
+      <!-- 归档列表 -->
+      
+      <div class="one-tag-list">
+        <span class="fa fa-calendar-times-o listing-seperator" id="2022">
+          <span class="tag-text">2022</span>
+        </span>
+        <ul>
           
-          <li class="previous">
-            <a href="/cn/pve_remove_cluster/" data-toggle="tooltip" data-placement="top" title="proxmox删除集群配置">&larr; Previous Post</a>
+          <li>
+            12-07
+            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+            <a href="/cn/esxi_install_120G/" style="color: #0085a1">
+              <span>
+                VMWARE ESXi 7.0安装吃120G空间解决办法
+                
+                -- cn
+                
+              </span>
+            </a>
           </li>
           
+          <li>
+            12-01
+            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+            <a href="/cn/ubuntu_offline_apt/" style="color: #0085a1">
+              <span>
+                ubuntu制作软件离线源
+                
+                -- cn
+                
+              </span>
+            </a>
+          </li>
           
-          <li class="next">
-            <a href="/cn/zerto-1/" data-toggle="tooltip" data-placement="top" title="虚拟机容灾技术">Next Post &rarr;</a>
+          <li>
+            11-30
+            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+            <a href="/cn/mikrotik_l2tp_slow/" style="color: #0085a1">
+              <span>
+                解决mikrotik路由器上l2tp连接缓慢的问题
+                
+                -- cn
+                
+              </span>
+            </a>
+          </li>
+          
+          <li>
+            11-20
+            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+            <a href="/cn/caddy/" style="color: #0085a1">
+              <span>
+                Caddy入门
+                
+                -- cn
+                
+              </span>
+            </a>
+          </li>
+          
+          <li>
+            11-18
+            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+            <a href="/cn/ROS_Hairpin_NAT/" style="color: #0085a1">
+              <span>
+                RouterOS配置端口回流
+                
+                -- cn
+                
+              </span>
+            </a>
+          </li>
+          
+          <li>
+            11-06
+            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+            <a href="/cn/pve_remove_cluster/" style="color: #0085a1">
+              <span>
+                proxmox删除集群配置
+                
+                -- cn
+                
+              </span>
+            </a>
+          </li>
+          
+          <li>
+            11-02
+            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+            <a href="/cn/esxi_staticroute/" style="color: #0085a1">
+              <span>
+                esxi静态路由
+                
+                -- cn
+                
+              </span>
+            </a>
+          </li>
+          
+          <li>
+            10-28
+            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+            <a href="/cn/zerto-1/" style="color: #0085a1">
+              <span>
+                虚拟机容灾技术
+                
+                -- cn
+                
+              </span>
+            </a>
+          </li>
+          
+          <li>
+            10-28
+            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+            <a href="/cn/veeam-vbr/" style="color: #0085a1">
+              <span>
+                Veeam VBR 加固存储库
+                
+                -- cn
+                
+              </span>
+            </a>
+          </li>
+          
+          <li>
+            10-28
+            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+            <a href="/cn/esxi-lacp/" style="color: #0085a1">
+              <span>
+                esxi链路聚合
+                
+                -- cn
+                
+              </span>
+            </a>
+          </li>
+          
+          <li>
+            10-28
+            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+            <a href="/cn/esxtop/" style="color: #0085a1">
+              <span>
+                通过esxtop定位vmware性能问题
+                
+                -- cn
+                
+              </span>
+            </a>
+          </li>
+          
+          <li>
+            10-25
+            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+            <a href="/cn/zerto/" style="color: #0085a1">
+              <span>
+                zerto兼容矩阵
+                
+                -- cn
+                
+              </span>
+            </a>
+          </li>
+          
+          <li>
+            10-16
+            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+            <a href="/cn/mysql-ha/" style="color: #0085a1">
+              <span>
+                mysql双机高可用
+                
+                -- cn
+                
+              </span>
+            </a>
+          </li>
+          
+          <li>
+            10-16
+            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+            <a href="/cn/fortigate_update/" style="color: #0085a1">
+              <span>
+                FortiGate防火墙授权过期后离线升级
+                
+                -- cn
+                
+              </span>
+            </a>
+          </li>
+          
+          <li>
+            10-15
+            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+            <a href="/cn/zfs/" style="color: #0085a1">
+              <span>
+                ZFS系统调优
+                
+                -- cn
+                
+              </span>
+            </a>
+          </li>
+          
+          <li>
+            10-15
+            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+            <a href="/cn/Phantun/" style="color: #0085a1">
+              <span>
+                使用 Phantun 将 WireGuard 的 UDP 流量伪装成 TCP
+                
+                -- cn
+                
+              </span>
+            </a>
+          </li>
+          
+          <li>
+            10-04
+            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+            <a href="/cn/citrix-vpx/" style="color: #0085a1">
+              <span>
+                Citrix ADC的安装配置
+                
+                -- cn
+                
+              </span>
+            </a>
+          </li>
+          
+          <li>
+            10-02
+            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+            <a href="/cn/华为交换机限速与端口隔离/" style="color: #0085a1">
+              <span>
+                华为交换机限速与端口隔离
+                
+                -- cn
+                
+              </span>
+            </a>
+          </li>
+          
+          <li>
+            10-02
+            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+            <a href="/cn/docker的安装/" style="color: #0085a1">
+              <span>
+                docker的安装
+                
+                -- cn
+                
+              </span>
+            </a>
+          </li>
+          
+          <li>
+            10-02
+            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+            <a href="/cn/搭建NFS服务器/" style="color: #0085a1">
+              <span>
+                搭建NFS服务器
+                
+                -- cn
+                
+              </span>
+            </a>
           </li>
           
         </ul>
-
-        
-        <!-- tip start -->
-        <!-- tip -->
-<!-- tip start -->
-<div class="tip">
-  <p>
-    
-      如果您喜欢此博客或发现它对您有用，则欢迎对此发表评论。 也欢迎您共享此博客，以便更多人可以参与。 如果博客中使用的图像侵犯了您的版权，请与作者联系以将其删除。 谢谢 ！
-    
-  </p>
-</div>
-<!-- tip end -->
-
-        <!-- tip end -->
-        
-
-        
-        <hr>
-
-        <!-- comments start -->
-        <!-- 1. gitalk comment -->
-
-  <!-- gitalk start -->
-  <!-- Docs:https://github.com/gitalk/gitalk/blob/master/readme-cn.md -->
-
-  <div id="gitalk-container"></div>
-
-  
-    <!-- <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.js"></script> -->
-    <script src="/js/comment/gitalk.js"></script>
-  
-
-  <script>
-    var gitalk = new Gitalk({
-      clientID: '',
-      clientSecret: '',
-      repo: '',
-      owner: '',
-      admin: '',
-      id: 'Wed Nov 02 2022 21:45:34 GMT+0800', // Ensure uniqueness and length less than 50
-      distractionFreeMode: false, // Facebook-like distraction free mode
-      perPage: 10,
-      pagerDirection: 'last',
-      createIssueManually: false,
-      language: 'zh-CN',
-      proxy: 'https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token'
-    });
-    gitalk.render('gitalk-container');
-
-    var gtFolded = () => {
-      setTimeout(function () {
-        let markdownBody = document.getElementsByClassName("markdown-body");
-        let list = Array.from(markdownBody);
-        list.forEach(item => {
-          if (item.clientHeight > 250) {
-            item.classList.add('gt-comment-body-folded');
-            item.style.maxHeight = '250px';
-            item.title = 'Click to Expand';
-            item.onclick = function () {
-              item.classList.remove('gt-comment-body-folded');
-              item.style.maxHeight = '';
-              item.title = '';
-              item.onclick = null;
-            };
-          }
-        })
-      }, 800);
-    }
-  </script>
-
-  <!-- gitalk end -->
-
-
-<!-- 2. gitment comment -->
-
-
-<!-- 3. disqus comment -->
-
-
-        <!-- comments end -->
-        <hr>
-
       </div>
-
-      <!-- Catalog: Tabe of Content -->
-      <!-- Table of Contents -->
-
-    
-      <aside id="sidebar">
-        <div id="toc" class="toc-article">
-        <strong class="toc-title">目录</strong>
-        
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">ESXI添加静态路由</span></a></li></ol>
-        
-        </div>
-      </aside>
-    
-
-
-
-      <!-- Sidebar Container -->
-      <div class="
-                col-lg-8 col-lg-offset-1
-                col-md-10 col-md-offset-1
-                sidebar-container">
-
-        <!-- Featured Tags -->
-        
-        <section>
-          <!-- no hr -->
-          <h5>
-            <a href="/tags/">特色标签</a>
-          </h5>
-          <div class="tags">
-            
-            <a class="tag" href="/tags/#vmware" title="vmware">vmware</a>
-            
-          </div>
-        </section>
-        
-
-        <!-- Friends Blog -->
-        
-      </div>
+      
     </div>
   </div>
-</article>
+</div>
 
 
+      <!-- 如果开启评论功能 -->
+      
+    </div>
 
-<!-- anchorjs start -->
-<!-- async load function -->
-<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
-<script type="text/javascript">
-  // async load function
-  function async (u, c) {
-    var d = document,
-      t = 'script',
-      o = d.createElement(t),
-      s = d.getElementsByTagName(t)[0];
-    o.src = u;
-    if (c) {
-      o.addEventListener('load', function(e) {
-        c(null, e);
-      }, false);
-    }
-    s.parentNode.insertBefore(o, s);
-  };
-</script>
-<script type="text/javascript">
-  //anchor-js, Doc:http://bryanbraun.github.io/anchorjs/
-  async ("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js", function() {
-    anchors.options = {
-      visible: 'hover',
-      placement: 'left',
-      // icon: 'ℬ'
-      icon: '❡'
-    };
-    anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
-  });
-</script>
-<style>
-  /* place left on bigger screen */
-  @media all and (min-width: 800px) {
-    .anchorjs-link {
-      position: absolute;
-      left: -0.75em;
-      font-size: 1.1em;
-      margin-top: -0.1em;
-    }
-  }
-</style>
+    <!-- Sidebar Container -->
+<div class="
+    col-lg-3 col-lg-offset-0
+    col-md-3 col-md-offset-0
+    col-sm-12
+    col-xs-12
+    sidebar-container
+">
+    
+        <!-- Visitors -->
+<h5><a href="/">来访者</a></h5>
 
-<!-- anchorjs end -->
+<div class="widget">
+  <span>
+    Viewed <b><i><span id="busuanzi_value_site_pv"><i class="fa fa-spinner fa-spin"></i></span></i></b> Times
+  </span>
+  <br />
+  <span>
+    <b><i><span id="busuanzi_value_site_uv"><i class="fa fa-spinner fa-spin"></i></span></i></b> Visitors In Total
+  </span>
+</div>
 
+
+        <hr>
+    
+        <!-- Featured Tags -->
+
+<section>
+  <h5><a href="/tags/">特色标签</a></h5>
+  <div class="tags">
+    
+    
+    <a href="/tags/#linux" title="linux" rel="6">linux</a>
+    
+    
+    
+    <a href="/tags/#vpn" title="vpn" rel="1">vpn</a>
+    
+    
+    
+    <a href="/tags/#Citrix" title="Citrix" rel="1">Citrix</a>
+    
+    
+    
+    <a href="/tags/#虚拟化" title="虚拟化" rel="2">虚拟化</a>
+    
+    
+    
+    <a href="/tags/#docker" title="docker" rel="1">docker</a>
+    
+    
+    
+    <a href="/tags/#网络安全" title="网络安全" rel="1">网络安全</a>
+    
+    
+    
+    <a href="/tags/#fortinet" title="fortinet" rel="1">fortinet</a>
+    
+    
+    
+    <a href="/tags/#mysql" title="mysql" rel="1">mysql</a>
+    
+    
+    
+    <a href="/tags/#zfs" title="zfs" rel="1">zfs</a>
+    
+    
+    
+    <a href="/tags/#网络" title="网络" rel="2">网络</a>
+    
+    
+    
+    <a href="/tags/#交换机" title="交换机" rel="1">交换机</a>
+    
+    
+    
+    <a href="/tags/#nfs" title="nfs" rel="1">nfs</a>
+    
+    
+    
+    <a href="/tags/#vmware" title="vmware" rel="4">vmware</a>
+    
+    
+    
+    <a href="/tags/#容灾" title="容灾" rel="2">容灾</a>
+    
+    
+    
+    <a href="/tags/#灾备" title="灾备" rel="1">灾备</a>
+    
+    
+    
+    <a href="/tags/#mikrotik" title="mikrotik" rel="1">mikrotik</a>
+    
+    
+    
+    <a href="/tags/#mikroitk" title="mikroitk" rel="1">mikroitk</a>
+    
+    
+    
+    <a href="/tags/#web" title="web" rel="1">web</a>
+    
+    
+  </div>
+</section>
+
+
+        <hr>
+    
+        <!-- Short About -->
+<section class="visible-md visible-lg">
+  <h5><a href="/about/">关于自己</a></h5>
+  <div class="short-about">
+
+    
+    <img id="avatar_pic" src="/img/about/me.jpeg" alt="avatar_pic" style="box-shadow: 5px 5px 10px 5px rgba(0, 0, 0, .5);
+    -moz-box-shadow: 5px 5px 10px 5px rgba(0, 0, 0, .5);
+    -webkit-box-shadow: 5px 5px 10px 5px rgba(0, 0, 0, .5);" />
+    
+
+    
+    <p>生命不息 折腾不止  敏捷而生 适者生存</p>
+    
+
+    <!-- SNS Link -->
+    <ul class="list-inline">
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+    </ul>
+  </div>
+</section>
+
+        <hr>
+    
+        <!-- RECENT POSTS -->
+
+<h5><a href="/">最近博文</a></h5>
+<div class="widget">
+  <ul>
+    
+    <a href="../../../cn/esxi_install_120G/">
+      <li>VMWARE ESXi 7.0安装吃120G空间解决办法</li>
+    </a>
+    
+    <a href="../../../cn/ubuntu_offline_apt/">
+      <li>ubuntu制作软件离线源</li>
+    </a>
+    
+    <a href="../../../cn/mikrotik_l2tp_slow/">
+      <li>解决mikrotik路由器上l2tp连接缓慢的问题</li>
+    </a>
+    
+    <a href="../../../cn/caddy/">
+      <li>Caddy入门</li>
+    </a>
+    
+    <a href="../../../cn/ROS_Hairpin_NAT/">
+      <li>RouterOS配置端口回流</li>
+    </a>
+    
+  </ul>
+</div>
+
+
+        <hr>
+    
+        <!-- Archives -->
+
+<h5><a href="/archives/">archives</a></h5>
+<div class="widget">
+  <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../../archives/2022/12/">December 2022</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../../archives/2022/11/">November 2022</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../../archives/2022/10/">October 2022</a><span class="archive-list-count">13</span></li></ul>
+</div>
+
+
+        <hr>
+    
+        <!-- Categories -->
+
+<h5><a href="/categories/">categories</a></h5>
+<div class="widget">
+  <ul>
+    
+    <a href="/categories/#linux">
+      <li>linux</li>
+    </a>
+    
+    <a href="/categories/#Citrix">
+      <li>Citrix</li>
+    </a>
+    
+    <a href="/categories/#docker">
+      <li>docker</li>
+    </a>
+    
+    <a href="/categories/#网络安全">
+      <li>网络安全</li>
+    </a>
+    
+    <a href="/categories/#vpn">
+      <li>vpn</li>
+    </a>
+    
+    <a href="/categories/#mysql">
+      <li>mysql</li>
+    </a>
+    
+    <a href="/categories/#虚拟化">
+      <li>虚拟化</li>
+    </a>
+    
+    <a href="/categories/#zfs">
+      <li>zfs</li>
+    </a>
+    
+    <a href="/categories/#网络">
+      <li>网络</li>
+    </a>
+    
+    <a href="/categories/#nfs">
+      <li>nfs</li>
+    </a>
+    
+    <a href="/categories/#fortinet">
+      <li>fortinet</li>
+    </a>
+    
+    <a href="/categories/#交换机">
+      <li>交换机</li>
+    </a>
+    
+    <a href="/categories/#vmware">
+      <li>vmware</li>
+    </a>
+    
+    <a href="/categories/#容灾">
+      <li>容灾</li>
+    </a>
+    
+    <a href="/categories/#灾备">
+      <li>灾备</li>
+    </a>
+    
+    <a href="/categories/#mikrotik">
+      <li>mikrotik</li>
+    </a>
+    
+    <a href="/categories/#mikrotik">
+      <li>mikrotik</li>
+    </a>
+    
+    <a href="/categories/#web">
+      <li>web</li>
+    </a>
+    
+    <a href="/categories/#虚拟化">
+      <li>虚拟化</li>
+    </a>
+    
+  </ul>
+</div>
+
+
+        <hr>
+    
+</div>
+
+
+    
+  </div>
+</div>
 
 
 		<!-- Footer (contains ThemeColor、viewer) -->

@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://yanest.github.io/cn/esxi_install_120G/</loc>
+    <lastmod>2022-12-07</lastmod>
+  </url>
+  <url>
+    <loc>https://yanest.github.io/cn/ubuntu_offline_apt/</loc>
+    <lastmod>2022-12-01</lastmod>
+  </url>
+  <url>
     <loc>https://yanest.github.io/cn/mikrotik_l2tp_slow/</loc>
     <lastmod>2022-11-30</lastmod>
   </url>

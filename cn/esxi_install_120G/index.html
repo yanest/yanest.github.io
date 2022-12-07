@@ -135,10 +135,10 @@
   <!--[if lt IE 9]> <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script> <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script> <![endif]-->
 
   <!-- ga & ba script hoook -->
-  <link rel="canonical" href="https://yanest.github.io/cn/esxi_staticroute/">
+  <link rel="canonical" href="https://yanest.github.io/cn/esxi_install_120G/">
   <title>
     
-      esxi静态路由 - 岩哥的数据中心系统技术内幕
+      VMWARE ESXi 7.0安装吃120G空间解决办法 - 岩哥的数据中心系统技术内幕
     
   </title>
 <meta name="generator" content="Hexo 5.4.2"></head>
@@ -374,11 +374,11 @@
               <a class="tag" href="/tags/#vmware" title="vmware">vmware</a>
               
             </div>
-            <h1>esxi静态路由</h1>
+            <h1>VMWARE ESXi 7.0安装吃120G空间解决办法</h1>
             <h2 class="subheading"></h2>
             <span class="meta">
               Posted by Yan on
-              2022-11-02
+              2022-12-07
             </span>
 
 
@@ -390,7 +390,7 @@
             </span>
             <div class="blank_box"></div>
             <span class="meta">
-              Words <span class="post-count">201</span> In Total
+              Words <span class="post-count">268</span> In Total
             </span>
             <div class="blank_box"></div>
             <!-- WordCount end -->
@@ -452,38 +452,27 @@
       <!-- Post Container -->
       <div class="col-lg-8 col-lg-offset-1 col-md-10 col-md-offset-1 post-container">
 
-        <h1>ESXI添加静态路由</h1>
-<p>ESXI添加静态路由</p>
-<p>打开esxi主机的ssh，通过ssh登陆到命令行界面下<br>
-临时生效方法：添加静态路由命令,直接生效，不需要重启<br>
-<code>esxcli network ip route ipv4 add --gateway 172.28.x.x8 --network 10.12.12.0/24</code><br>
-查看当前路由<br>
-<code>esxcfg-route -l</code></p>
-<p>永久生效方法：该路由添加后重启机器会失效，添加到启动脚本开机自动运行<br>
-<code>[root@ESXI043:~] vi /etc/rc.local.d/local.sh</code></p>
-<p>#查看路由<br>
-<code>esxcfg-route -l</code><br>
-#添加<br>
-<code>esxcli network ip route ipv4 add --gateway 192.168.0.66 --network 192.168.2.0/24</code><br>
-#删除默认路由<br>
-<code>esxcli network ip route ipv4 remove -n 0.0.0.0/0 -g 192.168.0.66</code><br>
-#恢复默认路由<br>
-<code>esxcli network ip route ipv4 add --gateway 192.168.0.66 --network 0.0.0.0/0</code><br>
-#查看路由<br>
-<code>esxcfg-route -l</code></p>
+        <h1>VMWARE ESXi 7.0安装吃120G空间解决办法</h1>
+<p>安装VMWARE ESXi 7.0的过程中被多占用了一个VMFSL的空间。本来就不富裕的磁盘被占用很是悲伤，需要解决。</p>
+<p>直接说结论，很难删除VMFSL。So,直接再安装一次吧！！！</p>
+<p>最佳方式是在安装ESXi的时候，引导后，按Shift+O键。<br>
+敲如下命令：<br>
+<code>autoPartitionOSDataSize=8192</code><br>
+注意大小写，回车安装便可。</p>
+<p>这样就成功的将120G 缩减为8G</p>
+<p>这个VMFSL是什么呢？<br>
+VMFS-L的全程是VMFS Local，主要是为VSAN准备的一个文件系统，<br>
+VMFS-L是VSAN-1.0的基础文件系统。 叶级VSAN对象直接驻留在由服务器端直接连接存储（DAS）组成的VMFS-L卷上。 文件系统格式针对DAS进行了优化。 优化包括针对DAS用例的主动缓存，剥离的锁定管理器和更快的格式。</p>
+<p>看到磁盘分区图，VMFS分区容量和我们显示的一致，有一个VMFSL的分区，占用了我们120G的空间。</p>
 
 
         <hr>
         <!-- Pager -->
         <ul class="pager">
           
-          <li class="previous">
-            <a href="/cn/pve_remove_cluster/" data-toggle="tooltip" data-placement="top" title="proxmox删除集群配置">&larr; Previous Post</a>
-          </li>
-          
           
           <li class="next">
-            <a href="/cn/zerto-1/" data-toggle="tooltip" data-placement="top" title="虚拟机容灾技术">Next Post &rarr;</a>
+            <a href="/cn/ubuntu_offline_apt/" data-toggle="tooltip" data-placement="top" title="ubuntu制作软件离线源">Next Post &rarr;</a>
           </li>
           
         </ul>
@@ -527,7 +516,7 @@
       repo: '',
       owner: '',
       admin: '',
-      id: 'Wed Nov 02 2022 21:45:34 GMT+0800', // Ensure uniqueness and length less than 50
+      id: 'Wed Dec 07 2022 11:04:06 GMT+0800', // Ensure uniqueness and length less than 50
       distractionFreeMode: false, // Facebook-like distraction free mode
       perPage: 10,
       pagerDirection: 'last',
@@ -580,7 +569,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">目录</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">ESXI添加静态路由</span></a></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">VMWARE ESXi 7.0安装吃120G空间解决办法</span></a></li></ol>
         
         </div>
       </aside>

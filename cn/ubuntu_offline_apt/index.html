@@ -135,10 +135,10 @@
   <!--[if lt IE 9]> <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script> <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script> <![endif]-->
 
   <!-- ga & ba script hoook -->
-  <link rel="canonical" href="https://yanest.github.io/cn/esxi_staticroute/">
+  <link rel="canonical" href="https://yanest.github.io/cn/ubuntu_offline_apt/">
   <title>
     
-      esxi静态路由 - 岩哥的数据中心系统技术内幕
+      ubuntu制作软件离线源 - 岩哥的数据中心系统技术内幕
     
   </title>
 <meta name="generator" content="Hexo 5.4.2"></head>
@@ -371,14 +371,14 @@
           <div class="post-heading">
             <div class="tags">
               
-              <a class="tag" href="/tags/#vmware" title="vmware">vmware</a>
+              <a class="tag" href="/tags/#linux" title="linux">linux</a>
               
             </div>
-            <h1>esxi静态路由</h1>
+            <h1>ubuntu制作软件离线源</h1>
             <h2 class="subheading"></h2>
             <span class="meta">
               Posted by Yan on
-              2022-11-02
+              2022-12-01
             </span>
 
 
@@ -386,11 +386,11 @@
             <!-- WordCount start -->
             <div class="blank_box"></div>
             <span class="meta">
-              Estimated Reading Time <span class="post-count">1</span> Minutes
+              Estimated Reading Time <span class="post-count">2</span> Minutes
             </span>
             <div class="blank_box"></div>
             <span class="meta">
-              Words <span class="post-count">201</span> In Total
+              Words <span class="post-count">481</span> In Total
             </span>
             <div class="blank_box"></div>
             <!-- WordCount end -->
@@ -452,25 +452,27 @@
       <!-- Post Container -->
       <div class="col-lg-8 col-lg-offset-1 col-md-10 col-md-offset-1 post-container">
 
-        <h1>ESXI添加静态路由</h1>
-<p>ESXI添加静态路由</p>
-<p>打开esxi主机的ssh，通过ssh登陆到命令行界面下<br>
-临时生效方法：添加静态路由命令,直接生效，不需要重启<br>
-<code>esxcli network ip route ipv4 add --gateway 172.28.x.x8 --network 10.12.12.0/24</code><br>
-查看当前路由<br>
-<code>esxcfg-route -l</code></p>
-<p>永久生效方法：该路由添加后重启机器会失效，添加到启动脚本开机自动运行<br>
-<code>[root@ESXI043:~] vi /etc/rc.local.d/local.sh</code></p>
-<p>#查看路由<br>
-<code>esxcfg-route -l</code><br>
-#添加<br>
-<code>esxcli network ip route ipv4 add --gateway 192.168.0.66 --network 192.168.2.0/24</code><br>
-#删除默认路由<br>
-<code>esxcli network ip route ipv4 remove -n 0.0.0.0/0 -g 192.168.0.66</code><br>
-#恢复默认路由<br>
-<code>esxcli network ip route ipv4 add --gateway 192.168.0.66 --network 0.0.0.0/0</code><br>
-#查看路由<br>
-<code>esxcfg-route -l</code></p>
+        <p>创建一个目录如下：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /opt/offline-packages/archives</span><br><span class="line">cd /opt/offline-packages/archives</span><br></pre></td></tr></table></figure>
+<p>执行如下命令会将vim的递归依赖都下载到/opt/offline-packages/archives目录内：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get download $(apt-cache depends --recurse --no-recommends --no-suggests --no-conflicts --no-breaks --no-replaces --no-enhances vim | grep &quot;^\w&quot; | sort -u)</span><br></pre></td></tr></table></figure>
+<p><strong>注：vim后可跟多个包，同时下载</strong></p>
+<p>本次测试的包下载后会发现很多同一个包以_amd64和_i386做后缀，说明将两个平台的包都下载下来了。</p>
+<p>在使用dpkg-scanpackages . /dev/null | gzip -9c &gt; Packages.gz建立依赖关系时会出现很多类似如下警告：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dpkg-scanpackages: warning: package libtextwrap1 (filename ./archives/libtextwrap1_0.1-14.1_i386.deb) is repeat; ignored that one and using data from ./archives/libtextwrap1_0.1-14.1_amd64.deb!</span><br></pre></td></tr></table></figure>
+<p>且最后会看到建立依赖的包数量是少于实际的包数量的</p>
+<p>通过上述警告可以看到忽略了amd64后缀的包，而这个包恰好是需要的包，在首次操作时，没有解决该警告，导致最后使用离线源时出现大量奇怪的错误，归根到底，基本都是缺少依赖项的问题。提示的依赖或许存在于离线源中，但是依赖的依赖一直找下去一定会发现有些依赖是不存在的</p>
+<p>建立依赖的命令</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd /opt/offline-packages</span><br><span class="line">sudo dpkg-scanpackages -m . /dev/null | gzip -9c &gt; Packages.gz</span><br><span class="line">cp Packages.gz ./archives</span><br></pre></td></tr></table></figure>
+<p>带上-m，会将所有包全部建立依赖关系到 Packages.gz中，如此会有重复，但无需剔除重复的包</p>
+<p>最后打包供其他服务器使用</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zcvf offline-apt-packages.tar.gz offline-packages</span><br></pre></td></tr></table></figure>
+<h2 id="离线源应用">离线源应用</h2>
+<p>将上边打包的离线包发送到目标机器上，解压</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo tar -zxvf offline-apt-packages.tar.gz -C /opt</span><br><span class="line"># 写入本地源，如有需要，提取备份原有源</span><br><span class="line">echo &quot;deb file:///opt/offline-apt-packages  archives/&quot;| sudo tee /etc/apt/sources.list </span><br></pre></td></tr></table></figure>
+<p>更新源</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br></pre></td></tr></table></figure>
+<p>之后即可安装软件了</p>
 
 
         <hr>
@@ -478,12 +480,12 @@
         <ul class="pager">
           
           <li class="previous">
-            <a href="/cn/pve_remove_cluster/" data-toggle="tooltip" data-placement="top" title="proxmox删除集群配置">&larr; Previous Post</a>
+            <a href="/cn/esxi_install_120G/" data-toggle="tooltip" data-placement="top" title="VMWARE ESXi 7.0安装吃120G空间解决办法">&larr; Previous Post</a>
           </li>
           
           
           <li class="next">
-            <a href="/cn/zerto-1/" data-toggle="tooltip" data-placement="top" title="虚拟机容灾技术">Next Post &rarr;</a>
+            <a href="/cn/mikrotik_l2tp_slow/" data-toggle="tooltip" data-placement="top" title="解决mikrotik路由器上l2tp连接缓慢的问题">Next Post &rarr;</a>
           </li>
           
         </ul>
@@ -527,7 +529,7 @@
       repo: '',
       owner: '',
       admin: '',
-      id: 'Wed Nov 02 2022 21:45:34 GMT+0800', // Ensure uniqueness and length less than 50
+      id: 'Thu Dec 01 2022 19:42:17 GMT+0800', // Ensure uniqueness and length less than 50
       distractionFreeMode: false, // Facebook-like distraction free mode
       perPage: 10,
       pagerDirection: 'last',
@@ -580,7 +582,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">目录</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">ESXI添加静态路由</span></a></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E7%A6%BB%E7%BA%BF%E6%BA%90%E5%BA%94%E7%94%A8"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">离线源应用</span></a></li></ol>
         
         </div>
       </aside>
@@ -603,7 +605,7 @@
           </h5>
           <div class="tags">
             
-            <a class="tag" href="/tags/#vmware" title="vmware">vmware</a>
+            <a class="tag" href="/tags/#linux" title="linux">linux</a>
             
           </div>
         </section>

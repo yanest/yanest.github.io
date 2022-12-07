@@ -371,6 +371,8 @@
           <div class="post-heading">
             <div class="tags">
               
+              <a class="tag" href="/tags/#mikroitk" title="mikroitk">mikroitk</a>
+              
             </div>
             <h1>RouterOS配置端口回流</h1>
             <h2 class="subheading"></h2>
@@ -450,7 +452,7 @@
       <!-- Post Container -->
       <div class="col-lg-8 col-lg-offset-1 col-md-10 col-md-offset-1 post-container">
 
-        <p>官方 <code>Hairpin NAT</code> 是指 <code>NAT Loopback</code>即我们所说的回流，意思是 <code>LAN</code>(同一內网) 的裝置透过<code>Public IP</code> 地址访问 <code>LAN</code> 內的另一部服务器，而沒有得到回应的问题。</p>
+        <p>官方 <code>Hairpin NAT</code> 是指 <code>NAT Loopback </code>即我们所说的回流，意思是 <code>LAN</code>(同一內网) 的裝置透过<code>Public IP</code> 地址访问 <code>LAN</code> 內的另一部服务器，而沒有得到回应的问题。</p>
 <p>端口转发 (<code>Port Forwarding</code>) <code>rules</code></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/ip firewall nat</span><br><span class="line">add action=masquerade chain=srcnat out-interface=WAN</span><br><span class="line">add action=dst-nat chain=dstnat dst-port=80,443 protocol=tcp to-addresses=12.2.2.99</span><br></pre></td></tr></table></figure>
 <p>解決方法，新增 <code>src-nat rule</code></p>
@@ -587,6 +589,8 @@
             <a href="/tags/">特色标签</a>
           </h5>
           <div class="tags">
+            
+            <a class="tag" href="/tags/#mikroitk" title="mikroitk">mikroitk</a>
             
           </div>
         </section>
